@@ -50,8 +50,6 @@ const Login = ({ mode, dictionary }: { mode: Mode; dictionary: Awaited<ReturnTyp
 
   const [isLoading, setIsLoading] = useState(false)
 
-  const [loginMode, setLoginMode] = useState<'email' | 'mobile'>('mobile')
-
   const [isPasswordShown, setIsPasswordShown] = useState(false)
 
   // Vars
@@ -75,15 +73,7 @@ const Login = ({ mode, dictionary }: { mode: Mode; dictionary: Awaited<ReturnTyp
 
   // Schema
   const schema = object({
-    email: loginMode === 'email' ? pipe(string(), email(loginTranslation.enter_valid_email)) : optional(string()),
-    mobile:
-      loginMode === 'mobile'
-        ? pipe(
-            string(),
-            minLength(10, loginTranslation.enter_valid_phone_number),
-            maxLength(11, loginTranslation.enter_valid_phone_number)
-          )
-        : optional(string()),
+    email: pipe(string(), email(loginTranslation.enter_valid_email)),
     password: pipe(string(), minLength(6, loginTranslation.enter_password))
   })
 
@@ -107,7 +97,6 @@ const Login = ({ mode, dictionary }: { mode: Mode; dictionary: Awaited<ReturnTyp
     resolver: valibotResolver(schema),
     defaultValues: {
       email: '',
-      mobile: '',
       password: ''
     }
   })
@@ -122,20 +111,6 @@ const Login = ({ mode, dictionary }: { mode: Mode; dictionary: Awaited<ReturnTyp
     borderedDarkIllustration
   )
 
-  const handleChangeLoginMode = () => {
-    if (loginMode === 'email') {
-      setLoginMode('mobile')
-      setValue('email', '')
-      setValue('password', '')
-      clearErrors(['email', 'password'])
-    } else {
-      setLoginMode('email')
-      setValue('mobile', '')
-      setValue('password', '')
-      clearErrors(['mobile', 'password'])
-    }
-  }
-
   const handleClickShowPassword = () => {
     setIsPasswordShown(prev => !prev)
   }
@@ -145,7 +120,6 @@ const Login = ({ mode, dictionary }: { mode: Mode; dictionary: Awaited<ReturnTyp
 
     const res = await signIn('login', {
       email: data.email,
-      mobile: data.mobile,
       password: data.password,
       redirect: false
     })
@@ -158,7 +132,6 @@ const Login = ({ mode, dictionary }: { mode: Mode; dictionary: Awaited<ReturnTyp
       const errors = error.errors
 
       errors?.['email'] && setError('email', { message: errors['email'] })
-      errors?.['mobile'] && setError('mobile', { message: errors['mobile'] })
       errors?.['password'] && setError('password', { message: errors['password'] })
     }
 
@@ -204,10 +177,7 @@ const Login = ({ mode, dictionary }: { mode: Mode; dictionary: Awaited<ReturnTyp
               {keywordsTranslation.login}
             </Typography>
             <Typography className='text-center' variant='body2'>
-              {loginTranslation.enter_to_login?.replace(
-                '$',
-                loginMode === 'email' ? keywordsTranslation.email : keywordsTranslation.phone_number
-              )}
+              {loginTranslation.enter_to_login?.replace('$', keywordsTranslation.email)}
             </Typography>
           </div>
           {/* <Alert icon={false} className='bg-[var(--mui-palette-primary-lightOpacity)]'>
@@ -219,7 +189,7 @@ const Login = ({ mode, dictionary }: { mode: Mode; dictionary: Awaited<ReturnTyp
 
           <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-5'>
             <Controller
-              name={loginMode === 'email' ? 'email' : 'mobile'}
+              name={'email'}
               control={control}
               rules={{ required: true }}
               render={({ field }) => (
@@ -227,15 +197,15 @@ const Login = ({ mode, dictionary }: { mode: Mode; dictionary: Awaited<ReturnTyp
                   {...field}
                   fullWidth
                   autoFocus
-                  type={loginMode === 'email' ? 'email' : 'number'}
-                  label={loginMode === 'email' ? keywordsTranslation.email : keywordsTranslation.phone_number}
+                  type={'email'}
+                  label={keywordsTranslation.email}
                   onChange={e => {
                     field.onChange(e.target.value)
                     errorState !== null && setErrorState(null)
                   }}
-                  {...((errors.email || errors.mobile || errorState !== null) && {
+                  {...((errors.email || errorState !== null) && {
                     error: true,
-                    helperText: errors?.email?.message || errors?.mobile?.message || errorState?.message[0]
+                    helperText: errors?.email?.message || errorState?.message[0]
                   })}
                 />
               )}
@@ -285,18 +255,6 @@ const Login = ({ mode, dictionary }: { mode: Mode; dictionary: Awaited<ReturnTyp
               <i className='ri-arrow-left-circle-line' />
             </LoadingButton>
           </form>
-          <Divider className='gap-1'>{keywordsTranslation.or}</Divider>
-          <Button
-            fullWidth
-            variant='outlined'
-            color='inherit'
-            className='flex justify-between !px-4'
-            onClick={handleChangeLoginMode}
-          >
-            <i className={loginMode === 'email' ? 'ri-phone-line' : 'ri-mail-line'} />
-            {loginTranslation.login_with}{' '}
-            {loginMode === 'email' ? keywordsTranslation.phone_number : keywordsTranslation.email}
-          </Button>
         </div>
       </div>
     </div>
