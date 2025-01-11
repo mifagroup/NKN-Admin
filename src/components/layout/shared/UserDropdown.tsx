@@ -33,6 +33,7 @@ import { useSettings } from '@core/hooks/useSettings'
 // Util Imports
 import { getLocalizedUrl } from '@/utils/i18n'
 import { useGetDictionary } from '@/utils/useGetDictionary'
+import { useFetch } from '@/utils/clientRequest'
 
 // Styled component for badge content
 const BadgeContentSpan = styled('span')({
@@ -59,6 +60,8 @@ const UserDropdown = () => {
 
   const dictionary = useGetDictionary()
 
+  const { mutateAsync: logOutApi } = useFetch().useMutation('delete', '/auth')
+
   const handleDropdownOpen = () => {
     !open ? setOpen(true) : setOpen(false)
   }
@@ -79,6 +82,7 @@ const UserDropdown = () => {
     try {
       // Sign out from the app
       await signOut({ callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/login` })
+      await logOutApi({})
     } catch (error) {
       console.error(error)
 
@@ -98,8 +102,8 @@ const UserDropdown = () => {
       >
         <Avatar
           ref={anchorRef}
-          alt={session?.user?.name || ''}
-          src={session?.user?.image || ''}
+          alt={session?.user?.email || ''}
+          src={session?.user?.phone || ''}
           onClick={handleDropdownOpen}
           className='cursor-pointer bs-[38px] is-[38px]'
         />
@@ -126,10 +130,10 @@ const UserDropdown = () => {
               <ClickAwayListener onClickAway={e => handleDropdownClose(e as MouseEvent | TouchEvent)}>
                 <MenuList>
                   <div className='flex items-center plb-2 pli-4 gap-2' tabIndex={-1}>
-                    <Avatar alt={session?.user?.name || ''} src={session?.user?.image || ''} />
+                    <Avatar alt={session?.user?.email || ''} src={session?.user?.phone || ''} />
                     <div className='flex items-start flex-col'>
                       <Typography variant='body2' className='font-medium' color='text.primary'>
-                        {session?.user?.name || ''}
+                        {session?.user?.email || ''}
                       </Typography>
                       <Typography variant='caption'>{session?.user?.email || ''}</Typography>
                     </div>

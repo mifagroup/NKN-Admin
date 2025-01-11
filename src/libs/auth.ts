@@ -21,9 +21,9 @@ export const authOptions = () => {
           mobile: { label: 'password', type: 'password' }
         },
         async authorize(credentials) {
-          const { email, password, mobile } = credentials as { email: string; password: string; mobile: string }
+          const { email, password } = credentials as { email: string; password: string }
 
-          const payload = mobile.length ? { mobile, password } : { email, password }
+          const payload = { email, password }
 
           const devBaseUrl = cookies().get('devBaseUrl')
 
@@ -36,14 +36,12 @@ export const authOptions = () => {
               }
             })
 
-            const { data: apiData, error } = await client.POST('/auth/admin/login', {
+            const { data: apiData, error } = await client.POST('/auth', {
               body: { ...payload }
             })
 
-            const data = apiData?.data
-
-            if (data?.user) {
-              return { ...data.user, token: data.token }
+            if (apiData) {
+              return { ...apiData.data, accessToken: apiData.token }
             } else {
               throw new Error(JSON.stringify(error) as string)
             }
@@ -51,11 +49,6 @@ export const authOptions = () => {
             throw new Error(error?.message)
           }
         }
-      }),
-
-      GoogleProvider({
-        clientId: process.env.GOOGLE_CLIENT_ID as string,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
       })
     ],
 
@@ -79,7 +72,7 @@ export const authOptions = () => {
       },
       async session({ session, token }) {
         if (session.user) {
-          session.user.name = token.name as string
+          session.user.email = token.email as string
           session.accessToken = token.token as string
         }
 
