@@ -89,6 +89,58 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/hospitals": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieve a list of hospitals
+         * @description get all hospitals from the database as hospital resource
+         */
+        get: operations["04133cbf993f335bdb1e35a58c500c1b"];
+        put?: never;
+        /**
+         * Store new Hospital
+         * @description Returns created Hospital data
+         */
+        post: operations["0ab3300ee914a752b8b453ef4ea7f0c3"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/hospitals/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get hospital information
+         * @description Returns hospital data
+         */
+        get: operations["b45a9fedc9ccff7d6e29c17b60ec200f"];
+        /**
+         * Update existing hospital
+         * @description Returns updated hospital data
+         */
+        put: operations["8e649c100ec0bb790b3c8c897903a610"];
+        post?: never;
+        /**
+         * Delete hospital record
+         * @description Returns delete status
+         */
+        delete: operations["61bde55e77855d5fd5394f8c990640a7"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/slides": {
         parameters: {
             query?: never;
@@ -250,11 +302,64 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /**
+         * LinksPaginationResource
+         * @description links pagination resource
+         */
+        LinksPaginationResource: {
+            first: string;
+            last: string;
+            prev?: string;
+            next?: string;
+        };
+        /**
+         * MetaPaginationResource
+         * @description meta pagination resource
+         */
+        MetaPaginationResource: {
+            current_page: number;
+            from: number;
+            last_page: number;
+            links: {
+                url?: string;
+                label?: string;
+                active?: boolean;
+            }[];
+            path: string;
+            per_page: number;
+            to: number;
+            total: number;
+        };
         StoreAuthResourceRequest: {
             /** @description email of user */
             email: string;
             /** @description password of user */
             password: string;
+        };
+        StoreHospitalResourceRequest: {
+            /** @description The name of the hospital */
+            name: string;
+            /** @description phone number of hospital */
+            fax: string;
+            address?: string;
+            /** Format: uri */
+            address_link?: string;
+            email?: string;
+            /**
+             * Format: binary
+             * @description An image file for the hospital
+             */
+            image: string;
+            /**
+             * Format: binary
+             * @description thumbnail file for the hospital
+             */
+            thumbnail: string;
+            /**
+             * Format: binary
+             * @description main thumbnail file for the hospital
+             */
+            main_thumbnail: string;
         };
         StoreSlideResourceRequest: {
             /** @description The title of the slide */
@@ -293,6 +398,31 @@ export interface components {
             taxonomy_id: number;
             /** @description slug of category item */
             slug?: string;
+        };
+        UpdateHospitalResourceRequest: {
+            /** @description The name of the hospital */
+            name: string;
+            /** @description phone number of hospital */
+            fax: string;
+            address?: string;
+            /** Format: uri */
+            address_link?: string;
+            email?: string;
+            /**
+             * Format: binary
+             * @description An image file for the hospital
+             */
+            image?: string;
+            /**
+             * Format: binary
+             * @description thumbnail file for the hospital
+             */
+            thumbnail?: string;
+            /**
+             * Format: binary
+             * @description main thumbnail file for the hospital
+             */
+            main_thumbnail?: string;
         };
         UpdateSlideResourceRequest: {
             /** @description The title of the slide */
@@ -405,6 +535,18 @@ export interface components {
             /** @description terms list of home page */
             footer_terms?: components["schemas"]["TermResource"][];
         };
+        HospitalResource: {
+            id: number;
+            /** @description The name of the hospital */
+            name: string;
+            fax: string;
+            address?: string;
+            /** Format: uri */
+            email: string;
+            image: components["schemas"]["FileResource"];
+            main_thumbnail: components["schemas"]["FileResource"];
+            thumbnail: components["schemas"]["FileResource"];
+        };
         SlideResource: {
             /** @description The title of the slide */
             id?: number;
@@ -446,6 +588,18 @@ export interface components {
             thumbnails?: components["schemas"]["FileResource"][];
             /** @description List of slides of slider */
             slides?: components["schemas"]["SlideResource"][];
+        };
+        /**
+         * TaxonomyResource
+         * @description Taxonomy resource
+         */
+        TaxonomyResource: {
+            /** @description title of Taxonomy */
+            title: string;
+            /** @description key of Taxonomy */
+            key: string;
+            /** @description categories item of doctor */
+            terms?: components["schemas"]["TermResource"][];
         };
         /**
          * TermResource
@@ -547,20 +701,6 @@ export interface operations {
                 };
                 content?: never;
             };
-            /** @description Forbidden */
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
-            /** @description Resource Not Found */
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content?: never;
-            };
         };
     };
     df2eee26444444a49a587c8073a4bf74: {
@@ -602,8 +742,10 @@ export interface operations {
                 "filter[search]"?: string;
                 /** @description filter doctrs by gender (male or female) example:male */
                 "filter[gender]"?: string;
-                /** @description get id of terms and explode by , example:26,25 */
+                /** @description filter doctrs by terms and explode by , example:26,25 */
                 "filter[terms]"?: string;
+                /** @description filter doctrs by hospital_id */
+                "filter[hospital]"?: number;
             };
             header?: never;
             path?: never;
@@ -654,6 +796,214 @@ export interface operations {
         responses: {
             /** @description Successful operation */
             200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "04133cbf993f335bdb1e35a58c500c1b": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of hospitals retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HospitalResource"];
+                };
+            };
+            /** @description Unauthenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "0ab3300ee914a752b8b453ef4ea7f0c3": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["StoreHospitalResourceRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HospitalResource"];
+                };
+            };
+            /** @description Unauthenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    b45a9fedc9ccff7d6e29c17b60ec200f: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description hospital id */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HospitalResource"];
+                };
+            };
+            /** @description Unauthenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "8e649c100ec0bb790b3c8c897903a610": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description hospital id */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["UpdateHospitalResourceRequest"];
+                "application/x-www-form-urlencoded": components["schemas"]["UpdateHospitalResourceRequest"];
+                "application/json": components["schemas"]["UpdateHospitalResourceRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UpdateHospitalResourceRequest"];
+                };
+            };
+            /** @description Unauthenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "61bde55e77855d5fd5394f8c990640a7": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description hospital id */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Resource Not Found */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };

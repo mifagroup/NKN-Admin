@@ -2,6 +2,7 @@
   "navigation": {
     "dashboard": "Dashboard",
     "product_management": "Product Management",
+    "hospitals": "Hospitals",
     "category": "Products Category",
     "brand": "Products Brand",
     "attribute_attribute_values": "Products Attribute/Attribute Values",
@@ -141,6 +142,8 @@
     "category": "Category",
     "parent": "Parent",
     "brands": "Brands",
+    "hospitals": "Hospitals",
+    "hospital": "Hospital",
     "brand": "Brand",
     "product": "Product",
     "products": "Products",

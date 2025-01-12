@@ -108,80 +108,24 @@ const HorizontalMenu = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof 
           {navigationTranslate.dashboard}
         </MenuItem>
 
-        {/* <SubMenu label={navigationTranslate.product_management}>
-          <SubMenu label={navigationTranslate.category} icon={<i className='ri-list-unordered text-[20px]' />}>
+        <SubMenu label={navigationTranslate.hospitals}>
+          <SubMenu label={navigationTranslate.hospitals} icon={<i className='ri-list-unordered text-[20px]' />}>
             <MenuItem
-              href={`/${locale}${menuUrls.product_management.category.list}`}
+              href={`/${locale}${menuUrls.hospitals.list}`}
               icon={<i className='ri-list-unordered text-[20px]' />}
               title={keywordsTranslate.list}
             >
               {keywordsTranslate.list}
             </MenuItem>
             <MenuItem
-              href={`/${locale}${menuUrls.product_management.category.add}`}
+              href={`/${locale}${menuUrls.hospitals.add}`}
               icon={<i className='ri-add-box-line text-[20px]' />}
               title={keywordsTranslate.add}
             >
               {keywordsTranslate.add}
             </MenuItem>
           </SubMenu>
-          <SubMenu label={navigationTranslate.brand} icon={<i className='ri-price-tag-3-line text-[20px]' />}>
-            <MenuItem
-              href={`/${locale}${menuUrls.product_management.brand.list}`}
-              icon={<i className='ri-list-unordered text-[20px]' />}
-              title={keywordsTranslate.list}
-            >
-              {keywordsTranslate.list}
-            </MenuItem>
-            <MenuItem
-              href={`/${locale}${menuUrls.product_management.brand.add}`}
-              icon={<i className='ri-add-box-line text-[20px]' />}
-              title={keywordsTranslate.add}
-            >
-              {keywordsTranslate.add}
-            </MenuItem>
-          </SubMenu>
-          <SubMenu
-            label={navigationTranslate.attribute_attribute_values}
-            title={navigationTranslate.attribute_attribute_values}
-            icon={<i className='ri-checkbox-line text-[20px]' />}
-          >
-            <MenuItem
-              href={`/${locale}${menuUrls.product_management.attribute.list}`}
-              icon={<i className='ri-list-unordered text-[20px]' />}
-              title={keywordsTranslate.list}
-            >
-              {keywordsTranslate.list}
-            </MenuItem>
-            <MenuItem
-              href={`/${locale}${menuUrls.product_management.attribute.add}`}
-              icon={<i className='ri-add-box-line text-[20px]' />}
-              title={keywordsTranslate.add}
-            >
-              {keywordsTranslate.add}
-            </MenuItem>
-          </SubMenu>
-          <MenuItem
-            href={`/${locale}${menuUrls.product_management.attributesGroup.list}`}
-            icon={<i className='ri-checkbox-multiple-line text-[20px]' />}
-            title={navigationTranslate.attribute_groups}
-          >
-            {navigationTranslate.attribute_groups}
-          </MenuItem>
-          <MenuItem icon={<i className='ri-inbox-line text-[20px]' />} title={navigationTranslate.products} disabled>
-            {navigationTranslate.products}
-          </MenuItem>
-          <MenuItem
-            icon={<i className='ri-price-tag-2-line text-[20px]' />}
-            title={navigationTranslate.pricing_plans}
-            disabled
-          >
-            {navigationTranslate.pricing_plans}
-          </MenuItem>
-          <MenuItem icon={<i className='ri-price-tag-line text-[20px]' />} title={navigationTranslate.tags} disabled>
-            {navigationTranslate.tags}
-          </MenuItem>
-        </SubMenu> */}
+        </SubMenu>
       </Menu>
     </HorizontalNav>
   )

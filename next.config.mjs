@@ -23,6 +23,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'dev.weton.biz'
+      },
+      {
+        protocol: 'http',
+        hostname: 'api.mifadev.ir'
       }
     ]
   }

@@ -1,4 +1,9 @@
 export const menuUrls = {
+  hospitals: {
+    list: '/hospitals/list',
+    add: '/hospitals/add',
+    edit: '/hospitals/edit'
+  },
   product_management: {
     attribute: {
       list: '/product-management/attribute/list',

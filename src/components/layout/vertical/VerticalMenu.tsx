@@ -96,24 +96,22 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
           {navigationTranslate.dashboard}
         </MenuItem>
 
-        {/* <MenuSection label={navigationTranslate.product_management}>
-          <SubMenu label={navigationTranslate.category} icon={<i className='ri-list-unordered text-[20px]' />}>
-            <MenuItem
-              href={`/${locale}${menuUrls.product_management.category.list}`}
-              icon={<i className='ri-list-unordered text-[20px]' />}
-              title={keywordsTranslate.list}
-            >
-              {keywordsTranslate.list}
-            </MenuItem>
-            <MenuItem
-              href={`/${locale}${menuUrls.product_management.category.add}`}
-              icon={<i className='ri-add-box-line text-[20px]' />}
-              title={keywordsTranslate.add}
-            >
-              {keywordsTranslate.add}
-            </MenuItem>
-          </SubMenu>
-          <SubMenu label={navigationTranslate.brand} icon={<i className='ri-price-tag-3-line text-[20px]' />}>
+        <MenuSection label={navigationTranslate.hospitals}>
+          <MenuItem
+            href={`/${locale}${menuUrls.hospitals.list}`}
+            icon={<i className='ri-list-unordered text-[20px]' />}
+            title={keywordsTranslate.list}
+          >
+            {keywordsTranslate.list}
+          </MenuItem>
+          <MenuItem
+            href={`/${locale}${menuUrls.hospitals.add}`}
+            icon={<i className='ri-add-box-line text-[20px]' />}
+            title={keywordsTranslate.add}
+          >
+            {keywordsTranslate.add}
+          </MenuItem>
+          {/* <SubMenu label={navigationTranslate.brand} icon={<i className='ri-price-tag-3-line text-[20px]' />}>
             <MenuItem
               href={`/${locale}${menuUrls.product_management.brand.list}`}
               icon={<i className='ri-list-unordered text-[20px]' />}
@@ -176,8 +174,8 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
             title={navigationTranslate.tags}
           >
             {navigationTranslate.tags}
-          </MenuItem>
-        </MenuSection> */}
+          </MenuItem> */}
+        </MenuSection>
       </Menu>
     </ScrollWrapper>
   )

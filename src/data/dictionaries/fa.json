@@ -2,6 +2,7 @@
   "navigation": {
     "dashboard": "پیشخوان",
     "product_management": "مدیریت محصولات",
+    "hospitals": "بیمارستان‌ها",
     "category": "دسته‌بندی محصولات",
     "brand": "برند محصولات",
     "attribute_attribute_values": "ویژگی/مقادیر ویژگی محصولات",
@@ -142,6 +143,8 @@
     "category": "دسته‌بندی",
     "parent": "والد",
     "brands": "برندها",
+    "hospitals": "بیمارستان‌ها",
+    "hospital": "بیمارستان",
     "brand": "برند",
     "product": "محصول",
     "products": "محصولات",
