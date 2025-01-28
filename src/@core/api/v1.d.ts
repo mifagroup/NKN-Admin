@@ -534,6 +534,8 @@ export interface components {
             main_terms?: components["schemas"]["TermResource"][];
             /** @description terms list of home page */
             footer_terms?: components["schemas"]["TermResource"][];
+            /** @description hospital list of home page */
+            hospitals?: components["schemas"]["HospitalResource"][];
         };
         HospitalResource: {
             id: number;
@@ -541,6 +543,7 @@ export interface components {
             name: string;
             fax: string;
             address?: string;
+            address_link?: string;
             /** Format: uri */
             email: string;
             image: components["schemas"]["FileResource"];
@@ -851,7 +854,7 @@ export interface operations {
         };
         responses: {
             /** @description Successful operation */
-            200: {
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -1327,7 +1330,10 @@ export interface operations {
     };
     d5667ffe66f0c410e63b85f00fa2ecd6: {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description search in data of terms */
+                "filter[search]"?: string;
+            };
             header?: never;
             path?: never;
             cookie?: never;

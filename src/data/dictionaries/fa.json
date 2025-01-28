@@ -214,7 +214,12 @@
     "special_attribute": "ویژگی خاص",
     "use_in_codding": "استفاده در کدینگ",
     "max_discount_percent": "حداکثر درصد تخفیف",
-    "default_price": "قیمت پیش فرض"
+    "default_price": "قیمت پیش فرض",
+    "fax": "فکس",
+    "address": "آدرس",
+    "address_link": "آدرس مسیریابی",
+    "thumbnail": "عکس کوچک",
+    "main_thumbnail": "عکس صفحه اصلی"
   },
   "dropzone": {
     "title": "$ خود را در اینجا بکشید و رها کنید یا اینجا کلیک کنید",
@@ -332,9 +337,15 @@
     "cannotBeMoreThan": "نمی‌تواند بیشتر از $ باشد",
     "cannotBeLessThan": "نمی‌تواند کمتر از $ باشد",
     "urlValidation": "لینک معتبر وارد کنید",
-    "max_value": "نمی‌تواند بیشتر از $ باشد"
+    "max_value": "نمی‌تواند بیشتر از $ باشد",
+    "valid_link": "لینک باید صحیح باشد",
+    "valid_email": "ایمیل باید صحیح باشد"
   },
   "product_filter_maker": {
     "title": "فیلتر محصولات"
+  },
+  "hospital": {
+    "editHospitalTitle": "ویرایش بیمارستان",
+    "addNewHospitalTitle": "افزودن بیمارستان"
   }
 }

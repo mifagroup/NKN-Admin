@@ -4,6 +4,10 @@ export const menuUrls = {
     add: '/hospitals/add',
     edit: '/hospitals/edit'
   },
+  sliders: {
+    list: '/sliders/list',
+    edit: '/sliders/edit'
+  },
   product_management: {
     attribute: {
       list: '/product-management/attribute/list',

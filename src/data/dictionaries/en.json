@@ -213,7 +213,12 @@
     "special_attribute": "Special attribute",
     "use_in_codding": "Use in codding",
     "max_discount_percent": "Max discount percent",
-    "default_price": "Default price"
+    "default_price": "Default price",
+    "fax": "Fax",
+    "address": "Address",
+    "address_link": "Address Link",
+    "thumbnail": "Thumbnail",
+    "main_thumbnail": "Main Thumbnail"
   },
   "dropzone": {
     "title": "Drag and Drop Your $ Here Or Click Here",
@@ -332,9 +337,15 @@
     "cannotBeMoreThan": "Can't be more than $",
     "cannotBeLessThan": "Can't be less than $",
     "urlValidation": "Enter valid url",
-    "max_value": "Can't be more than $"
+    "max_value": "Can't be more than $",
+    "valid_link": "Link must be valid",
+    "valid_email": "Email must be valid"
   },
   "product_filter_maker": {
     "title": "Products Filter"
+  },
+  "hospital": {
+    "editHospitalTitle": "Edit Hospital",
+    "addNewHospitalTitle": "Add Hospital"
   }
 }

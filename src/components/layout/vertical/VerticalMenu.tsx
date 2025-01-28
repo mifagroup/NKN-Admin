@@ -111,70 +111,15 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
           >
             {keywordsTranslate.add}
           </MenuItem>
-          {/* <SubMenu label={navigationTranslate.brand} icon={<i className='ri-price-tag-3-line text-[20px]' />}>
-            <MenuItem
-              href={`/${locale}${menuUrls.product_management.brand.list}`}
-              icon={<i className='ri-list-unordered text-[20px]' />}
-              title={keywordsTranslate.list}
-            >
-              {keywordsTranslate.list}
-            </MenuItem>
-            <MenuItem
-              href={`/${locale}${menuUrls.product_management.brand.add}`}
-              icon={<i className='ri-add-box-line text-[20px]' />}
-              title={keywordsTranslate.add}
-            >
-              {keywordsTranslate.add}
-            </MenuItem>
-          </SubMenu>
-          <SubMenu
-            label={navigationTranslate.attribute_attribute_values}
-            title={navigationTranslate.attribute_attribute_values}
-            icon={<i className='ri-checkbox-line text-[20px]' />}
-          >
-            <MenuItem
-              href={`/${locale}${menuUrls.product_management.attribute.list}`}
-              icon={<i className='ri-list-unordered text-[20px]' />}
-              title={keywordsTranslate.list}
-            >
-              {keywordsTranslate.list}
-            </MenuItem>
-            <MenuItem
-              href={`/${locale}${menuUrls.product_management.attribute.add}`}
-              icon={<i className='ri-add-box-line text-[20px]' />}
-              title={keywordsTranslate.add}
-            >
-              {keywordsTranslate.add}
-            </MenuItem>
-          </SubMenu>
+        </MenuSection>
+        <MenuSection label={keywordsTranslate.sliders}>
           <MenuItem
-            href={`/${locale}${menuUrls.product_management.attributesGroup.list}`}
-            icon={<i className='ri-checkbox-multiple-line text-[20px]' />}
-            title={navigationTranslate.attribute_groups}
+            href={`/${locale}${menuUrls.sliders.list}`}
+            icon={<i className='ri-list-unordered text-[20px]' />}
+            title={keywordsTranslate.list}
           >
-            {navigationTranslate.attribute_groups}
+            {keywordsTranslate.list}
           </MenuItem>
-          <MenuItem
-            icon={<i className='ri-inbox-line text-[20px]' />}
-            title={navigationTranslate.products}
-            href={`/${locale}${menuUrls.product_management.products.list}`}
-          >
-            {navigationTranslate.products}
-          </MenuItem>
-          <MenuItem
-            title={navigationTranslate.pricing_plans}
-            icon={<i className='ri-price-tag-2-line text-[20px]' />}
-            href={`/${locale}${menuUrls.product_management.pricing_plans.list}`}
-          >
-            {navigationTranslate.pricing_plans}
-          </MenuItem>
-          <MenuItem
-            href={`/${locale}${menuUrls.product_management.tag.list}`}
-            icon={<i className='ri-price-tag-line text-[20px]' />}
-            title={navigationTranslate.tags}
-          >
-            {navigationTranslate.tags}
-          </MenuItem> */}
         </MenuSection>
       </Menu>
     </ScrollWrapper>

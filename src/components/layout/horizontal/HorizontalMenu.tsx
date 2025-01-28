@@ -125,6 +125,15 @@ const HorizontalMenu = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof 
               {keywordsTranslate.add}
             </MenuItem>
           </SubMenu>
+          <SubMenu label={keywordsTranslate.sliders} icon={<i className='ri-list-unordered text-[20px]' />}>
+            <MenuItem
+              href={`/${locale}${menuUrls.sliders.list}`}
+              icon={<i className='ri-list-unordered text-[20px]' />}
+              title={keywordsTranslate.list}
+            >
+              {keywordsTranslate.list}
+            </MenuItem>
+          </SubMenu>
         </SubMenu>
       </Menu>
     </HorizontalNav>
