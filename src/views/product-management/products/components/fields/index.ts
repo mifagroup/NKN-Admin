@@ -1,8 +1,0 @@
-export { default as Categories } from './Categories'
-export { default as ProductInfo } from './ProductInfo'
-export { default as SeoInfo } from './SeoInfo'
-export { default as TaxInfo } from './TaxInfo'
-export { default as WareHousingAndTransportationInfo } from './WareHousingAndTransportationInfo'
-export { default as Dimentions } from './Dimentions'
-export { default as Pricing } from './Pricing'
-export { default as Attributes } from './Attributes'
