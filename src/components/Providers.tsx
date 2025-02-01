@@ -1,5 +1,4 @@
 import QueryClientProvider from '@/components/reactquery.provider'
-import SplashProvider from '@/components/Splash.provider'
 
 // Type Imports
 import type { ChildrenType, Direction } from '@core/types'
@@ -36,10 +35,8 @@ const Providers = (props: Props) => {
         <VerticalNavProvider>
           <SettingsProvider settingsCookie={settingsCookie} mode={mode}>
             <ThemeProvider direction={direction} systemMode={systemMode}>
-              <SplashProvider>
-                <ReduxProvider>{children}</ReduxProvider>
-                <AppReactToastify direction={direction} hideProgressBar />
-              </SplashProvider>
+              <ReduxProvider>{children}</ReduxProvider>
+              <AppReactToastify direction={direction} hideProgressBar />
             </ThemeProvider>
           </SettingsProvider>
         </VerticalNavProvider>
