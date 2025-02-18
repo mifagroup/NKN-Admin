@@ -34,9 +34,9 @@ import ToggleModal from '@/@core/components/modals/ToggleModal'
 import Image from '@/@core/components/image'
 
 // Column Definitions
-const columnHelper = createColumnHelper<WithActions<components['schemas']['HospitalResource']>>()
+const columnHelper = createColumnHelper<WithActions<components['schemas']['TaxonomyResource']>>()
 
-const HospitalsListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof getDictionary>> }) => {
+const TaxonomiesListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof getDictionary>> }) => {
   // States
   const [selectedItemId, setSelectedItemId] = useState<number>()
 
@@ -44,20 +44,16 @@ const HospitalsListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typ
 
   const { queryParams, setQueryParams } = useQueryParams()
 
+  const router = useRouter()
+
   const deleteModalRef = useRef<ModalHandle>(null)
 
-  const { data, isFetching: isLoadingHospitalsList } = useFetch().useQuery('get', '/hospitals', {
-    params: {
-      // query: {
-      //   ...queryParams
-      // }
-    }
-  })
+  const { data, isFetching: isLoadingTaxonomiesList } = useFetch().useQuery('get', '/taxonomies', {})
 
-  const { mutateAsync: deleteHospital, isPending: isDeletingHospital } = useFetch().useMutation(
-    'delete',
-    '/hospitals/{id}'
-  )
+  // const { mutateAsync: deleteTaxonomy, isPending: isDeletingTaxonomy } = useFetch().useMutation(
+  //   'delete',
+  //   '/hospitals/{id}'
+  // )
 
   const queryClient = useQueryClient()
 
@@ -66,22 +62,15 @@ const HospitalsListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typ
 
   const modalTranslate = dictionary.modal
 
-  const columns = useMemo<ColumnDef<WithActions<components['schemas']['HospitalResource']>, any>[]>(
+  const columns = useMemo<ColumnDef<WithActions<components['schemas']['TaxonomyResource']>, any>[]>(
     () => [
-      columnHelper.accessor('name', {
+      columnHelper.accessor('title', {
         header: keywordsTranslate.title,
         cell: ({ row }) => (
           <div className='flex items-center gap-3'>
-            <Image
-              src={row.original.image?.original_url ?? ''}
-              alt='hospital-image'
-              className='rounded-[10px] object-cover'
-            />
-            <div className='flex flex-col'>
-              <Typography className='font-medium' color='text.primary'>
-                {row.original.name}
-              </Typography>
-            </div>
+            <Typography className='font-medium' color='text.primary'>
+              {row.original.title}
+            </Typography>
           </div>
         )
       }),
@@ -90,7 +79,7 @@ const HospitalsListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typ
         header: keywordsTranslate.actions,
         cell: ({ row }) => (
           <div className='flex items-center'>
-            <CustomIconButton size='small' title={keywordsTranslate.edit}>
+            {/* <CustomIconButton size='small' title={keywordsTranslate.edit}>
               <Link className='flex' href={`${menuUrls.hospitals.edit}/${row.original.id}`}>
                 <i className='ri-edit-box-line text-[22px] text-textSecondary' />
               </Link>
@@ -104,7 +93,7 @@ const HospitalsListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typ
               }}
             >
               <i className='ri-delete-bin-7-line text-[22px] text-textSecondary' />
-            </CustomIconButton>
+            </CustomIconButton> */}
           </div>
         ),
         enableSorting: false
@@ -115,25 +104,25 @@ const HospitalsListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typ
   )
 
   // Functions
-  const handleDeleteHospital = async () => {
-    await deleteHospital({
-      params: {
-        path: {
-          id: selectedItemId ?? 0
-        }
-      }
-    })
-      .then(res => {
-        toast.success(res.message)
+  // const handleDeleteHospital = async () => {
+  //   await deleteHospital({
+  //     params: {
+  //       path: {
+  //         id: selectedItemId ?? 0
+  //       }
+  //     }
+  //   })
+  //     .then(res => {
+  //       toast.success(res.message)
 
-        deleteModalRef.current?.close()
-      })
-      .then(() =>
-        queryClient.invalidateQueries({
-          queryKey: ['get', '/hospitals']
-        })
-      )
-  }
+  //       deleteModalRef.current?.close()
+  //     })
+  //     .then(() =>
+  //       queryClient.invalidateQueries({
+  //         queryKey: ['get', '/hospitals']
+  //       })
+  //     )
+  // }
 
   return (
     <>
@@ -141,28 +130,28 @@ const HospitalsListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typ
         <Table
           columns={columns}
           data={data}
-          debouncedInputPlaceholder={`${keywordsTranslate.search} ${keywordsTranslate.hospitals}`}
+          debouncedInputPlaceholder={`${keywordsTranslate.search} ${keywordsTranslate.taxonomies}`}
           queryParams={queryParams}
           setQueryParams={setQueryParams}
           pagination={{
             pageIndex: (queryParams?.page ?? 1) - 1,
             pageSize: queryParams?.page_limit
           }}
-          listTitle={keywordsTranslate.hospitals}
-          addUrl={menuUrls.hospitals.add}
-          isLoading={isLoadingHospitalsList}
+          listTitle={keywordsTranslate.taxonomies}
+          // addUrl={menuUrls.hospitals.add}
+          isLoading={isLoadingTaxonomiesList}
         />
-        <DeleteModal
+        {/* <DeleteModal
           ref={deleteModalRef}
           title={`${keywordsTranslate.delete} ${keywordsTranslate.hospital}`}
           handleConfirm={handleDeleteHospital}
           isLoadingConfirmation={isDeletingHospital}
         >
           {translateReplacer(modalTranslate.delete, keywordsTranslate.hospital)}
-        </DeleteModal>
+        </DeleteModal> */}
       </Card>
     </>
   )
 }
 
-export default HospitalsListTable
+export default TaxonomiesListTable

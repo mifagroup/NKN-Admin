@@ -153,7 +153,7 @@ const UserGroupForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<type
         model: 'pricing_plan'
       },
       query: {
-        'filter[search]': pricingPlanQueryParams.filter?.search
+        'filter[search]': pricingPlanqueryParams?.filter?.search
       }
     }
   })
@@ -164,7 +164,7 @@ const UserGroupForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<type
         model: 'profit'
       },
       query: {
-        'filter[search]': profitQueryParams.filter?.search
+        'filter[search]': profitqueryParams?.filter?.search
       }
     }
   })
@@ -462,7 +462,7 @@ const UserGroupForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<type
                                     }
                                   }))
                                 }
-                                inputValue={pricingPlanQueryParams.filter?.search ?? ''}
+                                inputValue={pricingPlanqueryParams?.filter?.search ?? ''}
                                 label={`${keywordsTranslate.pricing_plan}`}
                               />
                             )
@@ -502,7 +502,7 @@ const UserGroupForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<type
                                     }
                                   }))
                                 }
-                                inputValue={profitQueryParams.filter?.search ?? ''}
+                                inputValue={profitqueryParams?.filter?.search ?? ''}
                                 label={`${keywordsTranslate.profits}`}
                               />
                             )

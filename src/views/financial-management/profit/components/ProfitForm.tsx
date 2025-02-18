@@ -81,7 +81,7 @@ const ProfitForm = forwardRef<DrawerHandle, ProfitFormProps>(({ dictionary, sele
         model: 'user_group'
       },
       query: {
-        'filter[search]': userGroupQueryParams.filter?.search
+        'filter[search]': userGroupqueryParams?.filter?.search
       }
     }
   })

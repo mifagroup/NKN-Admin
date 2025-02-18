@@ -4,9 +4,19 @@ export const menuUrls = {
     add: '/hospitals/add',
     edit: '/hospitals/edit'
   },
+  taxonomies: {
+    list: '/taxonomies/list',
+    add: '/taxonomies/add',
+    edit: '/taxonomies/edit'
+  },
   sliders: {
     list: '/sliders/list',
     edit: '/sliders/edit'
+  },
+  blogs: {
+    list: '/blogs/list',
+    add: '/blogs/add',
+    edit: '/blogs/edit'
   },
   product_management: {
     attribute: {

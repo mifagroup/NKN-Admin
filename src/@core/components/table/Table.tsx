@@ -41,6 +41,7 @@ import DebouncedInput from '../custom-inputs/DebouncedInput'
 import type { components } from '@/@core/api/v1'
 import { getDictionary } from '@/utils/getDictionary'
 import type { Locale } from '@/configs/i18n'
+import { type QueryParamsType } from '@/@core/hooks/useQueryParams'
 
 const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
   // Rank the item
@@ -56,11 +57,12 @@ const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
 }
 
 type TableProps<T> = {
-  // debouncedInputPlaceholder: string
+  debouncedInputPlaceholder: string
   headerActions?: React.ReactNode
   data:
     | {
         data?: T[]
+        meta?: any
       }
     | undefined
   columns: ColumnDef<any, any>[]
@@ -69,8 +71,8 @@ type TableProps<T> = {
   // setRowSelection: Dispatch<SetStateAction<{}>>
   pagination: Partial<PaginationState> | undefined
 
-  // queryParams: Partial<components['parameters']>
-  // setQueryParams: Dispatch<SetStateAction<Partial<components['parameters']>>>
+  queryParams: QueryParamsType
+  setQueryParams: Dispatch<SetStateAction<Partial<QueryParamsType>>>
   listTitle: string
   addFunctionality?: React.MouseEventHandler<HTMLButtonElement> | undefined
   addUrl?: string
@@ -78,7 +80,7 @@ type TableProps<T> = {
 }
 
 const Table = <T,>({
-  // debouncedInputPlaceholder,
+  debouncedInputPlaceholder,
   headerActions,
   data,
   columns,
@@ -88,8 +90,8 @@ const Table = <T,>({
   // setRowSelection,
   pagination,
 
-  // queryParams,
-  // setQueryParams,
+  queryParams,
+  setQueryParams,
   listTitle,
   addFunctionality,
   addUrl
@@ -122,15 +124,15 @@ const Table = <T,>({
 
     state: {
       // rowSelection,
-      // globalFilter: queryParams.filter?.search,
+      globalFilter: queryParams?.filter?.search,
       pagination: pagination as PaginationState
     },
     initialState: {
       pagination
     },
 
-    // pageCount: data?.meta?.last_page,
-    // rowCount: data?.meta?.total,
+    pageCount: data?.meta?.last_page,
+    rowCount: data?.meta?.total,
     manualPagination: true,
 
     // enableRowSelection: true, //enable row selection for all rows
@@ -148,51 +150,51 @@ const Table = <T,>({
   })
 
   // Functions
-  // const handleDebounceInputChange = (value: string) => {
-  //   setQueryParams(prevState => ({
-  //     ...prevState,
-  //     page: 1,
-  //     filter: {
-  //       ...prevState.filter,
-  //       search: value
-  //     }
-  //   }))
+  const handleDebounceInputChange = (value: string) => {
+    setQueryParams(prevState => ({
+      ...prevState,
+      page: 1,
+      filter: {
+        ...prevState.filter,
+        search: value
+      }
+    }))
 
-  //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  //   const { page, filter, ...rest } = queryParams
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { page, filter, ...rest } = queryParams
 
-  //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  //   const { search, ...restFilter } = queryParams.filter ?? {}
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { search, ...restFilter } = queryParams?.filter ?? {}
 
-  //   router.push(`?${qs.stringify({ page: 1, filter: { ...restFilter, search: value }, ...rest })}`)
-  // }
+    router.push(`?${qs.stringify({ page: 1, filter: { ...restFilter, search: value }, ...rest })}`)
+  }
 
-  // const handleChangeRowsPerPage = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-  //   table?.setPageSize(Number(e.target.value))
-  //   setQueryParams(prevState => ({
-  //     ...prevState,
-  //     page: 1,
-  //     page_limit: Number(e.target.value)
-  //   }))
+  const handleChangeRowsPerPage = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    table?.setPageSize(Number(e.target.value))
+    setQueryParams(prevState => ({
+      ...prevState,
+      page: 1,
+      page_limit: Number(e.target.value)
+    }))
 
-  //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  //   const { page_limit, page, ...rest } = queryParams
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { page_limit, page, ...rest } = queryParams
 
-  //   router.push(`?${qs.stringify({ page_limit: Number(e.target.value), page: 1, ...rest })}`)
-  // }
+    router.push(`?${qs.stringify({ page_limit: Number(e.target.value), page: 1, ...rest })}`)
+  }
 
-  // const handleChangePage = (_: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, newPage: number) => {
-  //   table?.setPageIndex(newPage)
-  //   setQueryParams(prevState => ({
-  //     ...prevState,
-  //     page: newPage + 1
-  //   }))
+  const handleChangePage = (_: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, newPage: number) => {
+    table?.setPageIndex(newPage)
+    setQueryParams(prevState => ({
+      ...prevState,
+      page: newPage + 1
+    }))
 
-  //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  //   const { page, ...rest } = queryParams
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { page, ...rest } = queryParams
 
-  //   router.push(`?${qs.stringify({ page: newPage + 1, ...rest })}`)
-  // }
+    router.push(`?${qs.stringify({ page: newPage + 1, ...rest })}`)
+  }
 
   if (!dictionary) {
     return <LinearProgress />
@@ -219,18 +221,18 @@ const Table = <T,>({
       </div>
       <Divider />
       <div className='flex justify-between flex-col items-start sm:flex-row sm:items-center gap-y-4 p-5'>
-        {/* <DebouncedInput
-          value={queryParams.filter?.search ?? ''}
+        <DebouncedInput
+          value={queryParams?.filter?.search ?? ''}
           onChange={handleDebounceInputChange}
           placeholder={debouncedInputPlaceholder}
           className='max-sm:is-full'
-        /> */}
-        {/* <div className='flex md:items-center items-end max-sm:flex-col gap-4 max-sm:is-full is-auto'>
-          <IconButton color='primary' className='is-auto'>
+        />
+        <div className='flex md:items-center items-end max-sm:flex-col gap-4 max-sm:is-full is-auto'>
+          {/* <IconButton color='primary' className='is-auto'>
             <i className='ri-settings-2-line' />
-          </IconButton>
+          </IconButton> */}
           {headerActions}
-        </div> */}
+        </div>
       </div>
       <div className='overflow-x-auto'>
         <table className={tableStyles.table}>
@@ -297,7 +299,7 @@ const Table = <T,>({
           )}
         </table>
       </div>
-      {/* {dataSource?.length ? (
+      {dataSource?.length ? (
         <TablePagination
           rowsPerPageOptions={
             [10, 25, 50].includes(+(queryParams?.page_limit ?? 0))
@@ -316,7 +318,7 @@ const Table = <T,>({
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      ) : null} */}
+      ) : null}
     </div>
   )
 }

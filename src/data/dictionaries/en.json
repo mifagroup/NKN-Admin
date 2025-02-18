@@ -61,7 +61,9 @@
     "loyalty_club": "Loyalty Club",
     "discount_code": "Discount Code",
     "sales_campaign_management": "Sales Campaign Management",
-    "users_levels": "Users Levels"
+    "users_levels": "Users Levels",
+    "taxonomies": "Taxonomies",
+    "blogs": "Blogs"
   },
   "theme_customizer": {
     "theme_customizer_title": "Theme Customizer",
@@ -218,7 +220,14 @@
     "address": "Address",
     "address_link": "Address Link",
     "thumbnail": "Thumbnail",
-    "main_thumbnail": "Main Thumbnail"
+    "main_thumbnail": "Main Thumbnail",
+    "taxonomies": "Taxonomies",
+    "taxonomy": "Taxonomy",
+    "sub_title": "Sub title",
+    "duration": "Duration",
+    "minute": "Minute",
+    "blog": "Blog",
+    "blogs": "Blogs"
   },
   "dropzone": {
     "title": "Drag and Drop Your $ Here Or Click Here",
@@ -253,6 +262,10 @@
     "hour": "HH",
     "minute": "mm",
     "meridiem": "am/pm"
+  },
+  "blogs": {
+    "addNewBlogTitle": "Add new blog",
+    "editBlogTitle": "Edit blog"
   },
   "product_management": {
     "attributes": {

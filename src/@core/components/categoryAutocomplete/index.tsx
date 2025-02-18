@@ -225,7 +225,7 @@ const CategoryAutoComplete = ({
             {...params}
             error={error}
             label={label}
-            value={queryParams.filter?.search ?? ''}
+            value={queryParams?.filter?.search ?? ''}
             onChange={value =>
               setQueryParams(prev => ({
                 ...prev,

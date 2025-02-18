@@ -112,7 +112,46 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
             {keywordsTranslate.add}
           </MenuItem>
         </MenuSection>
-        <MenuSection label={keywordsTranslate.sliders}>
+        <MenuSection label={navigationTranslate.taxonomies}>
+          <MenuItem
+            href={`/${locale}${menuUrls.taxonomies.list}`}
+            icon={<i className='ri-list-unordered text-[20px]' />}
+            title={keywordsTranslate.list}
+          >
+            {keywordsTranslate.list}
+          </MenuItem>
+          {/* <MenuItem
+            href={`/${locale}${menuUrls.taxonomies.add}`}
+            icon={<i className='ri-add-box-line text-[20px]' />}
+            title={keywordsTranslate.add}
+          >
+            {keywordsTranslate.add}
+          </MenuItem> */}
+        </MenuSection>
+        <MenuSection label={navigationTranslate.blogs}>
+          <MenuItem
+            href={`/${locale}${menuUrls.blogs.list}`}
+            icon={<i className='ri-list-unordered text-[20px]' />}
+            title={keywordsTranslate.list}
+          >
+            {keywordsTranslate.list}
+          </MenuItem>
+          <MenuItem
+            href={`/${locale}${menuUrls.blogs.add}`}
+            icon={<i className='ri-add-box-line text-[20px]' />}
+            title={keywordsTranslate.add}
+          >
+            {keywordsTranslate.add}
+          </MenuItem>
+          {/* <MenuItem
+            href={`/${locale}${menuUrls.taxonomies.add}`}
+            icon={<i className='ri-add-box-line text-[20px]' />}
+            title={keywordsTranslate.add}
+          >
+            {keywordsTranslate.add}
+          </MenuItem> */}
+        </MenuSection>
+        {/* <MenuSection label={keywordsTranslate.sliders}>
           <MenuItem
             href={`/${locale}${menuUrls.sliders.list}`}
             icon={<i className='ri-list-unordered text-[20px]' />}
@@ -120,7 +159,7 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
           >
             {keywordsTranslate.list}
           </MenuItem>
-        </MenuSection>
+        </MenuSection> */}
       </Menu>
     </ScrollWrapper>
   )

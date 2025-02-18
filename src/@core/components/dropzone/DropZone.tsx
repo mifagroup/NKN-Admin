@@ -93,7 +93,7 @@ const DropZone: React.FC<DropZoneProps> = ({
 
       if (acceptedFiles.length > 0) {
         acceptedFiles.forEach(file => {
-          const mimeType = file.type
+          const mimeType = file.type?.split('/')[1]
 
           if (validImageMimeTypes?.includes(mimeType as ImageMimeType)) {
             // Process image files

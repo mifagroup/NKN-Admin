@@ -95,17 +95,18 @@ const HospitalForm = forwardRef<DrawerHandle, HospitalFormProps>(({ dictionary, 
     }
   )
 
-  const singleHospital = singleHospitalData
+  const singleHospital = singleHospitalData?.data
 
   useEffect(() => {
     if (singleHospital) {
       setValue('name', singleHospital?.name ?? '')
       setValue('fax', singleHospital?.fax ?? '')
+      setValue('email', singleHospital?.email ?? '')
       setValue('address', singleHospital?.address ?? '')
       setValue('address_link', singleHospital?.address_link ?? '')
       setValue('image', singleHospital?.image?.original_url ?? '')
-      setValue('thumbnail', singleHospital?.thumbnail.original_url ?? '')
-      setValue('main_thumbnail', singleHospital?.main_thumbnail.original_url ?? '')
+      setValue('thumbnail', singleHospital?.thumbnail?.original_url ?? '')
+      setValue('main_thumbnail', singleHospital?.main_thumbnail?.original_url ?? '')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleHospital])
@@ -234,7 +235,7 @@ const HospitalForm = forwardRef<DrawerHandle, HospitalFormProps>(({ dictionary, 
                           <TextField
                             {...field}
                             fullWidth
-                            type='number'
+                            type='text'
                             placeholder={translateReplacer(inputTranslate.placeholder, keywordsTranslate.fax)}
                             label={keywordsTranslate.fax}
                             onChange={event => {
@@ -253,7 +254,7 @@ const HospitalForm = forwardRef<DrawerHandle, HospitalFormProps>(({ dictionary, 
                           <TextField
                             {...field}
                             fullWidth
-                            type='text'
+                            type='email'
                             placeholder={translateReplacer(inputTranslate.placeholder, keywordsTranslate.email)}
                             label={keywordsTranslate.email}
                             onChange={event => {

@@ -55,7 +55,7 @@ export type Config = {
 
 const themeConfig: Config = {
   templateName: 'Nikan',
-  homePageUrl: '/dashboards/crm',
+  homePageUrl: '/',
   settingsCookieName: 'materialize-mui-next-demo-1',
   mode: 'system', // 'system', 'light', 'dark'
   skin: 'bordered', // 'default', 'bordered'

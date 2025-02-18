@@ -57,13 +57,13 @@ const Login = ({ mode, dictionary }: { mode: Mode; dictionary: Awaited<ReturnTyp
 
   const lightImg = '/images/pages/auth-v2-mask-1-light.png'
 
-  const darkIllustration = '/images/illustrations/auth/v2-login-dark.png'
+  const darkIllustration = '/images/illustrations/characters/5.png'
 
-  const lightIllustration = '/images/illustrations/auth/v2-login-light.png'
+  const lightIllustration = '/images/illustrations/characters/5.png'
 
-  const borderedDarkIllustration = '/images/illustrations/auth/v2-login-dark-border.png'
+  const borderedDarkIllustration = '/images/illustrations/characters/5.png'
 
-  const borderedLightIllustration = '/images/illustrations/auth/v2-login-light-border.png'
+  const borderedLightIllustration = '/images/illustrations/characters/5.png'
 
   const keywordsTranslation = dictionary.keywords
 
@@ -90,8 +90,6 @@ const Login = ({ mode, dictionary }: { mode: Mode; dictionary: Awaited<ReturnTyp
     control,
     handleSubmit,
     formState: { errors },
-    setValue,
-    clearErrors,
     setError
   } = useForm<FormData>({
     resolver: valibotResolver(schema),
@@ -121,7 +119,7 @@ const Login = ({ mode, dictionary }: { mode: Mode; dictionary: Awaited<ReturnTyp
     const res = await signIn('login', {
       email: data.email,
       password: data.password,
-      redirect: false
+      callbackUrl: getLocalizedUrl('/', locale as string)
     })
 
     if (res?.error) {

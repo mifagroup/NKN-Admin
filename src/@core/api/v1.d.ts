@@ -29,6 +29,74 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/blogs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a paginated list of blogs
+         * @description Retrieve a paginated list of blog resources.
+         */
+        get: operations["getBlogs"];
+        put?: never;
+        /**
+         * Create a new blog
+         * @description Store a new blog in the database
+         */
+        post: operations["510eea3a968d4abf17a79e7f7003adf7"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/blogs/{slug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a specific blog
+         * @description Retrieve a specific blog resource by its ID.
+         */
+        get: operations["getBlogById"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/blogs/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Update an existing blog
+         * @description Update the details of an existing blog resource.
+         */
+        put: operations["updateBlog"];
+        post?: never;
+        /**
+         * Delete a specific blog
+         * @description Remove a specific blog resource by its ID.
+         */
+        delete: operations["deleteBlog"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/doctors": {
         parameters: {
             query?: never;
@@ -42,27 +110,11 @@ export interface paths {
          */
         get: operations["cd066ac893c261ef13773c81ebc8c53e"];
         put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/doctors/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
         /**
-         * Get doctor information
-         * @description Returns doctor data
+         * Create a new doctor
+         * @description Store a new doctor in the database
          */
-        get: operations["e1197502d654b6b4b5f3d7894ee43e80"];
-        put?: never;
-        post?: never;
+        post: operations["08504526ddafe7c7f25782a3b582fb29"];
         delete?: never;
         options?: never;
         head?: never;
@@ -233,6 +285,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/taxonomies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get list of taxonomies */
+        get: operations["056dd01386c7c072d4c885b73ca293d6"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/terms": {
         parameters: {
             query?: never;
@@ -336,6 +405,55 @@ export interface components {
             /** @description password of user */
             password: string;
         };
+        /**
+         * Store Blog Request
+         * @description Schema for storing a blog
+         */
+        StoreBlogRequest: {
+            /** @description Title of the blog */
+            title: string;
+            /** @description Subtitle of the blog */
+            sub_title?: string | null;
+            /** @description Description of the blog */
+            description: string;
+            /** @description Duration of the blog */
+            duration?: number | null;
+            /**
+             * Format: binary
+             * @description Main image of the blog
+             */
+            main_image: string;
+        };
+        StoreDoctorRequest: {
+            /** @example John */
+            first_name: string;
+            /** @example Doe */
+            last_name: string;
+            /** @example DOC123 */
+            code: string;
+            /** @example MD */
+            sub_title?: string;
+            /** @example Experienced doctor */
+            short_description?: string;
+            /**
+             * Format: url
+             * @example http://example.com
+             */
+            redirect: string;
+            /** @example Detailed description */
+            description?: string;
+            /**
+             * @example male
+             * @enum {string}
+             */
+            gender: "male" | "female";
+            /** @example 1 */
+            hospital_id?: number;
+            /** Format: binary */
+            main_image?: string;
+            terms?: number[];
+            portfolio?: string[];
+        };
         StoreHospitalResourceRequest: {
             /** @description The name of the hospital */
             name: string;
@@ -398,6 +516,27 @@ export interface components {
             taxonomy_id: number;
             /** @description slug of category item */
             slug?: string;
+        };
+        /**
+         * Update Blog Request
+         * @description Request body for updating a blog
+         */
+        UpdateBlogRequest: {
+            /** @description Title of the blog */
+            title: string;
+            /** @description Subtitle of the blog */
+            sub_title?: string | null;
+            /** @description Description of the blog */
+            description: string;
+            /** @description Duration of the blog */
+            duration?: number | null;
+            /** @description publish status of the blog default is false */
+            publish?: boolean | null;
+            /**
+             * Format: binary
+             * @description Main image of the blog
+             */
+            main_image?: string | null;
         };
         UpdateHospitalResourceRequest: {
             /** @description The name of the hospital */
@@ -467,6 +606,37 @@ export interface components {
             is_filter?: boolean;
             /** @description category item show on client footer */
             is_footer?: boolean;
+        };
+        /**
+         * Blog Resource
+         * @description Blog resource representation
+         */
+        BlogResource: {
+            /** @description The title of the blog */
+            title?: string;
+            /** @description The id of the blog */
+            id?: number;
+            /** @description The subtitle of the blog */
+            sub_title?: string;
+            /** @description The slug of the blog */
+            slug?: string;
+            /** @description The duration of the blog */
+            duration?: number;
+            /**
+             * Format: date-time
+             * @description The creation date of the blog
+             */
+            created_at?: string;
+            /**
+             * Format: date-time
+             * @description The publish date of the blog
+             */
+            published_at?: string;
+            /** @description The description of the blog */
+            description?: string;
+            /** @description The main image of the blog */
+            main_image?: components["schemas"]["FileResource"][];
+            user?: components["schemas"]["UserResource"];
         };
         /**
          * DoctorResource
@@ -597,6 +767,8 @@ export interface components {
          * @description Taxonomy resource
          */
         TaxonomyResource: {
+            /** @description id of Taxonomy */
+            id: number;
             /** @description title of Taxonomy */
             title: string;
             /** @description key of Taxonomy */
@@ -738,6 +910,211 @@ export interface operations {
             };
         };
     };
+    getBlogs: {
+        parameters: {
+            query?: {
+                /** @description Page number for pagination */
+                page?: number;
+                /** @description Include slider blogs */
+                with_slider?: boolean;
+                /** @description Search term to filter blogs by title or sub_title */
+                "filter[search]"?: string;
+                "filter[user_id]"?: number;
+                /** @description Sort blogs by title : 'title', 'duration', 'sub_title', 'created_at', 'published_at' */
+                sort?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data?: components["schemas"]["BlogResource"][];
+                        links?: components["schemas"]["LinksPaginationResource"];
+                        meta?: components["schemas"]["MetaPaginationResource"];
+                        slider?: components["schemas"]["BlogResource"][];
+                    };
+                };
+            };
+        };
+    };
+    "510eea3a968d4abf17a79e7f7003adf7": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["StoreBlogRequest"];
+            };
+        };
+        responses: {
+            /** @description Blog created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BlogResource"];
+                };
+            };
+            /** @description Unauthenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getBlogById: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID of the blog to retrieve */
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BlogResource"];
+                };
+            };
+            /** @description Blog not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    updateBlog: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID of the blog to update */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateBlogRequest"];
+            };
+        };
+        responses: {
+            /** @description Blog updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BlogResource"];
+                };
+            };
+            /** @description Bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Blog not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    deleteBlog: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID of the blog to delete */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Blog deleted successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example true */
+                        success?: boolean;
+                    };
+                };
+            };
+            /** @description Unauthenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Blog not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     cd066ac893c261ef13773c81ebc8c53e: {
         parameters: {
             query?: {
@@ -765,26 +1142,41 @@ export interface operations {
             };
         };
     };
-    e1197502d654b6b4b5f3d7894ee43e80: {
+    "08504526ddafe7c7f25782a3b582fb29": {
         parameters: {
             query?: never;
             header?: never;
-            path: {
-                /** @description doctor id */
-                id: number;
-            };
+            path?: never;
             cookie?: never;
         };
-        requestBody?: never;
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["StoreDoctorRequest"];
+            };
+        };
         responses: {
-            /** @description Successful operation */
-            200: {
+            /** @description Doctor created successfully */
+            201: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": components["schemas"]["DoctorResource"];
                 };
+            };
+            /** @description Bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };
@@ -1321,6 +1713,33 @@ export interface operations {
             };
             /** @description Resource Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "056dd01386c7c072d4c885b73ca293d6": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TaxonomyResource"][];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };

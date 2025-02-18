@@ -7,16 +7,16 @@ import { LinearProgress } from '@mui/material'
 import { useFetch } from '@/utils/clientRequest'
 
 const SplashProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isLoading } = useFetch().useQuery('get', '/splash-admin', {
-    params: {
-      query: {
-        admin_version: '1.0.0',
-        browser: 'chrome'
-      }
-    }
-  })
+  // const { isLoading } = useFetch().useQuery('get', '/splash-admin', {
+  //   params: {
+  //     query: {
+  //       admin_version: '1.0.0',
+  //       browser: 'chrome'
+  //     }
+  //   }
+  // })
 
-  if (isLoading) return <LinearProgress />
+  // if (isLoading) return <LinearProgress />
 
   return <>{children}</>
 }

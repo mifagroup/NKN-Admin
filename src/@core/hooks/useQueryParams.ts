@@ -4,20 +4,25 @@ import { useEffect, useState } from 'react'
 // Next Imports
 import { useSearchParams } from 'next/navigation'
 
-// API Imports
-import type { components } from '../api/v1'
+export type QueryParamsType = {
+  page?: number
+  page_limit?: number
+  per_page?: number
+  filter?: any
+  sort?: string
+}
 
 export const useQueryParams = <T>(page_limit?: number) => {
   const searchParams = useSearchParams()
 
-  const [queryParams, setQueryParams] = useState<Partial<components['parameters']> & T>({
+  const [queryParams, setQueryParams] = useState<QueryParamsType>({
     page: 1,
     page_limit: page_limit ?? 10
-  } as Partial<components['parameters']> & T)
+  })
 
   useEffect(() => {
     // Create a new object to store parameters
-    const params: Partial<components['parameters']> = {}
+    const params = {}
 
     for (const [key, value] of searchParams.entries()) {
       // Check if the key is in the 'filter[search]' format
@@ -25,17 +30,8 @@ export const useQueryParams = <T>(page_limit?: number) => {
 
       if (match) {
         const filterKey = match[1] // Extract the 'search' part of 'filter[search]'
-
-        // Initialize the filter object if it doesn't exist
-        if (!params.filter) {
-          params.filter = {}
-        }
-
-        // Set the dynamic filter key
-        ;(params.filter as any)[filterKey] = value
       } else {
         // Otherwise, treat it as a normal query parameter
-        params[key as keyof components['parameters']] = value as any
       }
     }
 

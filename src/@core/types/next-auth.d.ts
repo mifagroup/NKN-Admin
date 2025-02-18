@@ -9,6 +9,7 @@ declare module 'next-auth' {
       full_name: string
       phone: string
       email: string
+      accessToken?: string
     }
     accessToken?: string
   }
@@ -19,5 +20,6 @@ declare module 'next-auth' {
     full_name: string
     phone: string
     email: string
+    accessToken?: string
   }
 }

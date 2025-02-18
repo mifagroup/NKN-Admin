@@ -26,7 +26,7 @@ const TaxInfo = () => {
         model: 'tax'
       },
       query: {
-        'filter[search]': taxesQueryParams.filter?.search
+        'filter[search]': taxesqueryParams?.filter?.search
       }
     }
   })
@@ -69,7 +69,7 @@ const TaxInfo = () => {
                       }
                     }))
                   }
-                  inputValue={taxesQueryParams.filter?.search ?? ''}
+                  inputValue={taxesqueryParams?.filter?.search ?? ''}
                   label={keywordsTranslate?.taxGroup ?? ''}
                 />
               )

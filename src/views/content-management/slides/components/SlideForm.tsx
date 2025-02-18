@@ -209,7 +209,7 @@ const SlideForm = ({
           model: 'product'
         },
         query: {
-          'filter[search]': productQueryParams.filter?.search
+          'filter[search]': productqueryParams?.filter?.search
         }
       }
     },
@@ -224,7 +224,7 @@ const SlideForm = ({
         model: 'user_group'
       },
       query: {
-        'filter[search]': userGroupQueryParams.filter?.search
+        'filter[search]': userGroupqueryParams?.filter?.search
       }
     }
   })
@@ -238,7 +238,7 @@ const SlideForm = ({
   //         model: 'discount'
   //       },
   //       query: {
-  //         'filter[search]': discountQueryParams.filter?.search
+  //         'filter[search]': discountqueryParams?.filter?.search
   //       }
   //     }
   //   },
@@ -785,7 +785,7 @@ const SlideForm = ({
                                     }
                                   }))
                                 }
-                                inputValue={userGroupQueryParams.filter?.search ?? ''}
+                                inputValue={userGroupqueryParams?.filter?.search ?? ''}
                                 label={`${keywordsTranslate.user_group}`}
                               />
                             )

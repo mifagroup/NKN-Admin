@@ -288,7 +288,7 @@ const AttributesGroupForm = forwardRef<DrawerHandle, AttributesGroupFormProps>(
                           }
                         }))
                       }
-                      inputValue={queryParams.filter?.search ?? ''}
+                      inputValue={queryParams?.filter?.search ?? ''}
                       label={keywordsTranslate.attributes}
                     />
                   )

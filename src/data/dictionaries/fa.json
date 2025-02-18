@@ -62,7 +62,9 @@
     "loyalty_club": "باشگاه مشتریان",
     "discount_code": "کد تخفیف",
     "sales_campaign_management": "مدیریت جشنواره فروش",
-    "users_levels": "سطح بندی کاربران"
+    "users_levels": "سطح بندی کاربران",
+    "taxonomies": "تاکسونومی‌ها",
+    "blogs": "مقالات"
   },
   "theme_customizer": {
     "theme_customizer_title": "سفارشی سازی تم",
@@ -219,7 +221,14 @@
     "address": "آدرس",
     "address_link": "آدرس مسیریابی",
     "thumbnail": "عکس کوچک",
-    "main_thumbnail": "عکس صفحه اصلی"
+    "main_thumbnail": "عکس صفحه اصلی",
+    "taxonomies": "تاکسونومی‌ها",
+    "taxonomy": "تاکسونومی",
+    "sub_title": "زیر عنوان",
+    "duration": "مدت زمان",
+    "minute": "دقیقه",
+    "blog": "مقاله",
+    "blogs": "مقالات"
   },
   "dropzone": {
     "title": "$ خود را در اینجا بکشید و رها کنید یا اینجا کلیک کنید",
@@ -253,6 +262,10 @@
     "hour": "ساعت",
     "minute": "دقیقه",
     "meridiem": "قبل/بعد‌ازظهر"
+  },
+  "blogs": {
+    "addNewBlogTitle": "افزودن مقاله جدید",
+    "editBlogTitle": "ویرایش مقاله"
   },
   "product_management": {
     "attributes": {

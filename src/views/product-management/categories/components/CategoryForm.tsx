@@ -152,7 +152,7 @@ const CategoryForm = ({
           model: 'attribute_group'
         },
         query: {
-          'filter[search]': attributeGroupsQueryParams.filter?.search
+          'filter[search]': attributeGroupsqueryParams?.filter?.search
         }
       }
     }
@@ -164,7 +164,7 @@ const CategoryForm = ({
         model: 'tag'
       },
       query: {
-        'filter[search]': tagsQueryParams.filter?.search
+        'filter[search]': tagsqueryParams?.filter?.search
       }
     }
   })
@@ -400,7 +400,7 @@ const CategoryForm = ({
                                     }
                                   }))
                                 }
-                                inputValue={attributeGroupsQueryParams.filter?.search ?? ''}
+                                inputValue={attributeGroupsqueryParams?.filter?.search ?? ''}
                                 label={`${keywordsTranslate.attribute_group}`}
                               />
                             )
@@ -461,7 +461,7 @@ const CategoryForm = ({
                                     }
                                   }))
                                 }
-                                inputValue={tagsQueryParams.filter?.search ?? ''}
+                                inputValue={tagsqueryParams?.filter?.search ?? ''}
                                 label={`${keywordsTranslate.tags}`}
                               />
                             )

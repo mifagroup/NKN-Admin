@@ -1,25 +1,25 @@
 import type { ImageMimeType, VideoMimeType } from '@/@core/types'
 
 export const validVideoMimeTypes: VideoMimeType[] | undefined = [
-  'video/mp4',
-  'video/webm',
-  'video/ogg',
-  'video/avi',
-  'video/mpeg',
-  'video/quicktime',
-  'video/x-ms-wmv',
-  'video/x-msvideo',
-  'video/x-flv'
+  'mp4',
+  'webm',
+  'ogg',
+  'avi',
+  'mpeg',
+  'quicktime',
+  'x-ms-wmv',
+  'x-msvideo',
+  'x-flv'
 ]
 
 export const validImageMimeTypes: ImageMimeType[] | undefined = [
-  'image/jpeg',
-  'image/jpg',
-  'image/png',
-  'image/gif',
-  'image/webp',
-  'image/bmp',
-  'image/tiff',
-  'image/svg+xml',
-  'image/x-icon'
+  'jpeg',
+  'jpg',
+  'png',
+  'gif',
+  'webp',
+  'bmp',
+  'tiff',
+  'svg+xml',
+  'x-icon'
 ]

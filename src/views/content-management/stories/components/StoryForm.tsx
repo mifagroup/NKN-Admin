@@ -229,7 +229,7 @@ const StoryForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof g
           model: 'product'
         },
         query: {
-          'filter[search]': productQueryParams.filter?.search
+          'filter[search]': productqueryParams?.filter?.search
         }
       }
     },
@@ -244,7 +244,7 @@ const StoryForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof g
         model: 'user_group'
       },
       query: {
-        'filter[search]': userGroupQueryParams.filter?.search
+        'filter[search]': userGroupqueryParams?.filter?.search
       }
     }
   })
@@ -258,7 +258,7 @@ const StoryForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof g
   //         model: 'discount'
   //       },
   //       query: {
-  //         'filter[search]': discountQueryParams.filter?.search
+  //         'filter[search]': discountqueryParams?.filter?.search
   //       }
   //     }
   //   },
@@ -273,7 +273,7 @@ const StoryForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof g
         model: 'tag'
       },
       query: {
-        'filter[search]': tagsQueryParams.filter?.search
+        'filter[search]': tagsqueryParams?.filter?.search
       }
     }
   })
@@ -848,7 +848,7 @@ const StoryForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof g
                                     }
                                   }))
                                 }
-                                inputValue={userGroupQueryParams.filter?.search ?? ''}
+                                inputValue={userGroupqueryParams?.filter?.search ?? ''}
                                 label={`${keywordsTranslate.user_group}`}
                               />
                             )
@@ -909,7 +909,7 @@ const StoryForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof g
                                     }
                                   }))
                                 }
-                                inputValue={tagsQueryParams.filter?.search ?? ''}
+                                inputValue={tagsqueryParams?.filter?.search ?? ''}
                                 label={`${keywordsTranslate.tags}`}
                               />
                             )
