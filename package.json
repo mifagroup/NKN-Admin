@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev --port 9107",
     "build": "next build",
-    "start": "next start",
+    "start": "next start --port 9107",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
