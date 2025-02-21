@@ -65,22 +65,6 @@ export interface paths {
          * @description Retrieve a specific blog resource by its ID.
          */
         get: operations["getBlogById"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/blogs/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
         /**
          * Update an existing blog
          * @description Update the details of an existing blog resource.
@@ -726,6 +710,8 @@ export interface components {
             portfolio?: components["schemas"]["FileResource"][];
             /** @description categories item of doctor */
             terms: components["schemas"]["TermResource"][];
+            /** @description hospital of doctor */
+            hospital?: components["schemas"]["HospitalResource"][];
         };
         /**
          * FileResource
@@ -1080,7 +1066,7 @@ export interface operations {
             header?: never;
             path: {
                 /** @description ID of the blog to update */
-                id: number;
+                slug: string;
             };
             cookie?: never;
         };
@@ -1135,7 +1121,7 @@ export interface operations {
             header?: never;
             path: {
                 /** @description ID of the blog to delete */
-                id: number;
+                slug: string;
             };
             cookie?: never;
         };

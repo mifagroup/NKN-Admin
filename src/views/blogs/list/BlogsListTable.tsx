@@ -42,7 +42,7 @@ const columnHelper = createColumnHelper<BlogWithActionsType>()
 
 const BlogsListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof getDictionary>> }) => {
   // States
-  const [selectedItemId, setSelectedItemId] = useState<number>()
+  const [selectedItemId, setSelectedItemId] = useState<string>()
 
   // Hooks
 
@@ -62,7 +62,7 @@ const BlogsListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof 
     }
   })
 
-  const { mutateAsync: deleteBlog, isPending: isDeletingBlog } = useFetch().useMutation('delete', '/blogs/{id}')
+  const { mutateAsync: deleteBlog, isPending: isDeletingBlog } = useFetch().useMutation('delete', '/blogs/{slug}')
 
   const queryClient = useQueryClient()
 
@@ -78,7 +78,7 @@ const BlogsListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof 
         cell: ({ row }) => (
           <div className='flex items-center gap-3'>
             <Image
-              src={row.original.main_image?.[0]?.original_url ?? ''}
+              src={row.original.main_image?.original_url ?? ''}
               alt='blog-image'
               className='rounded-[10px] object-cover'
             />
@@ -127,7 +127,7 @@ const BlogsListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof 
         cell: ({ row }) => (
           <div className='flex items-center'>
             <CustomIconButton size='small' title={keywordsTranslate.edit}>
-              <Link className='flex' href={`${menuUrls.blogs.edit}/${row.original.id}`}>
+              <Link className='flex' href={`${menuUrls.blogs.edit}/${row.original.slug}`}>
                 <i className='ri-edit-box-line text-[22px] text-textSecondary' />
               </Link>
             </CustomIconButton>
@@ -135,7 +135,8 @@ const BlogsListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof 
               size='small'
               title={keywordsTranslate.delete}
               onClick={() => {
-                setSelectedItemId(row.original.id)
+                setSelectedItemId(row.original.slug)
+
                 deleteModalRef.current?.open()
               }}
             >
@@ -155,7 +156,7 @@ const BlogsListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof 
     await deleteBlog({
       params: {
         path: {
-          id: selectedItemId ?? 0
+          slug: selectedItemId ?? ''
         }
       }
     })

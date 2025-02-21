@@ -44,7 +44,7 @@ import { slugSchema } from '@/schemas/slugSchema'
 import TextField from '@/@core/components/textField'
 import type { ImageMimeType, VideoMimeType } from '@/@core/types'
 
-const BlogForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof getDictionary>>; id?: number }) => {
+const BlogForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof getDictionary>>; id?: string }) => {
   // Vars
 
   const router = useRouter()
@@ -88,11 +88,11 @@ const BlogForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
 
   const { data: singleBlogData, isLoading: isLoadingSingleBlog } = useFetch().useQuery(
     'get',
-    '/blogs/{id}',
+    '/blogs/{slug}',
     {
       params: {
         path: {
-          id: id ?? ''
+          slug: id ?? ''
         }
       }
     },
@@ -101,17 +101,19 @@ const BlogForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
     }
   )
 
-  const singleBlog = singleBlogData
+  const singleBlog = singleBlogData?.data
+
+  console.log(singleBlog)
 
   useEffect(() => {
     if (singleBlog) {
       setValue('title', singleBlog.title ?? '')
       setValue('sub_title', singleBlog.sub_title ?? '')
       setValue('description', singleBlog.description ?? '')
-      setValue('duration', singleBlog.description ?? '')
+      setValue('duration', singleBlog.duration ?? '')
 
       // setValue('published', singleBlog.published?.value ? '1' : '0')
-      setValue('main_image', singleBlog.main_image?.[0]?.original_url ?? '')
+      setValue('main_image', singleBlog.main_image?.original_url ?? '')
       setValue('slug', singleBlog.slug ?? '')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -119,15 +121,14 @@ const BlogForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
 
   const { mutateAsync: addBlog, isPending: isAddingBlog } = useFetch().useMutation('post', '/blogs')
 
-  const { mutateAsync: editBlog, isPending: isEditingBlog } = useFetch().useMutation('put', '/blogs/{id}')
+  const { mutateAsync: editBlog, isPending: isEditingBlog } = useFetch().useMutation('put', '/blogs/{slug}')
 
   const {
     control,
     handleSubmit,
     formState: { errors },
     setError,
-    setValue,
-    watch
+    setValue
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -141,9 +142,11 @@ const BlogForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
     const formData = new FormData()
 
     formData.append('title', data.title)
+    formData.append('sub_title', data.sub_title)
     formData.append('description', data.description ?? '')
     formData.append('published', data.published)
     formData.append('slug', data.slug ?? '')
+    formData.append('duration', data.duration ?? '')
 
     if (data.main_image && data.main_image instanceof File) {
       formData.append('main_image', data.main_image)
@@ -166,14 +169,14 @@ const BlogForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
         body: formData as any,
         params: {
           path: {
-            id: id ?? 0
+            slug: id ?? 0
           }
         }
       })
         .then(res => {
           // @ts-ignore
           toast.success(res.message)
-          router.push(menuUrls.product_management.category.list)
+          router.push(menuUrls.blogs.list)
         })
         .catch(e => {
           setFormErrors(e, setError)
@@ -327,7 +330,7 @@ const BlogForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
                                 : []
                             }
                             mimeType={
-                              id ? (singleBlog?.main_image?.[0]?.extension as ImageMimeType | VideoMimeType) : undefined
+                              id ? (singleBlog?.main_image?.extension as ImageMimeType | VideoMimeType) : undefined
                             }
                             setFiles={(images: any) => field.onChange(images[0])}
                             type='image'
@@ -347,7 +350,6 @@ const BlogForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
                     <Grid display={'flex'} flexDirection={'column'} rowGap={4}>
                       <Typography>{keywordsTranslate.seo}</Typography>
                       <Grid container spacing={5}>
-                        (
                         <Grid item xs={12}>
                           <Controller
                             name='slug'
@@ -365,7 +367,6 @@ const BlogForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
                             )}
                           />
                         </Grid>
-                        )
                       </Grid>
                     </Grid>
                   </CardContent>
