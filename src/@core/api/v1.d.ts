@@ -121,6 +121,34 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/doctors/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a single doctor
+         * @description Retrieve a single doctor by ID
+         */
+        get: operations["getDoctor"];
+        /**
+         * Update an existing doctor
+         * @description Update a doctor in the database
+         */
+        put: operations["updateDoctor"];
+        post?: never;
+        /**
+         * Delete an existing doctor
+         * @description Delete a doctor from the database
+         */
+        delete: operations["deleteDoctor"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/home": {
         parameters: {
             query?: never;
@@ -350,7 +378,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/term": {
+    "/term/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -361,7 +389,7 @@ export interface paths {
         put?: never;
         post?: never;
         /** delete existing category item */
-        delete: operations["297ba56037e24b0cd3755e57828d6548"];
+        delete: operations["6c8c3bf110028e26cde48c141334eef2"];
         options?: never;
         head?: never;
         patch?: never;
@@ -537,6 +565,36 @@ export interface components {
              * @description Main image of the blog
              */
             main_image?: string | null;
+        };
+        UpdateDoctorRequest: {
+            /** @example John */
+            first_name: string;
+            /** @example Doe */
+            last_name: string;
+            /** @example DOC123 */
+            code: string;
+            /** @example MD */
+            sub_title?: string;
+            /** @example Experienced doctor */
+            short_description?: string;
+            /**
+             * Format: url
+             * @example http://example.com
+             */
+            redirect: string;
+            /** @example Detailed description */
+            description?: string;
+            /**
+             * @example male
+             * @enum {string}
+             */
+            gender: "male" | "female";
+            /** @example 1 */
+            hospital_id?: number;
+            /** Format: binary */
+            main_image?: string;
+            terms?: number[];
+            portfolio?: string[];
         };
         UpdateHospitalResourceRequest: {
             /** @description The name of the hospital */
@@ -787,6 +845,7 @@ export interface components {
             title?: string;
             /** @description slug of the category item */
             slug?: string;
+            taxonomy?: components["schemas"]["TaxonomyResource"];
         };
         /**
          * UserResource
@@ -805,6 +864,8 @@ export interface components {
             phone?: string;
             /** @description email of the user */
             email?: string;
+            /** @description list of role that associated with the user . list of role include : full_admin admin doc */
+            role?: string[];
         };
     };
     responses: never;
@@ -1166,6 +1227,128 @@ export interface operations {
             };
             /** @description Bad request */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getDoctor: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID of the doctor to be retrieved */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Doctor retrieved successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DoctorResource"];
+                };
+            };
+            /** @description Doctor not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    updateDoctor: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID of the doctor to be updated */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateDoctorRequest"];
+            };
+        };
+        responses: {
+            /** @description Doctor updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DoctorResource"];
+                };
+            };
+            /** @description Bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Doctor not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    deleteDoctor: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID of the doctor to be deleted */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Doctor deleted successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DoctorResource"];
+                };
+            };
+            /** @description Doctor not found */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -1750,8 +1933,15 @@ export interface operations {
     d5667ffe66f0c410e63b85f00fa2ecd6: {
         parameters: {
             query?: {
+                /** @description Page number for pagination */
+                page?: number;
                 /** @description search in data of terms */
                 "filter[search]"?: string;
+                /** @description Sort blogs by title : 'title', 'duration', 'sub_title', 'created_at', 'published_at' */
+                sort?: string;
+                "filter[taxonomy_id]"?: number;
+                /** @description default 15 */
+                per_page?: number;
             };
             header?: never;
             path?: never;
@@ -1767,6 +1957,8 @@ export interface operations {
                 content: {
                     "application/json": {
                         data?: components["schemas"]["TermResource"][];
+                        links?: components["schemas"]["LinksPaginationResource"];
+                        meta?: components["schemas"]["MetaPaginationResource"];
                     };
                 };
             };
@@ -1828,7 +2020,9 @@ export interface operations {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                id: number;
+            };
             cookie?: never;
         };
         requestBody?: never;
@@ -1862,7 +2056,10 @@ export interface operations {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                /** @description ID of the term to update */
+                id: number;
+            };
             cookie?: never;
         };
         requestBody: {
@@ -1903,11 +2100,14 @@ export interface operations {
             };
         };
     };
-    "297ba56037e24b0cd3755e57828d6548": {
+    "6c8c3bf110028e26cde48c141334eef2": {
         parameters: {
             query?: never;
             header?: never;
-            path?: never;
+            path: {
+                /** @description ID of the term to delete */
+                id: number;
+            };
             cookie?: never;
         };
         requestBody?: never;

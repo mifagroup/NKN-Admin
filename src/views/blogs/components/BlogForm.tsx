@@ -10,7 +10,6 @@ import { useRouter } from 'next/navigation'
 import {
   Card,
   CardContent,
-  Chip,
   FormControl,
   FormHelperText,
   FormLabel,
@@ -36,13 +35,10 @@ import { translateReplacer } from '@/utils/translateReplacer'
 // Component Imports
 import type { getDictionary } from '@/utils/getDictionary'
 import { useStatuses } from '@/@core/hooks/useStatuses'
-import AutoComplete, { type IAutocompleteRef } from '@/@core/components/autoComplete/AutoComplete'
-import { useQueryParams } from '@/@core/hooks/useQueryParams'
+import { type IAutocompleteRef } from '@/@core/components/autoComplete/AutoComplete'
 import DropZone from '@/@core/components/dropzone/DropZone'
 import TextEditor from '@/@core/components/textEditor/TextEditor'
 import { setFormErrors } from '@/utils/setFormErrors'
-import { formatStringToArray } from '@/utils/formatStringToArray'
-import { formatArrayToString } from '@/utils/formatArrayToString'
 import { menuUrls } from '@/@menu/utils/menuUrls'
 import { slugSchema } from '@/schemas/slugSchema'
 import TextField from '@/@core/components/textField'
@@ -88,13 +84,11 @@ const BlogForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
 
   // Hooks
 
-  const keywordsRef = useRef<IAutocompleteRef>(null)
-
   const statuses = useStatuses()
 
   const { data: singleBlogData, isLoading: isLoadingSingleBlog } = useFetch().useQuery(
     'get',
-    '/blogs/{slug}',
+    '/blogs/{id}',
     {
       params: {
         path: {

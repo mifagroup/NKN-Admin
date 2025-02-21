@@ -18,6 +18,16 @@ export const menuUrls = {
     add: '/blogs/add',
     edit: '/blogs/edit'
   },
+  expertises: {
+    list: '/expertises/list',
+    add: '/expertises/add',
+    edit: '/expertises/edit'
+  },
+  doctors: {
+    list: '/doctors/list',
+    add: '/doctors/add',
+    edit: '/doctors/edit'
+  },
   product_management: {
     attribute: {
       list: '/product-management/attribute/list',

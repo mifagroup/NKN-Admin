@@ -151,6 +151,52 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
             {keywordsTranslate.add}
           </MenuItem> */}
         </MenuSection>
+        <MenuSection label={navigationTranslate.expertises}>
+          <MenuItem
+            href={`/${locale}${menuUrls.expertises.list}`}
+            icon={<i className='ri-list-unordered text-[20px]' />}
+            title={keywordsTranslate.list}
+          >
+            {keywordsTranslate.list}
+          </MenuItem>
+          <MenuItem
+            href={`/${locale}${menuUrls.expertises.add}`}
+            icon={<i className='ri-add-box-line text-[20px]' />}
+            title={keywordsTranslate.add}
+          >
+            {keywordsTranslate.add}
+          </MenuItem>
+          {/* <MenuItem
+            href={`/${locale}${menuUrls.taxonomies.add}`}
+            icon={<i className='ri-add-box-line text-[20px]' />}
+            title={keywordsTranslate.add}
+          >
+            {keywordsTranslate.add}
+          </MenuItem> */}
+        </MenuSection>
+        <MenuSection label={navigationTranslate.doctors}>
+          <MenuItem
+            href={`/${locale}${menuUrls.doctors.list}`}
+            icon={<i className='ri-list-unordered text-[20px]' />}
+            title={keywordsTranslate.list}
+          >
+            {keywordsTranslate.list}
+          </MenuItem>
+          <MenuItem
+            href={`/${locale}${menuUrls.doctors.add}`}
+            icon={<i className='ri-add-box-line text-[20px]' />}
+            title={keywordsTranslate.add}
+          >
+            {keywordsTranslate.add}
+          </MenuItem>
+          {/* <MenuItem
+            href={`/${locale}${menuUrls.taxonomies.add}`}
+            icon={<i className='ri-add-box-line text-[20px]' />}
+            title={keywordsTranslate.add}
+          >
+            {keywordsTranslate.add}
+          </MenuItem> */}
+        </MenuSection>
         {/* <MenuSection label={keywordsTranslate.sliders}>
           <MenuItem
             href={`/${locale}${menuUrls.sliders.list}`}

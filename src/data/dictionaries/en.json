@@ -63,7 +63,9 @@
     "sales_campaign_management": "Sales Campaign Management",
     "users_levels": "Users Levels",
     "taxonomies": "Taxonomies",
-    "blogs": "Blogs"
+    "blogs": "Blogs",
+    "expertises": "Expertises",
+    "doctors": "Doctors"
   },
   "theme_customizer": {
     "theme_customizer_title": "Theme Customizer",
@@ -227,7 +229,19 @@
     "duration": "Duration",
     "minute": "Minute",
     "blog": "Blog",
-    "blogs": "Blogs"
+    "blogs": "Blogs",
+    "expertises": "Expertises",
+    "expertise": "Expertise",
+    "doctors": "Doctors",
+    "doctor": "Doctor",
+    "first_name": "First name",
+    "last_name": "Last name",
+    "code": "Code",
+    "short_description": "Short description",
+    "redirect_url": "Redirect url",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female"
   },
   "dropzone": {
     "title": "Drag and Drop Your $ Here Or Click Here",
@@ -360,5 +374,9 @@
   "hospital": {
     "editHospitalTitle": "Edit Hospital",
     "addNewHospitalTitle": "Add Hospital"
+  },
+  "expertise": {
+    "editExpertiseTitle": "Edit Expertise",
+    "addNewExpertiseTitle": "Add Expertise"
   }
 }
