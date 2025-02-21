@@ -34,13 +34,10 @@ import { translateReplacer } from '@/utils/translateReplacer'
 
 // Component Imports
 import type { getDictionary } from '@/utils/getDictionary'
-import { useStatuses } from '@/@core/hooks/useStatuses'
-import { type IAutocompleteRef } from '@/@core/components/autoComplete/AutoComplete'
 import DropZone from '@/@core/components/dropzone/DropZone'
 import TextEditor from '@/@core/components/textEditor/TextEditor'
 import { setFormErrors } from '@/utils/setFormErrors'
 import { menuUrls } from '@/@menu/utils/menuUrls'
-import { slugSchema } from '@/schemas/slugSchema'
 import TextField from '@/@core/components/textField'
 import type { ImageMimeType, VideoMimeType } from '@/@core/types'
 import { useGenders } from '@/@core/hooks/useGender'
@@ -145,7 +142,7 @@ const DoctorForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof 
         setValue('hospital_id', { label: singleDoctor.hospital?.name, value: singleDoctor.hospital?.id })
       if (singleDoctor.terms?.length)
         setValue('terms', singleDoctor.terms?.map(term => ({ label: term.title, value: term.id })) ?? [])
-      setValue('main_image', singleDoctor.main_image?.original_url ?? '')
+      setValue('main_image', singleDoctor.image?.original_url ?? '')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleDoctor])
@@ -167,8 +164,6 @@ const DoctorForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof 
 
   // Functions
   const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
-    console.log(data)
-
     const formData = new FormData()
 
     formData.append('first_name', data.first_name)
@@ -179,9 +174,10 @@ const DoctorForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof 
     formData.append('redirect', data.redirect)
     formData.append('description', data.description)
     formData.append('gender', data.gender)
+    formData.append('hospital_id', data.hospital_id?.value?.toString() ?? '')
 
     if (data?.terms?.length) {
-      for (let i = 0; i < data.terms.length; i++) {
+      for (let i = 0; i < data?.terms?.length; i++) {
         formData.append('terms[]', String(data.terms?.[i].value))
       }
     }
@@ -337,15 +333,26 @@ const DoctorForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof 
                           name='gender'
                           control={control}
                           rules={{ required: true }}
-                          render={({ field }) => (
-                            <Select label={keywordsTranslate?.status} {...field}>
-                              {genders?.map(gender => (
-                                <MenuItem key={gender.value} value={gender.value}>
-                                  {gender.label}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          )}
+                          render={({ field }) => {
+                            console.log('field', field)
+
+                            return (
+                              <Select
+                                label={keywordsTranslate?.gender}
+                                {...field}
+                                value={field.value || ''}
+                                onChange={event => {
+                                  field.onChange(event.target.value)
+                                }}
+                              >
+                                {genders?.map(gender => (
+                                  <MenuItem key={gender.value} value={gender.value}>
+                                    {gender.label}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            )
+                          }}
                         />
                         {errors.gender && <FormHelperText error>{errors.gender?.message}</FormHelperText>}
                       </FormControl>
@@ -361,7 +368,7 @@ const DoctorForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof 
                                 {...field}
                                 {...(errors.hospital_id && { error: true, helperText: errors.hospital_id.message })}
                                 label={`${keywordsTranslate.hospital}`}
-                                value={field.value}
+                                value={field.value ?? null}
                                 onChange={value => field.onChange(value)}
                               />
                             )
@@ -381,7 +388,7 @@ const DoctorForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof 
                                 {...field}
                                 {...(errors.terms && { error: true, helperText: errors.terms.message })}
                                 label={`${keywordsTranslate.expertises}`}
-                                value={field.value}
+                                value={field.value ?? []}
                                 onChange={value => field.onChange(value)}
                                 multiple
                               />
@@ -452,89 +459,6 @@ const DoctorForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof 
                       />
                       {errors.description && <FormHelperText error>{errors.description?.message}</FormHelperText>}
                     </Grid>
-                    {/* <Grid item xs={12} md={6}>
-                      <FormControl fullWidth>
-                        <Controller
-                          name='parent_id'
-                          control={control}
-                          render={({ field }) => {
-                            return (
-                              <CategoryAutoComplete
-                                {...field}
-                                {...(errors.parent_id && { error: true, helperText: errors.parent_id.message })}
-                                label={`${keywordsTranslate.category} ${keywordsTranslate.parent}`}
-                                value={field.value}
-                                onChange={value => field.onChange(value)}
-                                type='product'
-                                disabled={!attributeGroupIdWatch?.value}
-                                options={`attribute_group_id=${attributeGroupIdWatch?.value}`}
-                              />
-                            )
-                          }}
-                        />
-                        {errors.parent_id && <FormHelperText error>{errors.parent_id?.message}</FormHelperText>}
-                      </FormControl>
-                    </Grid> */}
-
-                    {/* <Grid item xs={12} md={6}>
-                      <Controller
-                        name='ordering'
-                        control={control}
-                        render={({ field }) => (
-                          <TextField
-                            {...field}
-                            fullWidth
-                            type='number'
-                            placeholder={translateReplacer(inputTranslate.placeholder, keywordsTranslate.ordering)}
-                            label={keywordsTranslate.ordering}
-                            {...(errors.ordering && { error: true, helperText: errors.ordering.message })}
-                          />
-                        )}
-                      />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                      <FormControl fullWidth error={!!errors.published}>
-                        <InputLabel>{keywordsTranslate.status}</InputLabel>
-                        <Controller
-                          name='published'
-                          control={control}
-                          rules={{ required: true }}
-                          render={({ field }) => (
-                            <Select label={keywordsTranslate.status} {...field}>
-                              {statuses?.map(type => (
-                                <MenuItem key={type.value} value={type.value}>
-                                  {type.label}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          )}
-                        />
-                        {errors.published && <FormHelperText error>{errors.published?.message}</FormHelperText>}
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Controller
-                        name='description'
-                        control={control}
-                        render={({ field }) => (
-                          <TextField
-                            {...field}
-                            fullWidth
-                            rows={3}
-                            type='text'
-                            multiline
-                            placeholder={translateReplacer(inputTranslate.placeholder, keywordsTranslate.description)}
-                            label={keywordsTranslate.description}
-                            onChange={event => {
-                              field.onChange(event.target.value)
-                              setValue('seo_description', event.target.value)
-                            }}
-                            {...(errors.description && { error: true, helperText: errors.description.message })}
-                          />
-                        )}
-                      />
-                    </Grid>
-                     */}
                   </Grid>
                 </CardContent>
               </Card>
@@ -558,7 +482,7 @@ const DoctorForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof 
                                 : []
                             }
                             mimeType={
-                              id ? (singleDoctor?.main_image?.mime_type as ImageMimeType | VideoMimeType) : undefined
+                              id ? (singleDoctor?.image?.extension as ImageMimeType | VideoMimeType) : undefined
                             }
                             setFiles={(images: any) => field.onChange(images[0])}
                             type='image'

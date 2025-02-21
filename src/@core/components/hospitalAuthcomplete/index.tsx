@@ -57,7 +57,7 @@ const HospitalAuthcomplete = ({
     setOpen(false)
   }
 
-  const options = hospitalsData?.data?.map(hos => ({ id: hos.id, label: hos.name }))
+  const options = hospitalsData?.data?.map(hos => ({ value: hos.id, label: hos.name }))
 
   return (
     <div className='flex items-center gap-x-2'>
