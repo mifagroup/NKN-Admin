@@ -32,6 +32,7 @@ import { translateReplacer } from '@/utils/translateReplacer'
 import type { ThemeColor, ModalHandle } from '@/@core/types'
 import ToggleModal from '@/@core/components/modals/ToggleModal'
 import Image from '@/@core/components/image'
+import { useMe } from '@/@core/hooks/useMe'
 
 type BlogWithActionsType = components['schemas']['BlogResource'] & {
   actions?: string
@@ -52,12 +53,15 @@ const BlogsListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof 
 
   const deleteModalRef = useRef<ModalHandle>(null)
 
-  const toggleModalRef = useRef<ModalHandle>(null)
+  const { data: authData } = useMe()
+
+  const isDoctor = authData?.data?.role[0] === 'DOC'
 
   const { data, isFetching: isLoadingBlogsList } = useFetch().useQuery('get', '/blogs', {
     params: {
       query: {
-        ...queryParams
+        ...queryParams,
+        'filter[user_id]': isDoctor ? authData?.data?.id : undefined
       }
     }
   })

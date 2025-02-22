@@ -12,7 +12,7 @@ import type { getDictionary } from '@/utils/getDictionary'
 import type { VerticalMenuContextProps } from '@menu/components/vertical-menu/Menu'
 
 // Component Imports
-import { Menu, SubMenu, MenuItem, MenuSection } from '@menu/vertical-menu'
+import { Menu, MenuItem, MenuSection } from '@menu/vertical-menu'
 
 // import { GenerateVerticalMenu } from '@components/GenerateMenu'
 
@@ -26,6 +26,7 @@ import StyledVerticalNavExpandIcon from '@menu/styles/vertical/StyledVerticalNav
 import menuItemStyles from '@core/styles/vertical/menuItemStyles'
 import menuSectionStyles from '@core/styles/vertical/menuSectionStyles'
 import { menuUrls } from '@/@menu/utils/menuUrls'
+import { useMe } from '@/@core/hooks/useMe'
 
 type RenderExpandIconProps = {
   open?: boolean
@@ -64,6 +65,12 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
 
   const ScrollWrapper = isBreakpointReached ? 'div' : PerfectScrollbar
 
+  const { data } = useMe()
+
+  const isAdmin = data?.data?.role[0] === 'FULL_ADMIN'
+
+  const isDoctor = data?.data?.role[0] === 'DOC'
+
   return (
     // eslint-disable-next-line lines-around-comment
     /* Custom scrollbar instead of browser scroll, remove if you want browser scroll only */
@@ -96,116 +103,96 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
           {navigationTranslate.dashboard}
         </MenuItem>
 
-        <MenuSection label={navigationTranslate.hospitals}>
-          <MenuItem
-            href={`/${locale}${menuUrls.hospitals.list}`}
-            icon={<i className='ri-list-unordered text-[20px]' />}
-            title={keywordsTranslate.list}
-          >
-            {keywordsTranslate.list}
-          </MenuItem>
-          <MenuItem
-            href={`/${locale}${menuUrls.hospitals.add}`}
-            icon={<i className='ri-add-box-line text-[20px]' />}
-            title={keywordsTranslate.add}
-          >
-            {keywordsTranslate.add}
-          </MenuItem>
-        </MenuSection>
-        <MenuSection label={navigationTranslate.taxonomies}>
-          <MenuItem
-            href={`/${locale}${menuUrls.taxonomies.list}`}
-            icon={<i className='ri-list-unordered text-[20px]' />}
-            title={keywordsTranslate.list}
-          >
-            {keywordsTranslate.list}
-          </MenuItem>
-          {/* <MenuItem
+        {isAdmin && (
+          <MenuSection label={navigationTranslate.hospitals}>
+            <MenuItem
+              href={`/${locale}${menuUrls.hospitals.list}`}
+              icon={<i className='ri-list-unordered text-[20px]' />}
+              title={keywordsTranslate.list}
+            >
+              {keywordsTranslate.list}
+            </MenuItem>
+            <MenuItem
+              href={`/${locale}${menuUrls.hospitals.add}`}
+              icon={<i className='ri-add-box-line text-[20px]' />}
+              title={keywordsTranslate.add}
+            >
+              {keywordsTranslate.add}
+            </MenuItem>
+          </MenuSection>
+        )}
+        {isAdmin && (
+          <MenuSection label={navigationTranslate.taxonomies}>
+            <MenuItem
+              href={`/${locale}${menuUrls.taxonomies.list}`}
+              icon={<i className='ri-list-unordered text-[20px]' />}
+              title={keywordsTranslate.list}
+            >
+              {keywordsTranslate.list}
+            </MenuItem>
+            {/* <MenuItem
             href={`/${locale}${menuUrls.taxonomies.add}`}
             icon={<i className='ri-add-box-line text-[20px]' />}
             title={keywordsTranslate.add}
           >
             {keywordsTranslate.add}
           </MenuItem> */}
-        </MenuSection>
-        <MenuSection label={navigationTranslate.blogs}>
-          <MenuItem
-            href={`/${locale}${menuUrls.blogs.list}`}
-            icon={<i className='ri-list-unordered text-[20px]' />}
-            title={keywordsTranslate.list}
-          >
-            {keywordsTranslate.list}
-          </MenuItem>
-          <MenuItem
-            href={`/${locale}${menuUrls.blogs.add}`}
-            icon={<i className='ri-add-box-line text-[20px]' />}
-            title={keywordsTranslate.add}
-          >
-            {keywordsTranslate.add}
-          </MenuItem>
-          {/* <MenuItem
-            href={`/${locale}${menuUrls.taxonomies.add}`}
-            icon={<i className='ri-add-box-line text-[20px]' />}
-            title={keywordsTranslate.add}
-          >
-            {keywordsTranslate.add}
-          </MenuItem> */}
-        </MenuSection>
-        <MenuSection label={navigationTranslate.expertises}>
-          <MenuItem
-            href={`/${locale}${menuUrls.expertises.list}`}
-            icon={<i className='ri-list-unordered text-[20px]' />}
-            title={keywordsTranslate.list}
-          >
-            {keywordsTranslate.list}
-          </MenuItem>
-          <MenuItem
-            href={`/${locale}${menuUrls.expertises.add}`}
-            icon={<i className='ri-add-box-line text-[20px]' />}
-            title={keywordsTranslate.add}
-          >
-            {keywordsTranslate.add}
-          </MenuItem>
-          {/* <MenuItem
-            href={`/${locale}${menuUrls.taxonomies.add}`}
-            icon={<i className='ri-add-box-line text-[20px]' />}
-            title={keywordsTranslate.add}
-          >
-            {keywordsTranslate.add}
-          </MenuItem> */}
-        </MenuSection>
-        <MenuSection label={navigationTranslate.doctors}>
-          <MenuItem
-            href={`/${locale}${menuUrls.doctors.list}`}
-            icon={<i className='ri-list-unordered text-[20px]' />}
-            title={keywordsTranslate.list}
-          >
-            {keywordsTranslate.list}
-          </MenuItem>
-          <MenuItem
-            href={`/${locale}${menuUrls.doctors.add}`}
-            icon={<i className='ri-add-box-line text-[20px]' />}
-            title={keywordsTranslate.add}
-          >
-            {keywordsTranslate.add}
-          </MenuItem>
-          {/* <MenuItem
-            href={`/${locale}${menuUrls.taxonomies.add}`}
-            icon={<i className='ri-add-box-line text-[20px]' />}
-            title={keywordsTranslate.add}
-          >
-            {keywordsTranslate.add}
-          </MenuItem> */}
-        </MenuSection>
-        {/* <MenuSection label={keywordsTranslate.sliders}>
-          <MenuItem
-            href={`/${locale}${menuUrls.sliders.list}`}
-            icon={<i className='ri-list-unordered text-[20px]' />}
-            title={keywordsTranslate.list}
-          >
-            {keywordsTranslate.list}
-          </MenuItem>
-        </MenuSection> */}
+          </MenuSection>
+        )}
+        {(isAdmin || isDoctor) && (
+          <MenuSection label={navigationTranslate.blogs}>
+            <MenuItem
+              href={`/${locale}${menuUrls.blogs.list}`}
+              icon={<i className='ri-list-unordered text-[20px]' />}
+              title={keywordsTranslate.list}
+            >
+              {keywordsTranslate.list}
+            </MenuItem>
+            <MenuItem
+              href={`/${locale}${menuUrls.blogs.add}`}
+              icon={<i className='ri-add-box-line text-[20px]' />}
+              title={keywordsTranslate.add}
+            >
+              {keywordsTranslate.add}
+            </MenuItem>
+          </MenuSection>
+        )}
+        {isAdmin && (
+          <MenuSection label={navigationTranslate.expertises}>
+            <MenuItem
+              href={`/${locale}${menuUrls.expertises.list}`}
+              icon={<i className='ri-list-unordered text-[20px]' />}
+              title={keywordsTranslate.list}
+            >
+              {keywordsTranslate.list}
+            </MenuItem>
+            <MenuItem
+              href={`/${locale}${menuUrls.expertises.add}`}
+              icon={<i className='ri-add-box-line text-[20px]' />}
+              title={keywordsTranslate.add}
+            >
+              {keywordsTranslate.add}
+            </MenuItem>
+          </MenuSection>
+        )}
+        {isAdmin && (
+          <MenuSection label={navigationTranslate.doctors}>
+            <MenuItem
+              href={`/${locale}${menuUrls.doctors.list}`}
+              icon={<i className='ri-list-unordered text-[20px]' />}
+              title={keywordsTranslate.list}
+            >
+              {keywordsTranslate.list}
+            </MenuItem>
+            <MenuItem
+              href={`/${locale}${menuUrls.doctors.add}`}
+              icon={<i className='ri-add-box-line text-[20px]' />}
+              title={keywordsTranslate.add}
+            >
+              {keywordsTranslate.add}
+            </MenuItem>
+          </MenuSection>
+        )}
       </Menu>
     </ScrollWrapper>
   )
