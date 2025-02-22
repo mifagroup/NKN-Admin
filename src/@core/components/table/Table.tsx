@@ -174,13 +174,13 @@ const Table = <T,>({
     setQueryParams(prevState => ({
       ...prevState,
       page: 1,
-      page_limit: Number(e.target.value)
+      per_page: Number(e.target.value)
     }))
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { page_limit, page, ...rest } = queryParams
+    const { per_page, page, ...rest } = queryParams
 
-    router.push(`?${qs.stringify({ page_limit: Number(e.target.value), page: 1, ...rest })}`)
+    router.push(`?${qs.stringify({ per_page: Number(e.target.value), page: 1, ...rest })}`)
   }
 
   const handleChangePage = (_: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, newPage: number) => {
@@ -302,9 +302,9 @@ const Table = <T,>({
       {dataSource?.length ? (
         <TablePagination
           rowsPerPageOptions={
-            [10, 25, 50].includes(+(queryParams?.page_limit ?? 0))
+            [10, 25, 50].includes(+(queryParams?.per_page ?? 0))
               ? [10, 25, 50]
-              : [10, 25, 50, +(queryParams?.page_limit ?? 0)]
+              : [10, 25, 50, +(queryParams?.per_page ?? 0)]
           }
           labelRowsPerPage={tableTranslate?.rowsPerPage}
           labelDisplayedRows={({ from, to, count }) =>

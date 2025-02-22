@@ -55,7 +55,7 @@ const ProductFilterMaker: React.FC<ProductFilterMakerProps> = props => {
       params: {
         query: {
           'with-products': 1,
-          page_limit: queryParams.page_limit,
+          per_page: queryParams.per_page,
           ...queryParams
         }
       }
@@ -88,7 +88,7 @@ const ProductFilterMaker: React.FC<ProductFilterMakerProps> = props => {
       onChange={data =>
         setQueryParams(() => ({
           'with-products': 1,
-          page_limit: 12,
+          per_page: 12,
           page: 1,
           'filter[category]': (data as OptionType)?.value.toString()
         }))

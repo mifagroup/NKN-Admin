@@ -65,7 +65,7 @@
     "users_levels": "سطح بندی کاربران",
     "taxonomies": "تاکسونومی‌ها",
     "blogs": "مقالات",
-    "expertises": "تخصص‌ها",
+    "expertises": "دسته‌بندی‌ها",
     "doctors": "دکترها"
   },
   "theme_customizer": {
@@ -231,8 +231,8 @@
     "minute": "دقیقه",
     "blog": "مقاله",
     "blogs": "مقالات",
-    "expertises": "تخصص‌ها",
-    "expertise": "تخصص",
+    "expertises": "دسته‌بندی‌ها",
+    "expertise": "دسته‌بندی",
     "doctors": "دکترها",
     "doctor": "دکتر",
     "first_name": "نام",
@@ -376,7 +376,7 @@
     "addNewHospitalTitle": "افزودن بیمارستان"
   },
   "expertise": {
-    "editExpertiseTitle": "ویرایش تخصص",
-    "addNewExpertiseTitle": "افزودن تخصص"
+    "editExpertiseTitle": "ویرایش دسته‌بندی",
+    "addNewExpertiseTitle": "افزودن دسته‌بندی"
   }
 }

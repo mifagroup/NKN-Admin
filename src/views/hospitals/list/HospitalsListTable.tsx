@@ -146,7 +146,7 @@ const HospitalsListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typ
           setQueryParams={setQueryParams}
           pagination={{
             pageIndex: (queryParams?.page ?? 1) - 1,
-            pageSize: queryParams?.page_limit
+            pageSize: queryParams?.per_page
           }}
           listTitle={keywordsTranslate.hospitals}
           addUrl={menuUrls.hospitals.add}

@@ -88,7 +88,7 @@ const AttributeForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<type
           attribute: id ?? 0
         },
         query: {
-          page_limit: -1
+          per_page: -1
         }
       }
     },

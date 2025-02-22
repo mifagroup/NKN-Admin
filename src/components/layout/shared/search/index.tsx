@@ -209,66 +209,67 @@ const NavSearch = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open])
 
-  return (
-    <>
-      {isBreakpointReached || settings.layout === 'horizontal' ? (
-        <IconButton className='text-textPrimary' onClick={() => setOpen(true)}>
-          <i className='ri-search-line' />
-        </IconButton>
-      ) : (
-        <div className='flex items-center gap-2 cursor-pointer' onClick={() => setOpen(true)}>
-          <IconButton className='text-textPrimary' onClick={() => setOpen(true)}>
-            <i className='ri-search-line' />
-          </IconButton>
-          <div className='whitespace-nowrap select-none text-textDisabled'>Search ⌘K</div>
-        </div>
-      )}
-      <CommandDialog open={open} onOpenChange={setOpen}>
-        <div className='flex items-center justify-between border-be pli-4 plb-3 gap-2'>
-          <i className='ri-search-line' />
-          <CommandInput value={searchValue} onValueChange={setSearchValue} />
-          <span className='text-textDisabled'>[esc]</span>
-          <i className='ri-close-line cursor-pointer' onClick={() => setOpen(false)} />
-        </div>
-        <CommandList>
-          {searchValue ? (
-            limitedData.length > 0 ? (
-              limitedData.map((section, index) => (
-                <CommandGroup key={index} heading={section.title.toUpperCase()} className='text-xs'>
-                  {section.items.map((item, index) => {
-                    return (
-                      <SearchItem
-                        shortcut={item.shortcut}
-                        key={index}
-                        currentPath={pathName}
-                        url={getLocalizedUrl(item.url, locale as Locale)}
-                        value={`${item.name} ${section.title} ${item.shortcut}`}
-                        onSelect={() => onSearchItemSelect(item)}
-                      >
-                        {item.icon && (
-                          <div className='flex text-xl'>
-                            <i className={item.icon} />
-                          </div>
-                        )}
-                        {item.name}
-                      </SearchItem>
-                    )
-                  })}
-                </CommandGroup>
-              ))
-            ) : (
-              <CommandEmpty>
-                <NoResult searchValue={searchValue} setOpen={setOpen} />
-              </CommandEmpty>
-            )
-          ) : (
-            <DefaultSuggestions setOpen={setOpen} />
-          )}
-        </CommandList>
-        <CommandFooter />
-      </CommandDialog>
-    </>
-  )
+  // return (
+  //   <>
+  //     {isBreakpointReached || settings.layout === 'horizontal' ? (
+  //       <IconButton className='text-textPrimary' onClick={() => setOpen(true)}>
+  //         <i className='ri-search-line' />
+  //       </IconButton>
+  //     ) : (
+  //       <div className='flex items-center gap-2 cursor-pointer' onClick={() => setOpen(true)}>
+  //         <IconButton className='text-textPrimary' onClick={() => setOpen(true)}>
+  //           <i className='ri-search-line' />
+  //         </IconButton>
+  //         <div className='whitespace-nowrap select-none text-textDisabled'>Search ⌘K</div>
+  //       </div>
+  //     )}
+  //     <CommandDialog open={open} onOpenChange={setOpen}>
+  //       <div className='flex items-center justify-between border-be pli-4 plb-3 gap-2'>
+  //         <i className='ri-search-line' />
+  //         <CommandInput value={searchValue} onValueChange={setSearchValue} />
+  //         <span className='text-textDisabled'>[esc]</span>
+  //         <i className='ri-close-line cursor-pointer' onClick={() => setOpen(false)} />
+  //       </div>
+  //       <CommandList>
+  //         {searchValue ? (
+  //           limitedData.length > 0 ? (
+  //             limitedData.map((section, index) => (
+  //               <CommandGroup key={index} heading={section.title.toUpperCase()} className='text-xs'>
+  //                 {section.items.map((item, index) => {
+  //                   return (
+  //                     <SearchItem
+  //                       shortcut={item.shortcut}
+  //                       key={index}
+  //                       currentPath={pathName}
+  //                       url={getLocalizedUrl(item.url, locale as Locale)}
+  //                       value={`${item.name} ${section.title} ${item.shortcut}`}
+  //                       onSelect={() => onSearchItemSelect(item)}
+  //                     >
+  //                       {item.icon && (
+  //                         <div className='flex text-xl'>
+  //                           <i className={item.icon} />
+  //                         </div>
+  //                       )}
+  //                       {item.name}
+  //                     </SearchItem>
+  //                   )
+  //                 })}
+  //               </CommandGroup>
+  //             ))
+  //           ) : (
+  //             <CommandEmpty>
+  //               <NoResult searchValue={searchValue} setOpen={setOpen} />
+  //             </CommandEmpty>
+  //           )
+  //         ) : (
+  //           <DefaultSuggestions setOpen={setOpen} />
+  //         )}
+  //       </CommandList>
+  //       <CommandFooter />
+  //     </CommandDialog>
+  //   </>
+  // )
+  return null
 }
 
 export default NavSearch

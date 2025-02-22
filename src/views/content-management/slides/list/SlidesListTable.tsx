@@ -247,7 +247,7 @@ const SlidesListTable = ({ dictionary, id }: { dictionary: Awaited<ReturnType<ty
           setQueryParams={setQueryParams}
           pagination={{
             pageIndex: (queryParams?.page ?? 1) - 1,
-            pageSize: queryParams?.page_limit
+            pageSize: queryParams?.per_page
           }}
           listTitle={keywordsTranslate.slider_slides}
           addUrl={menuUrls.content_management.slider.slides.add.replace(':id', id.toString())}

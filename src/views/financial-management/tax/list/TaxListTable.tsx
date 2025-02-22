@@ -233,7 +233,7 @@ const TaxListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof ge
           setQueryParams={setQueryParams}
           pagination={{
             pageIndex: (queryParams?.page ?? 1) - 1,
-            pageSize: queryParams?.page_limit
+            pageSize: queryParams?.per_page
           }}
           listTitle={keywordsTranslate.taxesGroups}
           addFunctionality={() => {

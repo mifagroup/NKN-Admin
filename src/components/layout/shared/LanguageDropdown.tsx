@@ -37,10 +37,10 @@ const getLocalePath = (pathName: string, locale: string) => {
 }
 
 const languageData: LanguageDataType[] = [
-  {
-    langCode: 'en',
-    langName: 'English'
-  },
+  // {
+  //   langCode: 'en',
+  //   langName: 'English'
+  // },
   {
     langCode: 'fa',
     langName: 'فارسی'
@@ -70,7 +70,7 @@ const LanguageDropdown = () => {
   return (
     <>
       <IconButton ref={anchorRef} onClick={handleToggle} className='text-textPrimary'>
-        <i className='ri-translate-2' />
+        <i className='ri-global-line' />
       </IconButton>
       <Popper
         open={open}

@@ -162,7 +162,7 @@ const PricingPlansListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<
           setQueryParams={setQueryParams}
           pagination={{
             pageIndex: (queryParams?.page ?? 1) - 1,
-            pageSize: queryParams?.page_limit
+            pageSize: queryParams?.per_page
           }}
           listTitle={keywordsTranslate.pricing_plans}
           addFunctionality={() => {

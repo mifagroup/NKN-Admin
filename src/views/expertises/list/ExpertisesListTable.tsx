@@ -70,6 +70,16 @@ const ExpertisesListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<ty
           </div>
         )
       }),
+      columnHelper.accessor('taxonomy', {
+        header: keywordsTranslate.type,
+        cell: ({ row }) => (
+          <div className='flex items-center gap-3'>
+            <Typography className='font-medium' color='text.primary'>
+              {row.original?.taxonomy?.title}
+            </Typography>
+          </div>
+        )
+      }),
 
       columnHelper.accessor('actions', {
         header: keywordsTranslate.actions,
@@ -131,7 +141,7 @@ const ExpertisesListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<ty
           setQueryParams={setQueryParams}
           pagination={{
             pageIndex: (queryParams?.page ?? 1) - 1,
-            pageSize: queryParams?.page_limit
+            pageSize: queryParams?.per_page
           }}
           listTitle={keywordsTranslate.expertises}
           addUrl={menuUrls.expertises.add}

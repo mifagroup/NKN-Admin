@@ -24,6 +24,7 @@ import Link from '@/components/Link'
 import CustomIconButton from '@/@core/components/mui/IconButton'
 import { translateReplacer } from '@/utils/translateReplacer'
 import type { WithActions, ModalHandle } from '@/@core/types'
+import Image from '@/@core/components/image'
 
 // Column Definitions
 const columnHelper = createColumnHelper<WithActions<components['schemas']['DoctorResource']>>()
@@ -61,9 +62,16 @@ const DoctorsListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typeo
         header: keywordsTranslate.title,
         cell: ({ row }) => (
           <div className='flex items-center gap-3'>
-            <Typography className='font-medium' color='text.primary'>
-              {row.original.full_name}
-            </Typography>
+            <Image
+              src={row.original.image?.original_url ?? ''}
+              alt='blog-image'
+              className='rounded-[10px] object-cover'
+            />
+            <div className='flex flex-col'>
+              <Typography className='font-medium' color='text.primary'>
+                {row.original.full_name}
+              </Typography>
+            </div>
           </div>
         )
       }),
@@ -128,7 +136,7 @@ const DoctorsListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typeo
           setQueryParams={setQueryParams}
           pagination={{
             pageIndex: (queryParams?.page ?? 1) - 1,
-            pageSize: queryParams?.page_limit
+            pageSize: queryParams?.per_page
           }}
           listTitle={keywordsTranslate.doctors}
           addUrl={menuUrls.doctors.add}

@@ -252,7 +252,7 @@ const CommentsListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<type
           setQueryParams={setQueryParams}
           pagination={{
             pageIndex: (queryParams?.page ?? 1) - 1,
-            pageSize: queryParams?.page_limit
+            pageSize: queryParams?.per_page
           }}
           listTitle={keywordsTranslate.comments}
           isLoading={isLoadingCommentList}

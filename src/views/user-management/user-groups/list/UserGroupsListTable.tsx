@@ -168,7 +168,7 @@ const UserGroupsListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<ty
           setQueryParams={setQueryParams}
           pagination={{
             pageIndex: (queryParams?.page ?? 1) - 1,
-            pageSize: queryParams?.page_limit
+            pageSize: queryParams?.per_page
           }}
           listTitle={keywordsTranslate.user_groups}
           addUrl={menuUrls.user_management.user_groups.add}

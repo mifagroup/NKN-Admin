@@ -239,7 +239,7 @@ const StoriesListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typeo
           setQueryParams={setQueryParams}
           pagination={{
             pageIndex: (queryParams?.page ?? 1) - 1,
-            pageSize: queryParams?.page_limit
+            pageSize: queryParams?.per_page
           }}
           listTitle={keywordsTranslate.stories}
           addUrl={menuUrls.content_management.story.add}
