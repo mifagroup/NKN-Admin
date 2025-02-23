@@ -1,7 +1,5 @@
-// React Imports
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
-// Utils Imports
 import { Box, Button, Dialog, DialogTitle, IconButton, Slider, Typography } from '@mui/material'
 import EasyCropper from 'react-easy-crop'
 
@@ -29,18 +27,14 @@ const Cropper: React.FC<CropperProps> = ({
 }) => {
   // States
   const [crop, setCrop] = useState<{ x: number; y: number }>({ x: 0, y: 0 })
-
   const [rotation, setRotation] = useState<number>(0)
-
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null)
-
   const [scale, setScale] = useState<number>(1)
+  const [imageAspect, setImageAspect] = useState<number | undefined>(undefined)
 
   // Hooks
   const dictionary = useGetDictionary()
-
   const keywordsTranslate = dictionary?.keywords
-
   const modalTranslate = dictionary?.modal
 
   // Functions
@@ -83,6 +77,18 @@ const Cropper: React.FC<CropperProps> = ({
     }
   }
 
+  useEffect(() => {
+    if (src) {
+      const img = new Image()
+
+      img.src = src
+
+      img.onload = () => {
+        setImageAspect(img.width / img.height)
+      }
+    }
+  }, [src])
+
   return (
     <Dialog open={cropperOpen} onClose={handleCloseCropper} fullWidth>
       <DialogTitle display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
@@ -98,13 +104,13 @@ const Cropper: React.FC<CropperProps> = ({
             crop={crop}
             rotation={rotation}
             zoom={scale}
-            aspect={4 / 3}
             onCropChange={setCrop}
             onRotationChange={setRotation}
             onCropComplete={onCropComplete}
             onZoomChange={setScale}
             classes={{ containerClassName: 'relative h-[400px] w-full' }}
             showGrid={false}
+            aspect={imageAspect}
           />
         )}
         <Box rowGap={2} display={'flex'} flexDirection={'column'}>

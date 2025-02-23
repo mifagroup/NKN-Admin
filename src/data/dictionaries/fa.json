@@ -378,5 +378,9 @@
   "expertise": {
     "editExpertiseTitle": "ویرایش دسته‌بندی",
     "addNewExpertiseTitle": "افزودن دسته‌بندی"
+  },
+  "doctors": {
+    "editDoctorTitle": "ویرایش دکتر",
+    "addNewDoctorTitle": "افزودن دکتر"
   }
 }

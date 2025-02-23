@@ -101,7 +101,7 @@ const DropZone: React.FC<DropZoneProps> = ({
 
             reader.addEventListener('load', () => setSrc(reader.result?.toString() || ''))
             reader.readAsDataURL(file)
-            setCropperOpen(true)
+            setFiles(acceptedFiles)
           } else if (validVideoMimeTypes?.includes(mimeType as VideoMimeType)) {
             // Process media files (video or audio)
             setFiles(acceptedFiles)
@@ -120,10 +120,18 @@ const DropZone: React.FC<DropZoneProps> = ({
   const renderFilePreview = (file: File | string) => {
     if (typeof file === 'string') {
       if (validImageMimeTypes?.includes(mimeType as ImageMimeType))
-        return <Image width={50} height={50} alt={'image'} src={file} />
+        return <Image width={50} height={50} alt={'image'} src={file} className='object-contain' />
       if (validVideoMimeTypes?.includes(mimeType as VideoMimeType)) return <Video preview={file} src={file} />
     } else if (file.type.startsWith('image')) {
-      return <Image width={50} height={50} alt={file.name} src={URL.createObjectURL(file as any)} />
+      return (
+        <Image
+          width={50}
+          height={50}
+          alt={file.name}
+          src={URL.createObjectURL(file as any)}
+          className='object-contain'
+        />
+      )
     } else if (file.type.startsWith('application')) {
       return <i className='ri-file-text-line' />
     } else if (file.type.startsWith('video')) {

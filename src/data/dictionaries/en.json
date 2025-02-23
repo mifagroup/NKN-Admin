@@ -378,5 +378,9 @@
   "expertise": {
     "editExpertiseTitle": "Edit Expertise",
     "addNewExpertiseTitle": "Add Expertise"
+  },
+  "doctors": {
+    "editDoctorTitle": "Edit Doctor",
+    "addNewDoctorTitle": "Add Doctor"
   }
 }

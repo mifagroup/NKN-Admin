@@ -51,7 +51,7 @@ const DoctorForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof 
 
   const keywordsTranslate = dictionary.keywords
 
-  const expertisesTranslate = dictionary.expertise
+  const doctorsTranslate = dictionary.doctors
 
   const validationErrors = dictionary.unique_validation_errors
 
@@ -231,7 +231,7 @@ const DoctorForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof 
               <div className='flex flex-wrap sm:items-center justify-between max-sm:flex-col gap-6'>
                 <div>
                   <Typography variant='h4' className='mbe-1'>
-                    {id ? expertisesTranslate.editExpertiseTitle : expertisesTranslate.addNewExpertiseTitle}
+                    {id ? doctorsTranslate.editDoctorTitle : doctorsTranslate.addNewDoctorTitle}
                   </Typography>
                 </div>
                 <div className='flex flex-wrap max-sm:flex-col gap-4'>
