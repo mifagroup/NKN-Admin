@@ -21,7 +21,7 @@ type IAutocompleteProps = {
   disabled?: boolean
 }
 
-const ExpertiseAutocomplete = ({
+const TaxonomyAutocomplete = ({
   error = false,
   multiple = false,
   label,
@@ -41,7 +41,7 @@ const ExpertiseAutocomplete = ({
 
   const { queryParams, setQueryParams } = useQueryParams()
 
-  const { data: expertisesData, isLoading: isLoadingExpertises } = useFetch().useQuery('get', '/terms', {
+  const { data: taxonomiesData, isLoading: isLoadingTaxonomies } = useFetch().useQuery('get', '/taxonomies', {
     params: {
       query: {
         ...queryParams
@@ -61,7 +61,7 @@ const ExpertiseAutocomplete = ({
     setOpen(false)
   }
 
-  const options = expertisesData?.data?.map(exp => ({ value: exp.id, label: exp.title ?? '' }))
+  const options = taxonomiesData?.data?.map(taxonomy => ({ value: taxonomy.id, label: taxonomy.title ?? '' }))
 
   return (
     <div className='flex items-center gap-x-2'>
@@ -85,7 +85,7 @@ const ExpertiseAutocomplete = ({
         options={options ?? []}
         value={value}
         onChange={(_, data) => onChange?.(data)}
-        loading={isLoadingExpertises}
+        loading={isLoadingTaxonomies}
         renderInput={params => (
           <DebouncedInput
             {...params}
@@ -105,7 +105,7 @@ const ExpertiseAutocomplete = ({
               ...params.InputProps,
               endAdornment: (
                 <React.Fragment>
-                  {isLoadingExpertises ? <CircularProgress color='inherit' size={20} /> : null}
+                  {isLoadingTaxonomies ? <CircularProgress color='inherit' size={20} /> : null}
                   {params.InputProps.endAdornment}
                 </React.Fragment>
               )
@@ -117,4 +117,4 @@ const ExpertiseAutocomplete = ({
   )
 }
 
-export default ExpertiseAutocomplete
+export default TaxonomyAutocomplete

@@ -1,7 +1,7 @@
 'use client'
 
 // React Imports
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 
 // Next Imports
 import { useRouter } from 'next/navigation'
@@ -34,15 +34,10 @@ import { translateReplacer } from '@/utils/translateReplacer'
 
 // Component Imports
 import type { getDictionary } from '@/utils/getDictionary'
-import { useStatuses } from '@/@core/hooks/useStatuses'
-import { type IAutocompleteRef } from '@/@core/components/autoComplete/AutoComplete'
-import DropZone from '@/@core/components/dropzone/DropZone'
-import TextEditor from '@/@core/components/textEditor/TextEditor'
 import { setFormErrors } from '@/utils/setFormErrors'
 import { menuUrls } from '@/@menu/utils/menuUrls'
-import { slugSchema } from '@/schemas/slugSchema'
 import TextField from '@/@core/components/textField'
-import type { ImageMimeType, VideoMimeType } from '@/@core/types'
+import TaxonomyAutocomplete from '@/@core/components/taxonomyAutocomplete'
 
 const ExpertiseForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof getDictionary>>; id?: number }) => {
   // Vars
@@ -53,11 +48,7 @@ const ExpertiseForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<type
 
   const expertisesTranslate = dictionary.expertise
 
-  const validationErrors = dictionary.unique_validation_errors
-
   const inputTranslate = dictionary.input
-
-  const editorTranslate = dictionary.editor
 
   type FormData = z.infer<typeof schema>
 
@@ -67,23 +58,24 @@ const ExpertiseForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<type
     title: z.string({ required_error: `${keywordsTranslate.title} ${keywordsTranslate.isRequired}` }),
     taxonomy_id: z.union(
       [
-        z
-          .object({
+        z.object(
+          {
             label: z.string().optional(),
             value: z.number().optional()
-          })
-          .optional(),
+          },
+          {
+            required_error: `${keywordsTranslate.type} ${keywordsTranslate.isRequired}`
+          }
+        ),
         z.null()
       ],
-      { required_error: `${keywordsTranslate.taxonomy} ${keywordsTranslate.isRequired}` }
+      {
+        required_error: `${keywordsTranslate.type} ${keywordsTranslate.isRequired}`
+      }
     )
   })
 
   // Hooks
-
-  const { data: taxonomiesData, isLoading: isLoadingTaxonomies } = useFetch().useQuery('get', '/taxonomies')
-
-  const taxonomies = taxonomiesData?.data
 
   const { data: singleExpertiseData, isLoading: isLoadingSingleExpertise } = useFetch().useQuery(
     'get',
@@ -106,10 +98,7 @@ const ExpertiseForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<type
     if (singleExpertise) {
       setValue('title', singleExpertise.title ?? '')
       if (singleExpertise.taxonomy)
-        setValue('taxonomy_id', {
-          label: singleExpertise.taxonomy?.title,
-          value: singleExpertise.taxonomy?.id
-        })
+        setValue('taxonomy_id', { label: singleExpertise.taxonomy?.title, value: singleExpertise.taxonomy?.id })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleExpertise])
@@ -131,8 +120,6 @@ const ExpertiseForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<type
 
   // Functions
   const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
-    console.log(data)
-
     if (!id) {
       await addExpertise({
         body: {
@@ -152,7 +139,10 @@ const ExpertiseForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<type
       await editExpertise({
         body: {
           title: data.title,
-          taxonomy_id: data.taxonomy_id?.value ?? 0
+          taxonomy_id: data.taxonomy_id?.value ?? 0,
+          is_main: true,
+          is_filter: true,
+          is_footer: true
         },
         params: {
           path: {
@@ -171,7 +161,7 @@ const ExpertiseForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<type
     }
   }
 
-  if (id && isLoadingSingleExpertise && isLoadingTaxonomies) {
+  if (id && isLoadingSingleExpertise) {
     return <LinearProgress />
   }
 
@@ -221,27 +211,19 @@ const ExpertiseForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<type
                     </Grid>
 
                     <Grid item xs={12} md={6}>
-                      <FormControl fullWidth error={!!errors.taxonomy_id}>
-                        <InputLabel>{keywordsTranslate.taxonomy}</InputLabel>
+                      <FormControl fullWidth>
                         <Controller
                           name='taxonomy_id'
                           control={control}
-                          rules={{ required: true }}
                           render={({ field }) => {
                             return (
-                              <Select
-                                label={keywordsTranslate.taxonomy}
-                                defaultValue={taxonomies?.find(taxonomy => taxonomy.id === field?.value?.value)?.title}
-                                onChange={event => {
-                                  field.onChange(event.target.value)
-                                }}
-                              >
-                                {taxonomies?.map(taxonomy => (
-                                  <MenuItem key={taxonomy.id} value={taxonomy.id}>
-                                    {taxonomy.title}
-                                  </MenuItem>
-                                ))}
-                              </Select>
+                              <TaxonomyAutocomplete
+                                {...field}
+                                {...(errors.taxonomy_id && { error: true, helperText: errors.taxonomy_id.message })}
+                                label={`${keywordsTranslate.type}`}
+                                value={field.value ?? null}
+                                onChange={value => field.onChange(value)}
+                              />
                             )
                           }}
                         />
