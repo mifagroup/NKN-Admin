@@ -86,8 +86,7 @@ export const authOptions = () => {
         options: {
           httpOnly: false,
           path: '/'
-        }
-      }
+        }      }
     },
 
     secret: process.env.NEXTAUTH_SECRET

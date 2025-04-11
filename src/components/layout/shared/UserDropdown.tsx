@@ -80,14 +80,16 @@ const UserDropdown = () => {
 
   const handleUserLogout = async () => {
     try {
-      // Sign out from the app
-      await signOut({ callbackUrl: `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/login` })
-      await logOutApi({})
+      const response:any = await logOutApi({})
+ 
+      if (response) {
+        document.cookie = 'auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT';
+        window.location.href = `/${locale}/login`;
+
+      } else {
+      }
     } catch (error) {
       console.error(error)
-
-      // Show above error in a toast like following
-      // toastService.error((err as Error).message)
     }
   }
 
