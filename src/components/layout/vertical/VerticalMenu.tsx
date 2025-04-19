@@ -94,7 +94,6 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
         menuSectionStyles={menuSectionStyles(verticalNavOptions, theme)}
       >
         {/* Dashboard */}
-
         <MenuItem
           href={`/${locale}`}
           icon={<i className='ri-dashboard-line text-[20px]' />}
@@ -102,7 +101,6 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
         >
           {navigationTranslate.dashboard}
         </MenuItem>
-
         {isAdmin && (
           <MenuSection label={navigationTranslate.hospitals}>
             <MenuItem
@@ -121,7 +119,6 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
             </MenuItem>
           </MenuSection>
         )}
-
         {(isAdmin || isDoctor) && (
           <MenuSection label={navigationTranslate.blogs}>
             <MenuItem
@@ -133,6 +130,42 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
             </MenuItem>
             <MenuItem
               href={`/${locale}${menuUrls.blogs.add}`}
+              icon={<i className='ri-add-box-line text-[20px]' />}
+              title={keywordsTranslate.add}
+            >
+              {keywordsTranslate.add}
+            </MenuItem>
+          </MenuSection>
+        )}{' '}
+        {(isAdmin || isDoctor) && (
+          <MenuSection label={navigationTranslate.news}>
+            <MenuItem
+              href={`/${locale}${menuUrls.news.list}`}
+              icon={<i className='ri-list-unordered text-[20px]' />}
+              title={keywordsTranslate.list}
+            >
+              {keywordsTranslate.list}
+            </MenuItem>
+            <MenuItem
+              href={`/${locale}${menuUrls.news.add}`}
+              icon={<i className='ri-add-box-line text-[20px]' />}
+              title={keywordsTranslate.add}
+            >
+              {keywordsTranslate.add}
+            </MenuItem>
+          </MenuSection>
+        )}{' '}
+        {(isAdmin || isDoctor) && (
+          <MenuSection label={navigationTranslate.social_responsibility}>
+            <MenuItem
+              href={`/${locale}${menuUrls.social_responsibility.list}`}
+              icon={<i className='ri-list-unordered text-[20px]' />}
+              title={keywordsTranslate.list}
+            >
+              {keywordsTranslate.list}
+            </MenuItem>
+            <MenuItem
+              href={`/${locale}${menuUrls.social_responsibility.add}`}
               icon={<i className='ri-add-box-line text-[20px]' />}
               title={keywordsTranslate.add}
             >

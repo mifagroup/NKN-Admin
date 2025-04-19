@@ -44,7 +44,15 @@ import { slugSchema } from '@/schemas/slugSchema'
 import TextField from '@/@core/components/textField'
 import type { ImageMimeType, VideoMimeType } from '@/@core/types'
 
-const BlogForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof getDictionary>>; id?: string }) => {
+const BlogForm = ({
+  dictionary,
+  id,
+  type
+}: {
+  dictionary: Awaited<ReturnType<typeof getDictionary>>
+  id?: string
+  type: string
+}) => {
   // Vars
 
   const router = useRouter()
@@ -147,6 +155,7 @@ const BlogForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
     formData.append('published', data.published)
     formData.append('slug', data.slug ?? '')
     formData.append('duration', data.duration ?? '')
+    formData.append('type', type)
 
     if (data.main_image && data.main_image instanceof File) {
       formData.append('main_image', data.main_image)

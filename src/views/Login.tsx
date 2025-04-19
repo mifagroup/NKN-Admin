@@ -133,7 +133,7 @@ const Login = ({ mode, dictionary }: { mode: Mode; dictionary: Awaited<ReturnTyp
       errors?.['email'] && setError('email', { message: errors['email'] })
       errors?.['password'] && setError('password', { message: errors['password'] })
     }
- 
+
     if (res && res.ok && res.error === null) {
       // Vars
       setIsLoading(false)

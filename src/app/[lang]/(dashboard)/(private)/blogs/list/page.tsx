@@ -13,7 +13,7 @@ const Page = async ({ params }: { params: { lang: Locale } }) => {
 
   return (
     <Grid item xs={12}>
-      <BlogsListTable dictionary={dictionary} />
+      <BlogsListTable dictionary={dictionary} type='blog' />
     </Grid>
   )
 }

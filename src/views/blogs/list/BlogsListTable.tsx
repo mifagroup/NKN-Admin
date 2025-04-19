@@ -41,7 +41,13 @@ type BlogWithActionsType = components['schemas']['BlogResource'] & {
 // Column Definitions
 const columnHelper = createColumnHelper<BlogWithActionsType>()
 
-const BlogsListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof getDictionary>> }) => {
+const BlogsListTable = ({
+  dictionary,
+  type
+}: {
+  dictionary: Awaited<ReturnType<typeof getDictionary>>
+  type: string
+}) => {
   // States
   const [selectedItemId, setSelectedItemId] = useState<string>()
 
@@ -61,6 +67,7 @@ const BlogsListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof 
     params: {
       query: {
         ...queryParams,
+        'filter[type]': type,
         'filter[user_id]': isDoctor ? authData?.data?.id : undefined
       }
     }

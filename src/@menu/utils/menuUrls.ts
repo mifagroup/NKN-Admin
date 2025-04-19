@@ -23,6 +23,16 @@ export const menuUrls = {
     add: '/expertises/add',
     edit: '/expertises/edit'
   },
+  news: {
+    list: '/news/list',
+    add: '/news/add',
+    edit: '/news/edit'
+  },
+  social_responsibility: {
+    list: '/social_responsibility/list',
+    add: '/social_responsibility/add',
+    edit: '/social_responsibility/edit'
+  },
   doctors: {
     list: '/doctors/list',
     add: '/doctors/add',
