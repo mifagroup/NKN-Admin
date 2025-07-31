@@ -452,7 +452,7 @@ const DoctorForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof 
                         render={({ field }) => (
                           <TextEditor
                             placeholder={editorTranslate.fullDescriptionPlaceholder}
-                            onChange={editor => field.onChange(editor.editor.getHTML())}
+                            onChange={editor => field.onChange(editor)}
                             value={field.value ?? ''}
                           />
                         )}

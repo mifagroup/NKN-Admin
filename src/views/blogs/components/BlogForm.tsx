@@ -81,14 +81,21 @@ const BlogForm = ({
       z.instanceof(File, { message: `${keywordsTranslate.type} ${keywordsTranslate.isRequired}` })
     ]),
     published: z.string(),
-    slug: slugSchema(
-      validationErrors.slugStartWithHyphen,
-      validationErrors.slugContainConsecutiveHyphens,
-      validationErrors.lowercaseNumberHyphenLengthError,
-      validationErrors.slugEndWithHyphen,
-      !!id
-    )
+    slug: z.string().optional()
   })
+
+  // Functions
+  const getListUrlByType = (contentType: string) => {
+    switch (contentType) {
+      case 'news':
+        return menuUrls.news.list
+      case 'social_responsibility':
+        return menuUrls.social_responsibility.list
+      case 'blog':
+      default:
+        return menuUrls.blogs.list
+    }
+  }
 
   // Hooks
 
@@ -109,10 +116,7 @@ const BlogForm = ({
     }
   )
 
-  const singleBlog = singleBlogData?.data
-
-  console.log(singleBlog)
-
+  const singleBlog = singleBlogData?.data 
   useEffect(() => {
     if (singleBlog) {
       setValue('title', singleBlog.title ?? '')
@@ -120,7 +124,7 @@ const BlogForm = ({
       setValue('description', singleBlog.description ?? '')
       setValue('duration', singleBlog.duration ?? '')
 
-      // setValue('published', singleBlog.published?.value ? '1' : '0')
+      setValue('published', singleBlog.published_at ? '1' : '0')
       setValue('main_image', singleBlog.main_image?.original_url ?? '')
       setValue('slug', singleBlog.slug ?? '')
     }
@@ -140,7 +144,7 @@ const BlogForm = ({
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      published: '1',
+      published: '',
       description: ''
     }
   })
@@ -161,6 +165,8 @@ const BlogForm = ({
       formData.append('main_image', data.main_image)
     }
 
+    const redirectUrl = getListUrlByType(type)
+
     if (!id) {
       await addBlog({
         body: formData as any
@@ -168,7 +174,7 @@ const BlogForm = ({
         .then(res => {
           // @ts-ignore
           toast.success(res.message)
-          router.push(menuUrls.blogs.list)
+          router.push(redirectUrl)
         })
         .catch(e => {
           setFormErrors(e, setError)
@@ -185,7 +191,7 @@ const BlogForm = ({
         .then(res => {
           // @ts-ignore
           toast.success(res.message)
-          router.push(menuUrls.blogs.list)
+          router.push(redirectUrl)
         })
         .catch(e => {
           setFormErrors(e, setError)
@@ -309,7 +315,7 @@ const BlogForm = ({
                         render={({ field }) => (
                           <TextEditor
                             placeholder={editorTranslate.fullDescriptionPlaceholder}
-                            onChange={editor => field.onChange(editor.editor.getHTML())}
+                            onChange={editor => field.onChange(editor)}
                             value={field.value ?? ''}
                           />
                         )}
@@ -368,6 +374,7 @@ const BlogForm = ({
                               <TextField
                                 {...field}
                                 fullWidth
+                                disabled
                                 type='text'
                                 placeholder={translateReplacer(inputTranslate.placeholder, keywordsTranslate.slug)}
                                 label={keywordsTranslate.slug}

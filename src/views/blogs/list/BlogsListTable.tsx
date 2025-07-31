@@ -61,14 +61,39 @@ const BlogsListTable = ({
 
   const { data: authData } = useMe()
 
-  const isDoctor = authData?.data?.role[0] === 'DOC'
+  const isDoctor = authData?.role?.[0] === 'DOC'
+
+  // Functions
+  const getAddUrlByType = (contentType: string) => {
+    switch (contentType) {
+      case 'news':
+        return menuUrls.news.add
+      case 'social_responsibility':
+        return menuUrls.social_responsibility.add
+      case 'blog':
+      default:
+        return menuUrls.blogs.add
+    }
+  }
+
+  const getEditUrlByType = (contentType: string) => {
+    switch (contentType) {
+      case 'news':
+        return menuUrls.news.edit
+      case 'social_responsibility':
+        return menuUrls.social_responsibility.edit
+      case 'blog':
+      default:
+        return menuUrls.blogs.edit
+    }
+  }
 
   const { data, isFetching: isLoadingBlogsList } = useFetch().useQuery('get', '/blogs', {
     params: {
       query: {
         ...queryParams,
         'filter[type]': type,
-        'filter[user_id]': isDoctor ? authData?.data?.id : undefined
+        'filter[user_id]': isDoctor ? authData?.id : undefined
       }
     }
   })
@@ -89,7 +114,7 @@ const BlogsListTable = ({
         cell: ({ row }) => (
           <div className='flex items-center gap-3'>
             <Image
-              src={row.original.main_image?.original_url ?? ''}
+              src={(row.original.main_image as any)?.original_url ?? ''}
               alt='blog-image'
               className='rounded-[10px] object-cover'
             />
@@ -101,33 +126,13 @@ const BlogsListTable = ({
           </div>
         )
       }),
-      columnHelper.accessor('sub_title', {
-        header: keywordsTranslate.sub_title,
-        cell: ({ row }) => (
-          <div className='flex items-center gap-3'>
-            <Typography color='text.primary'>{row.original.sub_title}</Typography>
-          </div>
-        )
-      }),
       columnHelper.accessor('duration', {
         header: keywordsTranslate.duration,
         cell: ({ row }) => (
           <div className='flex items-center gap-3'>
             <div className='flex flex-col'>
               <Typography className='font-medium' color='text.primary'>
-                {row.original.duration} {keywordsTranslate.minute}
-              </Typography>
-            </div>
-          </div>
-        )
-      }),
-      columnHelper.accessor('slug', {
-        header: keywordsTranslate.slug,
-        cell: ({ row }) => (
-          <div className='flex items-center gap-3'>
-            <div className='flex flex-col'>
-              <Typography className='font-medium' color='text.primary'>
-                {row.original.slug}
+                {row.original.duration ? `${row.original.duration} ${keywordsTranslate.minute}` : '-'}
               </Typography>
             </div>
           </div>
@@ -138,7 +143,7 @@ const BlogsListTable = ({
         cell: ({ row }) => (
           <div className='flex items-center'>
             <CustomIconButton size='small' title={keywordsTranslate.edit}>
-              <Link className='flex' href={`${menuUrls.blogs.edit}/${row.original.slug}`}>
+              <Link href={`${getEditUrlByType(type)}/${row.original.slug}`}>
                 <i className='ri-edit-box-line text-[22px] text-textSecondary' />
               </Link>
             </CustomIconButton>
@@ -159,7 +164,7 @@ const BlogsListTable = ({
       })
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data]
+    [data, type]
   )
 
   // Functions
@@ -204,14 +209,17 @@ const BlogsListTable = ({
           columns={columns}
           data={data}
           debouncedInputPlaceholder={`${keywordsTranslate.search} ${keywordsTranslate.blog}`}
-          queryParams={queryParams}
+          queryParams={{
+            ...queryParams,
+            'filter[type]': type
+          } as any}
           setQueryParams={setQueryParams}
           pagination={{
             pageIndex: (queryParams?.page ?? 1) - 1,
             pageSize: queryParams?.per_page
           }}
           listTitle={keywordsTranslate.blogs}
-          addUrl={menuUrls.blogs.add}
+          addUrl={getAddUrlByType(type)}
           isLoading={isLoadingBlogsList}
         />
         <DeleteModal

@@ -7,6 +7,7 @@ import DebouncedInput from '../custom-inputs/DebouncedInput'
 import { useFetch } from '@/utils/clientRequest'
 import { useQueryParams } from '@/@core/hooks/useQueryParams'
 import type { OptionType } from '@/@core/types'
+import { log } from 'node:console'
 
 type IAutocompleteProps = {
   error?: boolean

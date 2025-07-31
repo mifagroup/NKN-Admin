@@ -7,7 +7,6 @@ import { useSearchParams } from 'next/navigation'
 export type QueryParamsType = {
   page?: number
   per_page?: number
-  per_page?: number
   filter?: any
   sort?: string
 }
@@ -17,7 +16,7 @@ export const useQueryParams = <T>(per_page?: number) => {
 
   const [queryParams, setQueryParams] = useState<QueryParamsType>({
     page: 1,
-    per_page: per_page ?? 10
+    per_page: per_page ?? 10,
   })
 
   useEffect(() => {

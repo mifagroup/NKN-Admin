@@ -65,10 +65,6 @@ const HospitalForm = forwardRef<DrawerHandle, HospitalFormProps>(({ dictionary, 
       z.string({ required_error: `${keywordsTranslate.image} ${keywordsTranslate.isRequired}` }),
       z.instanceof(File, { message: `${keywordsTranslate.type} ${keywordsTranslate.isRequired}` })
     ]),
-    main_thumbnail: z.union([
-      z.string({ required_error: `${keywordsTranslate.image} ${keywordsTranslate.isRequired}` }),
-      z.instanceof(File, { message: `${keywordsTranslate.type} ${keywordsTranslate.isRequired}` })
-    ])
   })
 
   // Hooks
@@ -106,7 +102,6 @@ const HospitalForm = forwardRef<DrawerHandle, HospitalFormProps>(({ dictionary, 
       setValue('address_link', singleHospital?.address_link ?? '')
       setValue('image', singleHospital?.image?.original_url ?? '')
       setValue('thumbnail', singleHospital?.thumbnail?.original_url ?? '')
-      setValue('main_thumbnail', singleHospital?.main_thumbnail?.original_url ?? '')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleHospital])
@@ -144,9 +139,6 @@ const HospitalForm = forwardRef<DrawerHandle, HospitalFormProps>(({ dictionary, 
       formData.append('thumbnail', data.thumbnail)
     }
 
-    if (data.main_thumbnail && data.main_thumbnail instanceof File) {
-      formData.append('main_thumbnail', data.main_thumbnail)
-    }
 
     if (!id) {
       await addHospital({
@@ -359,30 +351,7 @@ const HospitalForm = forwardRef<DrawerHandle, HospitalFormProps>(({ dictionary, 
 
                       {errors.thumbnail && <FormHelperText error>{errors.thumbnail?.message}</FormHelperText>}
                     </Grid>
-                    <Grid item xs={12} display={'flex'} flexDirection={'column'} rowGap={2}>
-                      <FormLabel>{keywordsTranslate.main_thumbnail}</FormLabel>
-                      <Controller
-                        name='main_thumbnail'
-                        control={control}
-                        render={({ field }) => (
-                          <DropZone
-                            files={
-                              field.value
-                                ? typeof field.value === 'string'
-                                  ? [field.value]
-                                  : [field.value as File]
-                                : []
-                            }
-                            mimeType={id ? (singleHospital?.main_thumbnail?.extension as ImageMimeType) : undefined}
-                            setFiles={(images: any) => field.onChange(images[0])}
-                            type='image'
-                            error={!!errors.main_thumbnail}
-                          />
-                        )}
-                      />
-
-                      {errors.main_thumbnail && <FormHelperText error>{errors.main_thumbnail?.message}</FormHelperText>}
-                    </Grid>
+                
                   </Grid>
                 </CardContent>
               </Card>

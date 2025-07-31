@@ -8,7 +8,7 @@ import BlogForm from '@/views/blogs/components/BlogForm'
 const page = async ({ params }: { params: { lang: Locale } }) => {
   const dictionary = await getDictionary(params.lang)
 
-  return <BlogForm dictionary={dictionary} type='news' />
+  return <BlogForm dictionary={dictionary} type='social_responsibility' />
 }
 
 export default page
