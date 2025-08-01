@@ -97,6 +97,11 @@ export const menuUrls = {
     }
   },
   user_management: {
+    users: {
+      list: '/user-management/users/list',
+      add: '/user-management/users/add',
+      edit: '/user-management/users/edit'
+    },
     user_groups: {
       list: '/user-management/user-groups/list',
       add: '/user-management/user-groups/add',

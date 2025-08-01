@@ -29,6 +29,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/auth/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Refresh authentication token
+         * @description Refresh the authentication token using refresh token
+         */
+        put: operations["5a58f12544175cff1995af27dfdb9469"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/blogs": {
         parameters: {
             query?: never;
@@ -200,6 +220,43 @@ export interface paths {
          * @description Returns delete status
          */
         delete: operations["61bde55e77855d5fd5394f8c990640a7"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/roles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get list of roles
+         * @description Retrieve all available roles in the system
+         */
+        get: operations["6e28bdec08d7292bde33180ca5928718"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** جستجوی دکترها و ترم‌ها */
+        get: operations["searchIndex"];
+        put?: never;
+        post?: never;
+        delete?: never;
         options?: never;
         head?: never;
         patch?: never;
@@ -379,6 +436,58 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/users": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get list of users
+         * @description Retrieve paginated and filtered list of users
+         */
+        get: operations["7e2f5799553ec93c9c43e2a58490d447"];
+        put?: never;
+        /**
+         * Create a new user
+         * @description Store a newly created user in storage
+         */
+        post: operations["a1fce870c566eb5fc0cf3178ec5d2fed"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/users/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get user information
+         * @description Returns user data
+         */
+        get: operations["910a0c7cf580e1c605648d82a4e57f46"];
+        /**
+         * Update existing user
+         * @description Returns updated user data. Note: Role cannot be changed via update.
+         */
+        put: operations["ddfe232db1870b82493bf8bd25596d37"];
+        post?: never;
+        /**
+         * Delete user
+         * @description Deletes a user and returns no content
+         */
+        delete: operations["43dd20becb1f47444e484cbb18ce345c"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -411,6 +520,29 @@ export interface components {
             to: number;
             total: number;
         };
+        /**
+         * ValidationErrorResponse
+         * @description 422 Validation Error Response
+         */
+        ValidationErrorResponse: {
+            /**
+             * @description Validation error message
+             * @example خطا در اعتبارسنجی ورودی‌ها
+             */
+            message: string;
+            /**
+             * @description Field validation errors
+             * @example {
+             *       "email": [
+             *         "The email field is required."
+             *       ],
+             *       "password": [
+             *         "The password field must be at least 8 characters."
+             *       ]
+             *     }
+             */
+            errors: Record<string, never>;
+        };
         StoreAuthResourceRequest: {
             /** @description email of user */
             email: string;
@@ -430,6 +562,10 @@ export interface components {
             description: string;
             /** @description Duration of the blog */
             duration?: number | null;
+            /** @description type of blog. values: blog,news,social_responsibilty . default: blog */
+            type?: string | null;
+            /** @description publish status of the blog  */
+            published?: boolean | null;
             /**
              * Format: binary
              * @description Main image of the blog
@@ -485,11 +621,6 @@ export interface components {
              * @description thumbnail file for the hospital
              */
             thumbnail: string;
-            /**
-             * Format: binary
-             * @description main thumbnail file for the hospital
-             */
-            main_thumbnail: string;
         };
         StoreSlideResourceRequest: {
             /** @description The title of the slide */
@@ -499,7 +630,7 @@ export interface components {
             /** @description A description of the slide */
             description?: string;
             /** @description The ordering number for the slide */
-            ordering: number;
+            ordering?: number;
             /**
              * Format: uri
              * @description The link related to the slide
@@ -530,6 +661,59 @@ export interface components {
             slug?: string;
         };
         /**
+         * Store User Request
+         * @description Request body for creating a new user
+         */
+        StoreUserRequest: {
+            /**
+             * @description User's first name
+             * @example John
+             */
+            firstname: string;
+            /**
+             * @description User's last name
+             * @example Doe
+             */
+            lastname: string;
+            /**
+             * Format: email
+             * @description User's email address (must be unique)
+             * @example john.doe@example.com
+             */
+            email: string;
+            /**
+             * @description User's phone number (must be unique)
+             * @example +1234567890
+             */
+            phone: string;
+            /**
+             * Format: password
+             * @description User's password (minimum 8 characters)
+             * @example password123
+             */
+            password: string;
+            /**
+             * Format: password
+             * @description Password confirmation (must match password)
+             * @example password123
+             */
+            password_confirmation: string;
+            /**
+             * @description ID of the role to assign to the user
+             * @example 1
+             */
+            role_id: number;
+            /**
+             * @description Doctor ID (required only when role is 'doc')
+             * @example 5
+             */
+            doctor_id?: number | null;
+        };
+        UpdateAuthResourceRequest: {
+            /** @description Refresh token for authentication */
+            refresh_token: string;
+        };
+        /**
          * Update Blog Request
          * @description Request body for updating a blog
          */
@@ -543,7 +727,7 @@ export interface components {
             /** @description Duration of the blog */
             duration?: number | null;
             /** @description publish status of the blog default is false */
-            publish?: boolean | null;
+            published?: boolean | null;
             /**
              * Format: binary
              * @description Main image of the blog
@@ -611,7 +795,7 @@ export interface components {
             /** @description A description of the slide */
             description?: string;
             /** @description The ordering number for the slide */
-            ordering: number;
+            ordering?: number;
             /**
              * Format: uri
              * @description The link related to the slide
@@ -648,6 +832,45 @@ export interface components {
             is_filter?: boolean;
             /** @description category item show on client footer */
             is_footer?: boolean;
+        };
+        /**
+         * Update User Request
+         * @description Request body for updating an existing user. Note: Role cannot be changed via update.
+         */
+        UpdateUserRequest: {
+            /**
+             * @description User's first name
+             * @example John
+             */
+            firstname?: string | null;
+            /**
+             * @description User's last name
+             * @example Doe
+             */
+            lastname?: string | null;
+            /**
+             * Format: email
+             * @description User's email address (must be unique)
+             * @example john.doe@example.com
+             */
+            email?: string | null;
+            /**
+             * @description User's phone number (must be unique)
+             * @example +1234567890
+             */
+            phone?: string | null;
+            /**
+             * Format: password
+             * @description User's new password (minimum 8 characters)
+             * @example newpassword123
+             */
+            password?: string | null;
+            /**
+             * Format: password
+             * @description Password confirmation (must match password if password is provided)
+             * @example newpassword123
+             */
+            password_confirmation?: string | null;
         };
         /**
          * Blog Resource
@@ -748,21 +971,48 @@ export interface components {
             main_terms?: components["schemas"]["TermResource"][];
             /** @description terms list of home page */
             footer_terms?: components["schemas"]["TermResource"][];
+            news?: components["schemas"]["BlogResource"][];
             /** @description hospital list of home page */
             hospitals?: components["schemas"]["HospitalResource"][];
+            /** @description Blog list of home page */
+            blogs?: components["schemas"]["BlogResource"][];
         };
         HospitalResource: {
             id: number;
             /** @description The name of the hospital */
             name: string;
+            /** @description The full name of the hospital */
+            full_name?: string;
             fax: string;
             address?: string;
             address_link?: string;
+            website_link?: string;
             /** Format: uri */
             email: string;
             image: components["schemas"]["FileResource"];
-            main_thumbnail: components["schemas"]["FileResource"];
             thumbnail: components["schemas"]["FileResource"];
+        };
+        /**
+         * RoleResource
+         * @description Role resource
+         */
+        RoleResource: {
+            /** @description ID of the role */
+            id: number;
+            /** @description Name of the role */
+            name: string;
+            /** @description Guard name of the role */
+            guard_name?: string;
+            /**
+             * Format: date-time
+             * @description Creation timestamp
+             */
+            created_at?: string;
+            /**
+             * Format: date-time
+             * @description Last update timestamp
+             */
+            updated_at?: string;
         };
         SlideResource: {
             /** @description The title of the slide */
@@ -923,6 +1173,15 @@ export interface operations {
                 };
                 content?: never;
             };
+            /** @description Validation error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorResponse"];
+                };
+            };
         };
     };
     df2eee26444444a49a587c8073a4bf74: {
@@ -957,6 +1216,46 @@ export interface operations {
             };
         };
     };
+    "5a58f12544175cff1995af27dfdb9469": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateAuthResourceRequest"];
+            };
+        };
+        responses: {
+            /** @description Token refreshed successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorResponse"];
+                };
+            };
+        };
+    };
     getBlogs: {
         parameters: {
             query?: {
@@ -967,6 +1266,8 @@ export interface operations {
                 /** @description Search term to filter blogs by title or sub_title */
                 "filter[search]"?: string;
                 "filter[user_id]"?: number;
+                /** @description 'news', 'blog' , social_responsibility */
+                "filter[type]"?: string;
                 /** @description Sort blogs by title : 'title', 'duration', 'sub_title', 'created_at', 'published_at' */
                 sort?: string;
             };
@@ -1027,6 +1328,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Validation error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorResponse"];
+                };
             };
         };
     };
@@ -1113,6 +1423,15 @@ export interface operations {
                 };
                 content?: never;
             };
+            /** @description Validation error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorResponse"];
+                };
+            };
         };
     };
     deleteBlog: {
@@ -1171,6 +1490,8 @@ export interface operations {
                 "filter[gender]"?: string;
                 /** @description filter doctrs by terms and explode by , example:26,25 */
                 "filter[terms]"?: string;
+                /** @description filter doctrs by terms slug */
+                "filter[slug]"?: string;
                 /** @description filter doctrs by hospital_id */
                 "filter[hospital]"?: number;
             };
@@ -1217,6 +1538,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Validation error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorResponse"];
+                };
             };
             /** @description Internal server error */
             500: {
@@ -1302,6 +1632,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Validation error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorResponse"];
+                };
             };
             /** @description Internal server error */
             500: {
@@ -1437,6 +1776,15 @@ export interface operations {
                 };
                 content?: never;
             };
+            /** @description Validation error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorResponse"];
+                };
+            };
         };
     };
     b45a9fedc9ccff7d6e29c17b60ec200f: {
@@ -1531,6 +1879,15 @@ export interface operations {
                 };
                 content?: never;
             };
+            /** @description Validation error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorResponse"];
+                };
+            };
         };
     };
     "61bde55e77855d5fd5394f8c990640a7": {
@@ -1568,6 +1925,69 @@ export interface operations {
             };
             /** @description Resource Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "6e28bdec08d7292bde33180ca5928718": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data?: components["schemas"]["RoleResource"][];
+                    };
+                };
+            };
+        };
+    };
+    searchIndex: {
+        parameters: {
+            query?: {
+                /** @description کلمه مورد نظر برای جستجو */
+                search?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description نتایج جستجو */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        results?: {
+                            /** @example 1 */
+                            id?: number;
+                            /** @example دکتر علی رضایی */
+                            name?: string;
+                            /** @example doctor */
+                            type?: string;
+                            /** @example /doctors/1 */
+                            url?: string;
+                        }[];
+                    };
+                };
+            };
+            /** @description کلمه‌ای برای جستجو وارد نشده است. */
+            400: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -1617,6 +2037,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Validation error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorResponse"];
+                };
             };
         };
     };
@@ -1711,6 +2140,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+            /** @description Validation error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorResponse"];
+                };
             };
         };
     };
@@ -1887,6 +2325,15 @@ export interface operations {
                 };
                 content?: never;
             };
+            /** @description Validation error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorResponse"];
+                };
+            };
         };
     };
     "056dd01386c7c072d4c885b73ca293d6": {
@@ -2000,6 +2447,15 @@ export interface operations {
                 };
                 content?: never;
             };
+            /** @description Validation error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorResponse"];
+                };
+            };
         };
     };
     "34f9180e8b773588bddbbdc1e7241f0d": {
@@ -2084,6 +2540,15 @@ export interface operations {
                 };
                 content?: never;
             };
+            /** @description Validation error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorResponse"];
+                };
+            };
         };
     };
     "6c8c3bf110028e26cde48c141334eef2": {
@@ -2114,6 +2579,177 @@ export interface operations {
             };
             /** @description Forbidden */
             403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "7e2f5799553ec93c9c43e2a58490d447": {
+        parameters: {
+            query?: {
+                /** @description Search in first name, last name, email, or phone */
+                "filter[search]"?: string;
+                /** @description Number of users per page */
+                per_page?: number;
+                /** @description Page number */
+                page?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data?: components["schemas"]["UserResource"][];
+                        links?: Record<string, never>;
+                        meta?: Record<string, never>;
+                    };
+                };
+            };
+        };
+    };
+    a1fce870c566eb5fc0cf3178ec5d2fed: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "multipart/form-data": components["schemas"]["StoreUserRequest"];
+            };
+        };
+        responses: {
+            /** @description User created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data?: components["schemas"]["UserResource"];
+                    };
+                };
+            };
+            /** @description Validation error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorResponse"];
+                };
+            };
+        };
+    };
+    "910a0c7cf580e1c605648d82a4e57f46": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description User id */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data?: components["schemas"]["UserResource"];
+                    };
+                };
+            };
+            /** @description User not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ddfe232db1870b82493bf8bd25596d37: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description User id */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/x-www-form-urlencoded": components["schemas"]["UpdateUserRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful operation */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data?: components["schemas"]["UserResource"];
+                    };
+                };
+            };
+            /** @description User not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorResponse"];
+                };
+            };
+        };
+    };
+    "43dd20becb1f47444e484cbb18ce345c": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description User id */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful operation */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description User not found */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };
