@@ -340,28 +340,70 @@
       "highlight_category": "Highlight category"
     }
   },
-  "user_management": {
-    "users": {
-      "add_user": "Add User",
-      "edit_user": "Edit User",
-      "user_created_successfully": "User created successfully",
-      "user_updated_successfully": "User updated successfully",
-      "user_deleted_successfully": "User deleted successfully",
-      "password_confirmation": "Password Confirmation",
-      "password_optional": "Password (Optional)",
-      "password_must_match": "Password and confirmation must match",
-      "phone": "Phone",
-      "role": "Role",
-      "select_doctor": "Select Doctor"
-    },
-    "user_group": {
-      "add_user_group": "Add User Group",
-      "edit_user_group": "Edit User Group",
-      "add_exception": "Add Exception",
-      "exception_type": "Exception Type",
-      "application_percent": "Application percent",
-      "website_percent": "Website percent"
-    }
+  "messages": {
+    "user_created_successfully": "User created successfully",
+    "user_updated_successfully": "User updated successfully",
+    "user_deleted_successfully": "User deleted successfully",
+    "doctor_created_successfully": "Doctor created successfully",
+    "doctor_updated_successfully": "Doctor updated successfully",
+    "doctor_deleted_successfully": "Doctor deleted successfully",
+    "hospital_created_successfully": "Hospital created successfully",
+    "hospital_updated_successfully": "Hospital updated successfully",
+    "hospital_deleted_successfully": "Hospital deleted successfully",
+    "blog_created_successfully": "Blog created successfully",
+    "blog_updated_successfully": "Blog updated successfully",
+    "blog_deleted_successfully": "Blog deleted successfully",
+    "expertise_created_successfully": "Expertise created successfully",
+    "expertise_updated_successfully": "Expertise updated successfully",
+    "expertise_deleted_successfully": "Expertise deleted successfully"
+  },
+  "forms": {
+    "add_user": "Add User",
+    "edit_user": "Edit User",
+    "add_doctor": "Add Doctor",
+    "edit_doctor": "Edit Doctor",
+    "add_hospital": "Add Hospital",
+    "edit_hospital": "Edit Hospital",
+    "add_blog": "Add Blog",
+    "edit_blog": "Edit Blog",
+    "add_expertise": "Add Expertise",
+    "edit_expertise": "Edit Expertise",
+    "add_user_group": "Add User Group",
+    "edit_user_group": "Edit User Group"
+  },
+  "fields": {
+    "phone": "Phone",
+    "role": "Role",
+    "password_confirmation": "Password Confirmation",
+    "password_optional": "Password (Optional)",
+    "password_must_match": "Password and confirmation must match",
+    "select_doctor": "Select Doctor",
+    "exception_type": "Exception Type",
+    "application_percent": "Application percent",
+    "website_percent": "Website percent",
+    "add_exception": "Add Exception",
+    "username": "Username",
+    "current_password": "Current Password",
+    "new_password": "New Password",
+    "confirm_password": "Confirm Password"
+  },
+  "common": {
+    "loading": "Loading...",
+    "no_data_available": "No data available",
+    "search_placeholder": "Search...",
+    "filter": "Filter",
+    "reset": "Reset",
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "table": {
+    "no_results_found": "No results found",
+    "showing_results": "Showing results",
+    "of": "of",
+    "entries": "entries"
   },
   "settings": {
     "unit": {

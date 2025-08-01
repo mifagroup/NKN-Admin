@@ -119,7 +119,7 @@ const ExpertisesListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<ty
       }
     })
       .then(res => {
-        toast.success(res.message)
+        toast.success((dictionary as any).messages.expertise_deleted_successfully)
 
         deleteModalRef.current?.close()
       })

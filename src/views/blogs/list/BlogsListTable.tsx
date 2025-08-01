@@ -178,7 +178,7 @@ const BlogsListTable = ({
     })
       .then(res => {
         // @ts-ignore
-        toast.success(res.message)
+        toast.success((dictionary as any).messages.blog_deleted_successfully)
 
         deleteModalRef.current?.close()
 

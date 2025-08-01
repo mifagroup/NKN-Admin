@@ -15,6 +15,19 @@ const nextConfig = {
         hostname: 'api.mifadev.ir'
       }
     ]
+  },
+  transpilePackages: ['@mui/material', '@mui/system', '@mui/icons-material', '@mui/lab'],
+  experimental: {
+    optimizePackageImports: ['@mui/material', '@mui/icons-material', '@mui/lab']
+  },
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+      }
+    }
+    return config
   }
 }
 

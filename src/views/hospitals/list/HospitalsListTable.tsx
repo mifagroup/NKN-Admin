@@ -124,7 +124,7 @@ const HospitalsListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typ
       }
     })
       .then(res => {
-        toast.success(res.message)
+        toast.success((dictionary as any).messages.hospital_deleted_successfully)
 
         deleteModalRef.current?.close()
       })

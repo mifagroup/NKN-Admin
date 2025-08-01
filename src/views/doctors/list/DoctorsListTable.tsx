@@ -114,7 +114,7 @@ const DoctorsListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typeo
       }
     })
       .then(res => {
-        toast.success(res.message)
+        toast.success((dictionary as any).messages.doctor_deleted_successfully)
 
         deleteModalRef.current?.close()
       })

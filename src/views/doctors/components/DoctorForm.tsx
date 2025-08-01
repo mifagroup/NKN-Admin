@@ -53,6 +53,10 @@ const DoctorForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof 
 
   const doctorsTranslate = dictionary.doctors
 
+  const messagesTranslate = (dictionary as any).messages
+
+  const formsTranslate = (dictionary as any).forms
+
   const validationErrors = dictionary.unique_validation_errors
 
   const inputTranslate = dictionary.input
@@ -191,8 +195,7 @@ const DoctorForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof 
         body: formData as any
       })
         .then(res => {
-          // @ts-ignore
-          toast.success(res.message)
+          toast.success(messagesTranslate.doctor_created_successfully)
           router.push(menuUrls.doctors.list)
         })
         .catch(e => {
@@ -208,8 +211,7 @@ const DoctorForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof 
         }
       })
         .then(res => {
-          // @ts-ignore
-          toast.success(res.message)
+          toast.success(messagesTranslate.doctor_updated_successfully)
           router.push(menuUrls.doctors.list)
         })
         .catch(e => {

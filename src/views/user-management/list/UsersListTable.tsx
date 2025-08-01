@@ -45,7 +45,8 @@ const UsersListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof 
   // Vars
   const keywordsTranslate = dictionary.keywords
   const modalTranslate = dictionary.modal
-  const userManagementTranslate = dictionary.user_management.users
+  const messagesTranslate = (dictionary as any).messages
+  const fieldsTranslate = (dictionary as any).fields
 
   const columns = useMemo<ColumnDef<WithActions<components['schemas']['UserResource']>, any>[]>(
     () => [
@@ -66,7 +67,7 @@ const UsersListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof 
       }),
 
       columnHelper.accessor('role', {
-        header: userManagementTranslate.role,
+        header: fieldsTranslate.role,
         cell: ({ row }) => (
           <Typography>
             {row.original.role && Array.isArray(row.original.role) && row.original.role.length > 0 
@@ -115,7 +116,7 @@ const UsersListTable = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof 
       }
     })
       .then(() => {
-        toast.success(userManagementTranslate.user_deleted_successfully)
+        toast.success((dictionary as any).messages.user_deleted_successfully)
         deleteModalRef.current?.close()
       })
       .then(() =>

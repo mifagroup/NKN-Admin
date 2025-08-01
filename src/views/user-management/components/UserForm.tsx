@@ -42,7 +42,9 @@ const UserForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
   const router = useRouter()
   const keywordsTranslate = dictionary.keywords
   const validationErrors = dictionary.unique_validation_errors
-  const userManagementTranslate = dictionary.user_management.users
+  const messagesTranslate = (dictionary as any).messages
+  const formsTranslate = (dictionary as any).forms  
+  const fieldsTranslate = (dictionary as any).fields
 
   // State for showing password confirmation field
   const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(!id)
@@ -57,8 +59,8 @@ const UserForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
     email: z.string({ required_error: `${keywordsTranslate.email} ${keywordsTranslate.isRequired}` }).email({
       message: validationErrors.valid_email
     }),
-    phone: z.string({ required_error: `${userManagementTranslate.phone} ${keywordsTranslate.isRequired}` }),
-    role_id: z.number({ required_error: `${userManagementTranslate.role} ${keywordsTranslate.isRequired}` }),
+    phone: z.string({ required_error: `${fieldsTranslate.phone} ${keywordsTranslate.isRequired}` }),
+    role_id: z.number({ required_error: `${fieldsTranslate.role} ${keywordsTranslate.isRequired}` }),
     doctor_id: z.union([
       z.object({
         label: z.string().optional(),
@@ -89,7 +91,7 @@ const UserForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
       if (data.password && data.password.length > 0 && data.password !== data.password_confirmation) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
-          message: userManagementTranslate.password_must_match,
+          message: fieldsTranslate.password_must_match,
           path: ["password_confirmation"]
         });
       }
@@ -211,7 +213,7 @@ const UserForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
       })
         .then(res => {
           // @ts-ignore
-          toast.success(res?.message || userManagementTranslate.user_created_successfully)
+          toast.success(messagesTranslate.user_created_successfully)
           router.push(menuUrls.user_management.users.list)
         })
         .catch(e => {
@@ -245,7 +247,7 @@ const UserForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
       })
         .then(res => {
           // @ts-ignore
-          toast.success(res?.message || userManagementTranslate.user_updated_successfully)
+          toast.success(messagesTranslate.user_updated_successfully)
           router.push(menuUrls.user_management.users.list)
         })
         .catch(e => {
@@ -267,7 +269,7 @@ const UserForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
               <Grid container spacing={5}>
                 <Grid item xs={12}>
                   <Typography variant='h4' className='mbe-1'>
-                    {id ? userManagementTranslate.edit_user : userManagementTranslate.add_user}
+                    {id ? formsTranslate.edit_user : formsTranslate.add_user}
                   </Typography>
                 </Grid>
 
@@ -328,7 +330,7 @@ const UserForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
                       <TextField
                         {...field}
                         fullWidth
-                        label={userManagementTranslate.phone}
+                        label={fieldsTranslate.phone}
                         error={!!errors.phone}
                         helperText={errors.phone?.message}
                       />
@@ -338,15 +340,17 @@ const UserForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
 
                 <Grid item xs={12} sm={6}>
                   <FormControl fullWidth error={!!errors.role_id}>
-                    <InputLabel>{userManagementTranslate.role}</InputLabel>
+                    <InputLabel>{fieldsTranslate.role}</InputLabel>
                     <Controller
                       name='role_id'
                       control={control}
                       render={({ field }) => (
                         <Select
                           {...field}
-                          label={userManagementTranslate.role}
+                          label={fieldsTranslate.role}
                           disabled={isLoadingRoles}
+                          value={field.value || ''}
+                          onChange={(e) => field.onChange(Number(e.target.value))}
                         >
                           {isLoadingRoles ? (
                             <MenuItem disabled>{keywordsTranslate.loading}...</MenuItem>
@@ -375,7 +379,7 @@ const UserForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
                       control={control}
                       render={({ field }) => (
                         <DoctorAutocomplete
-                          label={userManagementTranslate.select_doctor}
+                          label={fieldsTranslate.select_doctor}
                           value={field.value}
                           onChange={(data) => field.onChange(data)}
                           error={!!errors.doctor_id}
@@ -395,7 +399,7 @@ const UserForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
                         {...field}
                         fullWidth
                         type='password'
-                        label={id ? userManagementTranslate.password_optional : keywordsTranslate.password}
+                        label={id ? fieldsTranslate.password_optional : keywordsTranslate.password}
                         error={!!errors.password}
                         helperText={errors.password?.message}
                       />
@@ -413,7 +417,7 @@ const UserForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
                           {...field}
                           fullWidth
                           type='password'
-                          label={userManagementTranslate.password_confirmation}
+                          label={fieldsTranslate.password_confirmation}
                           error={!!errors.password_confirmation}
                           helperText={errors.password_confirmation?.message}
                         />

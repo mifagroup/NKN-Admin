@@ -254,7 +254,8 @@
     "oversized_file_error": "حجم فایل انتخابی نمی تواند بیشتر از $ مگابایت باشد"
   },
   "table": {
-    "rowsPerPage": "تعداد در صفحه"
+    "rowsPerPage": "تعداد در صفحه",
+    "noDataAvailable": "داده‌ای موجود نیست"
   },
   "input": {
     "placeholder": "$ را وارد کنید"
@@ -340,28 +341,70 @@
       "highlight_category": "دسته بندی هایلایت"
     }
   },
-  "user_management": {
-    "users": {
-      "add_user": "افزودن کاربر",
-      "edit_user": "ویرایش کاربر",
-      "user_created_successfully": "کاربر با موفقیت ایجاد شد",
-      "user_updated_successfully": "کاربر با موفقیت بروزرسانی شد",
-      "user_deleted_successfully": "کاربر با موفقیت حذف شد",
-      "password_confirmation": "تایید رمز عبور",
-      "password_optional": "رمز عبور (اختیاری)",
-      "password_must_match": "رمز عبور و تایید آن باید یکسان باشد",
-      "phone": "شماره تلفن",
-      "role": "نقش",
-      "select_doctor": "انتخاب دکتر"
-    },
-    "user_group": {
-      "add_user_group": "افزودن گروه کاربری",
-      "edit_user_group": "ویرایش گروه کاربری",
-      "add_exception": "افزودن استثنا",
-      "exception_type": "نوع استثنا",
-      "application_percent": "درصد اپلیکیشن",
-      "website_percent": "درصد وبسایت"
-    }
+  "messages": {
+    "user_created_successfully": "کاربر با موفقیت ایجاد شد",
+    "user_updated_successfully": "کاربر با موفقیت بروزرسانی شد",
+    "user_deleted_successfully": "کاربر با موفقیت حذف شد",
+    "doctor_created_successfully": "دکتر با موفقیت ایجاد شد",
+    "doctor_updated_successfully": "دکتر با موفقیت بروزرسانی شد",
+    "doctor_deleted_successfully": "دکتر با موفقیت حذف شد",
+    "hospital_created_successfully": "بیمارستان با موفقیت ایجاد شد",
+    "hospital_updated_successfully": "بیمارستان با موفقیت بروزرسانی شد",
+    "hospital_deleted_successfully": "بیمارستان با موفقیت حذف شد",
+    "blog_created_successfully": "مقاله با موفقیت ایجاد شد",
+    "blog_updated_successfully": "مقاله با موفقیت بروزرسانی شد",
+    "blog_deleted_successfully": "مقاله با موفقیت حذف شد",
+    "expertise_created_successfully": "تخصص با موفقیت ایجاد شد",
+    "expertise_updated_successfully": "تخصص با موفقیت بروزرسانی شد",
+    "expertise_deleted_successfully": "تخصص با موفقیت حذف شد"
+  },
+  "forms": {
+    "add_user": "افزودن کاربر",
+    "edit_user": "ویرایش کاربر",
+    "add_doctor": "افزودن دکتر",
+    "edit_doctor": "ویرایش دکتر",
+    "add_hospital": "افزودن بیمارستان",
+    "edit_hospital": "ویرایش بیمارستان",
+    "add_blog": "افزودن مقاله",
+    "edit_blog": "ویرایش مقاله",
+    "add_expertise": "افزودن تخصص",
+    "edit_expertise": "ویرایش تخصص",
+    "add_user_group": "افزودن گروه کاربری",
+    "edit_user_group": "ویرایش گروه کاربری"
+  },
+  "fields": {
+    "phone": "شماره تلفن",
+    "role": "نقش",
+    "password_confirmation": "تایید رمز عبور",
+    "password_optional": "رمز عبور (اختیاری)",
+    "password_must_match": "رمز عبور و تایید آن باید یکسان باشد",
+    "select_doctor": "انتخاب دکتر",
+    "exception_type": "نوع استثنا",
+    "application_percent": "درصد اپلیکیشن",
+    "website_percent": "درصد وبسایت",
+    "add_exception": "افزودن استثنا",
+    "username": "نام کاربری",
+    "current_password": "رمز عبور فعلی",
+    "new_password": "رمز عبور جدید",
+    "confirm_password": "تایید رمز عبور"
+  },
+  "common": {
+    "loading": "در حال بارگذاری...",
+    "no_data_available": "داده‌ای موجود نیست",
+    "search_placeholder": "جستجو...",
+    "filter": "فیلتر",
+    "reset": "بازنشانی",
+    "apply": "اعمال",
+    "cancel": "لغو",
+    "confirm": "تایید",
+    "yes": "بله",
+    "no": "خیر"
+  },
+  "table": {
+    "no_results_found": "نتیجه‌ای یافت نشد",
+    "showing_results": "نمایش نتایج",
+    "of": "از",
+    "entries": "ورودی"
   },
   "settings": {
     "unit": {

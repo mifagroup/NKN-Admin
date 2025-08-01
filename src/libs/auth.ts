@@ -41,7 +41,7 @@ export const authOptions = () => {
             })
 
             if (apiData) {
-              return { ...apiData.data, accessToken: apiData.token }
+              return { ...(apiData as any).data, accessToken: (apiData as any).token }
             } else {
               throw new Error(JSON.stringify(error) as string)
             }

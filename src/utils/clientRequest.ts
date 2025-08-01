@@ -13,6 +13,9 @@ import { toast } from 'react-toastify'
 
 import type { paths } from '@/@core/api/v1'
 
+// Global flag to prevent multiple 401 toasts and redirects
+let isHandling401 = false
+
 const myMiddleware: Middleware = {
   async onRequest({ request }) {
     if (
@@ -36,11 +39,31 @@ const myMiddleware: Middleware = {
   },
   async onResponse({ response }) {
     if (response.status === 401) {
+      // Prevent multiple 401 handling simultaneously
+      if (isHandling401) {
+        return response
+      }
+      
+      isHandling401 = true
       const serverResponse = await response.json()
 
+      // Show error toast only once
       serverResponse && toast.error(serverResponse.message)
 
-      signOut()
+      // Sign out without redirect, then manually redirect to current port
+      await signOut({ redirect: false })
+      
+      // Manual redirect to current origin + login path
+      if (typeof window !== 'undefined') {
+        const currentOrigin = window.location.origin
+        const currentLang = window.location.pathname.split('/')[1] || 'en'
+        window.location.href = `${currentOrigin}/${currentLang}/login`
+      }
+
+      // Reset flag after a delay to allow for page navigation
+      setTimeout(() => {
+        isHandling401 = false
+      }, 2000)
     }
 
     if (response.status === 403) {

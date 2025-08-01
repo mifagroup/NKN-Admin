@@ -128,8 +128,7 @@ const ExpertiseForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<type
         }
       })
         .then(res => {
-          // @ts-ignore
-          toast.success(res.message)
+          toast.success((dictionary as any).messages.expertise_created_successfully)
           router.push(menuUrls.expertises.list)
         })
         .catch(e => {
@@ -151,8 +150,7 @@ const ExpertiseForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<type
         }
       })
         .then(res => {
-          // @ts-ignore
-          toast.success(res.message)
+          toast.success((dictionary as any).messages.expertise_updated_successfully)
           router.push(menuUrls.expertises.list)
         })
         .catch(e => {

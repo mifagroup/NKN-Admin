@@ -13,6 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 // Type Imports
 import LoadingButton from '@mui/lab/LoadingButton'
+import { toast } from 'react-toastify'
 
 // Hook Imports
 import { useQueryClient } from '@tanstack/react-query'
@@ -145,7 +146,7 @@ const HospitalForm = forwardRef<DrawerHandle, HospitalFormProps>(({ dictionary, 
         body: formData as any
       })
         .then(res => {
-          // toast.success(res.message)
+          toast.success((dictionary as any).messages.hospital_created_successfully)
           router.push(menuUrls.hospitals.list)
         })
         .catch(e => {
@@ -161,7 +162,7 @@ const HospitalForm = forwardRef<DrawerHandle, HospitalFormProps>(({ dictionary, 
         }
       })
         .then(res => {
-          // toast.success(res.message)
+          toast.success((dictionary as any).messages.hospital_updated_successfully)
           router.push(menuUrls.hospitals.list)
         })
         .catch(e => {

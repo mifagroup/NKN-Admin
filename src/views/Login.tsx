@@ -116,6 +116,7 @@ const Login = ({ mode, dictionary }: { mode: Mode; dictionary: Awaited<ReturnTyp
   const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
     setIsLoading(true)
 
+    try {
     const res = await signIn('login', {
       email: data.email,
       password: data.password,
@@ -127,20 +128,26 @@ const Login = ({ mode, dictionary }: { mode: Mode; dictionary: Awaited<ReturnTyp
       setIsLoading(false)
 
       const error = res.error ? JSON.parse(res.error) : null
-
       const errors = error.errors
 
       errors?.['email'] && setError('email', { message: errors['email'] })
       errors?.['password'] && setError('password', { message: errors['password'] })
+        
+        return
     }
 
-    if (res && res.ok && res.error === null) {
-      // Vars
+      // If no error, consider it successful
+      if (res && !res.error) {
+        const redirectURL = searchParams.get('redirectTo') ?? '/'
+        
+        // Force reload to ensure session is properly set
+        window.location.href = getLocalizedUrl(redirectURL, locale as Locale)
+      } else {
+        setIsLoading(false)
+      }
+    } catch (error) {
       setIsLoading(false)
-
-      const redirectURL = searchParams.get('redirectTo') ?? '/'
-
-      router.replace(getLocalizedUrl(redirectURL, locale as Locale))
+      console.error('Login error:', error)
     }
   }
 

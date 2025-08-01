@@ -172,8 +172,7 @@ const BlogForm = ({
         body: formData as any
       })
         .then(res => {
-          // @ts-ignore
-          toast.success(res.message)
+          toast.success((dictionary as any).messages.blog_created_successfully)
           router.push(redirectUrl)
         })
         .catch(e => {
@@ -189,8 +188,7 @@ const BlogForm = ({
         }
       })
         .then(res => {
-          // @ts-ignore
-          toast.success(res.message)
+          toast.success((dictionary as any).messages.blog_updated_successfully)
           router.push(redirectUrl)
         })
         .catch(e => {
