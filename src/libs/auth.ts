@@ -29,7 +29,7 @@ export const authOptions = () => {
 
           try {
             const client = createClient<paths>({
-              baseUrl: devBaseUrl?.value?.length ? devBaseUrl?.value : '/api/proxy',
+              baseUrl: devBaseUrl?.value?.length ? devBaseUrl?.value : process.env.NEXT_PUBLIC_API_URL,
               headers: {
                 dashboard: 'admin',
                 accept: 'application/json'
@@ -46,7 +46,12 @@ export const authOptions = () => {
               throw new Error(JSON.stringify(error) as string)
             }
           } catch (error: any) {
-            throw new Error(error?.message)
+            console.error('Auth API Error:', {
+              message: error?.message,
+              baseUrl: devBaseUrl?.value?.length ? devBaseUrl?.value : process.env.NEXT_PUBLIC_API_URL,
+              error: error
+            })
+            throw new Error(error?.message || 'Authentication failed')
           }
         }
       })
@@ -84,10 +89,10 @@ export const authOptions = () => {
       sessionToken: {
         name: 'auth-token',
         options: {
-          httpOnly: false,
-          path: '/',
+          httpOnly: true,
           secure: process.env.NODE_ENV === 'production',
-          sameSite: 'lax'
+          sameSite: 'lax',
+          path: '/'
         }
       }
     },

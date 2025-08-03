@@ -23,14 +23,6 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['@mui/material', '@mui/icons-material', '@mui/lab']
   },
-  async rewrites() {
-    return [
-      {
-        source: '/api/proxy/:path*',
-        destination: 'http://api.mifadev.ir/api/:path*'
-      }
-    ]
-  },
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
