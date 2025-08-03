@@ -101,7 +101,7 @@ export const useFetch = () => {
   const devBaseUrl = getCookie('devBaseUrl')
 
   const fetchClient = createFetchClient<paths>({
-    baseUrl: devBaseUrl?.length ? devBaseUrl : process.env.NEXT_PUBLIC_API_URL,
+    baseUrl: devBaseUrl?.length ? devBaseUrl : '/api/proxy',
     headers: {
       Authorization: `Bearer ${session?.data?.accessToken}`,
       Dashboard: 'admin',

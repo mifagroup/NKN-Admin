@@ -29,7 +29,7 @@ export const authOptions = () => {
 
           try {
             const client = createClient<paths>({
-              baseUrl: devBaseUrl?.value?.length ? devBaseUrl?.value : process.env.NEXT_PUBLIC_API_URL,
+              baseUrl: devBaseUrl?.value?.length ? devBaseUrl?.value : '/api/proxy',
               headers: {
                 dashboard: 'admin',
                 accept: 'application/json'
@@ -85,8 +85,11 @@ export const authOptions = () => {
         name: 'auth-token',
         options: {
           httpOnly: false,
-          path: '/'
-        }      }
+          path: '/',
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax'
+        }
+      }
     },
 
     secret: process.env.NEXTAUTH_SECRET
