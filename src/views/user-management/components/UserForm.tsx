@@ -1,7 +1,7 @@
 'use client'
 
 // React Imports
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 
 // Next Imports
 import { useRouter } from 'next/navigation'
@@ -81,7 +81,6 @@ const UserForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
     }
 
     // Password must be at least 8 characters if provided
-
     if (data.password && data.password.length > 0 && data.password.length < 8) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -91,7 +90,6 @@ const UserForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
     }
 
     // Password confirmation must match if password is provided
-
     if (data.password && data.password.length > 0 && data.password !== data.password_confirmation) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
@@ -123,7 +121,7 @@ const UserForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
   )
 
   const { data: rolesData, isLoading: isLoadingRoles } = useFetch().useQuery('get', '/roles')
-  const roles = rolesData?.data || []
+  const roles = useMemo(() => rolesData?.data || [], [rolesData?.data])
 
   const singleUser = singleUserData?.data
 
@@ -135,7 +133,6 @@ const UserForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
       setValue('phone', singleUser.phone ?? '')
 
       // Set role_id based on available data or default to 1
-
       setValue('role_id', 1)
 
       // Note: doctor_id will be handled by the API response when we have proper user data
@@ -199,9 +196,11 @@ const UserForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
   }, [roleValue, roles, setValue])
 
   // Functions
+
   const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
     if (!id) {
       // Create user - use multipart/form-data
+
       const formData = new FormData()
 
       formData.append('firstname', data.firstname)
