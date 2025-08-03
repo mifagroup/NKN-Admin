@@ -57,6 +57,7 @@ const myMiddleware: Middleware = {
       if (typeof window !== 'undefined') {
         const currentOrigin = window.location.origin
         const currentLang = window.location.pathname.split('/')[1] || 'en'
+
         window.location.href = `${currentOrigin}/${currentLang}/login`
       }
 

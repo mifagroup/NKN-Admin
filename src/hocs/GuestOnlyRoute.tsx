@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 
 // Third-party Imports
 import { getServerSession } from 'next-auth'
+
 import { authOptions } from '@/libs/auth'
 
 // Type Imports
@@ -17,7 +18,7 @@ import { getLocalizedUrl } from '@/utils/i18n'
 
 const GuestOnlyRoute = async ({ children, lang }: ChildrenType & { lang: Locale }) => {
   const session = await getServerSession(authOptions())
-  console.log('sessssion', session)
+
   if (session) {
     redirect(getLocalizedUrl(themeConfig.homePageUrl, lang))
   }

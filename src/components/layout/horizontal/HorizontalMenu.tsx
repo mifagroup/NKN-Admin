@@ -1,9 +1,8 @@
 // Next Imports
-import { useParams, usePathname } from 'next/navigation'
+import { useParams } from 'next/navigation'
 
 // MUI Imports
 import { useTheme } from '@mui/material/styles'
-import Chip from '@mui/material/Chip'
 
 // Type Imports
 import type { getDictionary } from '@/utils/getDictionary'
@@ -62,12 +61,10 @@ const HorizontalMenu = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof 
 
   const params = useParams()
 
-  const pathname = usePathname()
-
   // Vars
   const { transitionDuration } = verticalNavOptions
 
-  const { lang: locale, id, slideId } = params
+  const { lang: locale } = params
 
   const navigationTranslate = dictionary['navigation']
 
@@ -78,6 +75,7 @@ const HorizontalMenu = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof 
   const isAdmin = data?.data?.role[0] === 'FULL_ADMIN'
 
   const isDoctor = data?.data?.role[0] === 'DOC'
+
   return (
     <HorizontalNav
       switchToVertical

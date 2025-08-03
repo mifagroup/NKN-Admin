@@ -79,7 +79,9 @@ const UserForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
         path: ["password"]
       });
     }
+
     // Password must be at least 8 characters if provided
+
     if (data.password && data.password.length > 0 && data.password.length < 8) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -87,8 +89,10 @@ const UserForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
         path: ["password"]
       });
     }
-          // Password confirmation must match if password is provided
-      if (data.password && data.password.length > 0 && data.password !== data.password_confirmation) {
+
+    // Password confirmation must match if password is provided
+
+    if (data.password && data.password.length > 0 && data.password !== data.password_confirmation) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
           message: fieldsTranslate.password_must_match,
@@ -129,8 +133,11 @@ const UserForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
       setValue('lastname', singleUser.last_name ?? '')
       setValue('email', singleUser.email ?? '')
       setValue('phone', singleUser.phone ?? '')
+
       // Set role_id based on available data or default to 1
+
       setValue('role_id', 1)
+
       // Note: doctor_id will be handled by the API response when we have proper user data
       // For now, we'll set it to null and let the role change logic handle it
       setValue('doctor_id', null)
@@ -171,13 +178,17 @@ const UserForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
   useEffect(() => {
     // Show doctor selection field when "Doc" role is selected
     // We need to check if the selected role corresponds to a doctor role
+
     if (roleValue && roles.length > 0) {
       const selectedRole = roles.find((role: any) => role.id === roleValue)
+
       const isDoctorRole = Boolean(selectedRole?.name?.toLowerCase().includes('doc') || 
                           selectedRole?.name?.toLowerCase().includes('doctor'))
+
       setShowDoctorSelection(isDoctorRole)
       
       // Clear doctor_id if role is not doctor
+
       if (!isDoctorRole) {
         setValue('doctor_id', null)
       }
@@ -192,26 +203,30 @@ const UserForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
     if (!id) {
       // Create user - use multipart/form-data
       const formData = new FormData()
+
       formData.append('firstname', data.firstname)
       formData.append('lastname', data.lastname)
       formData.append('email', data.email)
       formData.append('phone', data.phone)
       formData.append('role_id', String(data.role_id))
+
       if (data.doctor_id?.value) {
         formData.append('doctor_id', String(data.doctor_id.value))
       }
+
       formData.append('password', data.password || '')
       formData.append('password_confirmation', data.password_confirmation || '')
 
       if (!data.password) {
         setError('password', { message: `${keywordsTranslate.password} ${keywordsTranslate.isRequired}` })
+
         return
       }
       
       await addUser({
         body: formData as any
       })
-        .then(res => {
+        .then(() => {
           // @ts-ignore
           toast.success(messagesTranslate.user_created_successfully)
           router.push(menuUrls.user_management.users.list)
@@ -245,7 +260,7 @@ const UserForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof ge
           }
         }
       })
-        .then(res => {
+        .then(() => {
           // @ts-ignore
           toast.success(messagesTranslate.user_updated_successfully)
           router.push(menuUrls.user_management.users.list)
