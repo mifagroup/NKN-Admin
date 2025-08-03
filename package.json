@@ -4,9 +4,9 @@
   "license": "Commercial",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 6626",
+    "dev": "next dev --port 3750",
     "build": "next build",
-    "start": "next start --port 6626",
+    "start": "next start --port 3750",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
