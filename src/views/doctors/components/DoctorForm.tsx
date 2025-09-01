@@ -76,8 +76,12 @@ const DoctorForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof 
       required_error: `${keywordsTranslate.short_description} ${keywordsTranslate.isRequired}`
     }),
     redirect: z
-      .string({ required_error: `${keywordsTranslate.redirect_url} ${keywordsTranslate.isRequired}` })
-      .url({ message: validationErrors.valid_link }),
+      .string()
+      .optional()
+      .or(z.literal(''))
+      .refine(val => !val || z.string().url().safeParse(val).success, {
+        message: validationErrors.valid_link
+      }),
     description: z.string({
       required_error: `${keywordsTranslate.description} ${keywordsTranslate.isRequired}`
     }),
@@ -175,7 +179,13 @@ const DoctorForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof 
     formData.append('code', data.code)
     formData.append('sub_title', data.sub_title)
     formData.append('short_description', data.short_description)
-    formData.append('redirect', data.redirect)
+
+    if (data.redirect) {
+      formData.append('redirect', data.redirect)
+    } else {
+      formData.append('redirect', '')
+    }
+
     formData.append('description', data.description)
     formData.append('gender', data.gender)
     formData.append('hospital_id', data.hospital_id?.value?.toString() ?? '')
@@ -312,7 +322,6 @@ const DoctorForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof 
                       <Controller
                         name='redirect'
                         control={control}
-                        rules={{ required: true }}
                         render={({ field }) => (
                           <TextField
                             {...field}
