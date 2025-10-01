@@ -105,7 +105,7 @@ export const useFetch = () => {
     headers: {
       Authorization: `Bearer ${session?.data?.accessToken}`,
       Dashboard: 'admin',
-      'Content-Language': locale,
+      'Accept-Language': locale,
       Accept: 'application/json'
     }
   })
