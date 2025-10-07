@@ -36,8 +36,8 @@ const Dropzone = styled(AppReactDropzone)<BoxProps>(({ theme }) => ({
 }))
 
 type DropZoneProps = {
-  files: File[] | string[]
-  setFiles: React.Dispatch<React.SetStateAction<File[] | string[]>>
+  files: File[] | string[] | (File | string)[]
+  setFiles: React.Dispatch<React.SetStateAction<File[] | string[] | (File | string)[]>>
   multiple?: boolean
   aspect?: number
   error?: boolean
@@ -112,16 +112,22 @@ const DropZone: React.FC<DropZoneProps> = ({
         })
       }
     },
-    multiple: false,
+    multiple: multiple,
     accept: acceptConfig[type] || {}
   })
 
   // Functions
   const renderFilePreview = (file: File | string) => {
     if (typeof file === 'string') {
-      if (validImageMimeTypes?.includes(mimeType as ImageMimeType))
+      // For string URLs, check if mimeType is provided and matches, or assume it's an image for gallery
+      if (mimeType && validImageMimeTypes?.includes(mimeType as ImageMimeType)) {
         return <Image width={50} height={50} alt={'image'} src={file} className='object-contain' />
-      if (validVideoMimeTypes?.includes(mimeType as VideoMimeType)) return <Video preview={file} src={file} />
+      } else if (mimeType && validVideoMimeTypes?.includes(mimeType as VideoMimeType)) {
+        return <Video preview={file} src={file} />
+      } else if (!mimeType) {
+        // If no mimeType is provided (like for gallery images), assume it's an image
+        return <Image width={50} height={50} alt={'image'} src={file} className='object-contain' />
+      }
     } else if (file.type.startsWith('image')) {
       return (
         <Image
@@ -142,11 +148,13 @@ const DropZone: React.FC<DropZoneProps> = ({
   const handleRemoveFile = (file: File | string) => {
     const uploadedFiles = files
 
-    if (uploadedFiles.every(file => typeof file === 'string')) {
-      setFiles(uploadedFiles?.filter(stringFile => stringFile !== file))
+    if (typeof file === 'string') {
+      setFiles(uploadedFiles?.filter(f => f !== file))
     } else {
-      const filtered = uploadedFiles.filter((i: File) => i.lastModified !== (file as File).lastModified)
-
+      const filtered = uploadedFiles.filter((f: File | string) => {
+        if (typeof f === 'string') return true
+        return (f as File).lastModified !== file.lastModified
+      })
       setFiles([...filtered])
     }
   }
@@ -159,9 +167,11 @@ const DropZone: React.FC<DropZoneProps> = ({
               <div className='file-details'>
                 <div className='file-preview'>{renderFilePreview(file)}</div>
               </div>
-              <IconButton onClick={() => handleRemoveFile(file)}>
-                <i className='ri-close-line text-xl' />
-              </IconButton>
+              {!multiple && (
+                <IconButton onClick={() => handleRemoveFile(file)}>
+                  <i className='ri-close-line text-xl' />
+                </IconButton>
+              )}
             </ListItem>
           )
         } else {
@@ -178,9 +188,11 @@ const DropZone: React.FC<DropZoneProps> = ({
                   </Typography>
                 </div>
               </div>
-              <IconButton onClick={() => handleRemoveFile(file)}>
-                <i className='ri-close-line text-xl' />
-              </IconButton>
+              {!multiple && (
+                <IconButton onClick={() => handleRemoveFile(file)}>
+                  <i className='ri-close-line text-xl' />
+                </IconButton>
+              )}
             </ListItem>
           )
         }
@@ -213,8 +225,8 @@ const DropZone: React.FC<DropZoneProps> = ({
       <Cropper
         cropperOpen={cropperOpen}
         setCropperOpen={setCropperOpen}
-        setFiles={setFiles}
-        files={files}
+        setFiles={setFiles as any}
+        files={files as any}
         src={src}
         aspect={aspect}
         multiple={multiple}

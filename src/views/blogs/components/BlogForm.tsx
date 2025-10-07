@@ -80,6 +80,7 @@ const BlogForm = ({
       z.string({ required_error: `${keywordsTranslate.image} ${keywordsTranslate.isRequired}` }),
       z.instanceof(File, { message: `${keywordsTranslate.type} ${keywordsTranslate.isRequired}` })
     ]),
+    gallery: z.array(z.union([z.string(), z.instanceof(File)])).optional(),
     published: z.string(),
     slug: z.string().optional()
   })
@@ -116,7 +117,7 @@ const BlogForm = ({
     }
   )
 
-  const singleBlog = singleBlogData?.data 
+  const singleBlog = singleBlogData?.data as any
   useEffect(() => {
     if (singleBlog) {
       setValue('title', singleBlog.title ?? '')
@@ -126,6 +127,17 @@ const BlogForm = ({
 
       setValue('published', singleBlog.published_at ? '1' : '0')
       setValue('main_image', singleBlog.main_image?.original_url ?? '')
+      // Handle gallery images - check if it's an array of objects with original_url or direct URLs
+      const galleryImages = singleBlog.gallery ?
+        singleBlog.gallery.map((img: any) => {
+          // If it's an object with original_url property, use that
+          if (typeof img === 'object' && img.original_url) {
+            return img.original_url
+          }
+          // If it's already a string URL, use it directly
+          return img
+        }) : []
+      setValue('gallery', galleryImages)
       setValue('slug', singleBlog.slug ?? '')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -145,7 +157,8 @@ const BlogForm = ({
     resolver: zodResolver(schema),
     defaultValues: {
       published: '',
-      description: ''
+      description: '',
+      gallery: []
     }
   })
 
@@ -163,6 +176,15 @@ const BlogForm = ({
 
     if (data.main_image && data.main_image instanceof File) {
       formData.append('main_image', data.main_image)
+    }
+
+    // Handle gallery images
+    if (data.gallery && data.gallery.length > 0) {
+      data.gallery.forEach((image, index) => {
+        if (image instanceof File) {
+          formData.append(`gallery[${index}]`, image)
+        }
+      })
     }
 
     const redirectUrl = getListUrlByType(type)
@@ -357,6 +379,31 @@ const BlogForm = ({
                   </Grid>
                 </CardContent>
               </Card>
+              {type === 'social_responsibility' && (
+                <Card>
+                  <CardContent>
+                    <Grid container spacing={5}>
+                      <Grid item xs={12} display={'flex'} flexDirection={'column'} rowGap={2}>
+                        <FormLabel>{keywordsTranslate.gallery}</FormLabel>
+                        <Controller
+                          name='gallery'
+                          control={control}
+                          render={({ field }) => (
+                            <DropZone
+                              files={(field.value || []) as any}
+                              setFiles={(images: any) => field.onChange(images)}
+                              type='image'
+                              multiple={true}
+                              error={!!errors.gallery}
+                            />
+                          )}
+                        />
+                        {errors.gallery && <FormHelperText error>{errors.gallery?.message}</FormHelperText>}
+                      </Grid>
+                    </Grid>
+                  </CardContent>
+                </Card>
+              )}
               {id && (
                 <Card>
                   <CardContent>
