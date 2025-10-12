@@ -3,6 +3,7 @@
     "dashboard": "پیشخوان",
     "product_management": "مدیریت محصولات",
     "hospitals": "بیمارستان‌ها",
+    "insurances": "بیمه‌ها",
     "category": "دسته‌بندی محصولات",
     "brand": "برند محصولات",
     "attribute_attribute_values": "ویژگی/مقادیر ویژگی محصولات",
@@ -151,6 +152,9 @@
     "brands": "برندها",
     "hospitals": "بیمارستان‌ها",
     "hospital": "بیمارستان",
+    "insurances": "بیمه‌ها",
+    "insurance": "بیمه",
+    "logo": "لوگو",
     "brand": "برند",
     "product": "محصول",
     "products": "محصولات",
@@ -245,7 +249,9 @@
     "redirect_url": "لینک انتقال",
     "gender": "جنسیت",
     "male": "مرد",
-    "female": "زن"
+    "female": "زن",
+    "is_outpatient": "سرپایی",
+    "is_inpatient": "بستری"
   },
   "dropzone": {
     "title": "$ خود را در اینجا بکشید و رها کنید یا اینجا کلیک کنید",
@@ -352,6 +358,9 @@
     "hospital_created_successfully": "بیمارستان با موفقیت ایجاد شد",
     "hospital_updated_successfully": "بیمارستان با موفقیت بروزرسانی شد",
     "hospital_deleted_successfully": "بیمارستان با موفقیت حذف شد",
+    "insurance_created_successfully": "بیمه با موفقیت ایجاد شد",
+    "insurance_updated_successfully": "بیمه با موفقیت بروزرسانی شد",
+    "insurance_deleted_successfully": "بیمه با موفقیت حذف شد",
     "blog_created_successfully": "مقاله با موفقیت ایجاد شد",
     "blog_updated_successfully": "مقاله با موفقیت بروزرسانی شد",
     "blog_deleted_successfully": "مقاله با موفقیت حذف شد",
@@ -441,5 +450,9 @@
   "doctors": {
     "editDoctorTitle": "ویرایش دکتر",
     "addNewDoctorTitle": "افزودن دکتر"
+  },
+  "insurance": {
+    "editInsuranceTitle": "ویرایش بیمه",
+    "addNewInsuranceTitle": "افزودن بیمه"
   }
 }

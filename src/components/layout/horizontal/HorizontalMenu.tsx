@@ -131,6 +131,25 @@ const HorizontalMenu = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof 
           </SubMenu>
         )}
 
+        {isAdmin && (
+          <SubMenu label={navigationTranslate.insurances} icon={<i className='ri-shield-check-line text-[20px]' />}>
+            <MenuItem
+              href={`/${locale}${menuUrls.insurances.list}`}
+              icon={<i className='ri-list-unordered text-[20px]' />}
+              title={keywordsTranslate.list}
+            >
+              {keywordsTranslate.list}
+            </MenuItem>
+            <MenuItem
+              href={`/${locale}${menuUrls.insurances.add}`}
+              icon={<i className='ri-add-box-line text-[20px]' />}
+              title={keywordsTranslate.add}
+            >
+              {keywordsTranslate.add}
+            </MenuItem>
+          </SubMenu>
+        )}
+
         {(isAdmin || isDoctor) && (
           <SubMenu label={navigationTranslate.blogs} icon={<i className='ri-article-line text-[20px]' />}>
             <MenuItem

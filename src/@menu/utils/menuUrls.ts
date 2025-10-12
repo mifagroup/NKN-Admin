@@ -4,6 +4,11 @@ export const menuUrls = {
     add: '/hospitals/add',
     edit: '/hospitals/edit'
   },
+  insurances: {
+    list: '/insurances/list',
+    add: '/insurances/add',
+    edit: '/insurances/edit'
+  },
   taxonomies: {
     list: '/taxonomies/list',
     add: '/taxonomies/add',

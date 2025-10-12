@@ -3,6 +3,7 @@
     "dashboard": "Dashboard",
     "product_management": "Product Management",
     "hospitals": "Hospitals",
+    "insurances": "Insurances",
     "category": "Products Category",
     "brand": "Products Brand",
     "attribute_attribute_values": "Products Attribute/Attribute Values",
@@ -150,6 +151,9 @@
     "brands": "Brands",
     "hospitals": "Hospitals",
     "hospital": "Hospital",
+    "insurances": "Insurances",
+    "insurance": "Insurance",
+    "logo": "Logo",
     "brand": "Brand",
     "product": "Product",
     "products": "Products",
@@ -244,7 +248,9 @@
     "redirect_url": "Redirect url",
     "gender": "Gender",
     "male": "Male",
-    "female": "Female"
+    "female": "Female",
+    "is_outpatient": "Is Outpatient",
+    "is_inpatient": "Is Inpatient"
   },
   "dropzone": {
     "title": "Drag and Drop Your $ Here Or Click Here",
@@ -351,6 +357,9 @@
     "hospital_created_successfully": "Hospital created successfully",
     "hospital_updated_successfully": "Hospital updated successfully",
     "hospital_deleted_successfully": "Hospital deleted successfully",
+    "insurance_created_successfully": "Insurance created successfully",
+    "insurance_updated_successfully": "Insurance updated successfully",
+    "insurance_deleted_successfully": "Insurance deleted successfully",
     "blog_created_successfully": "Blog created successfully",
     "blog_updated_successfully": "Blog updated successfully",
     "blog_deleted_successfully": "Blog deleted successfully",
@@ -440,5 +449,9 @@
   "doctors": {
     "editDoctorTitle": "Edit Doctor",
     "addNewDoctorTitle": "Add Doctor"
+  },
+  "insurance": {
+    "editInsuranceTitle": "Edit Insurance",
+    "addNewInsuranceTitle": "Add Insurance"
   }
 }

@@ -119,6 +119,24 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
             </MenuItem>
           </MenuSection>
         )}
+        {isAdmin && (
+          <MenuSection label={navigationTranslate.insurances}>
+            <MenuItem
+              href={`/${locale}${menuUrls.insurances.list}`}
+              icon={<i className='ri-list-unordered text-[20px]' />}
+              title={keywordsTranslate.list}
+            >
+              {keywordsTranslate.list}
+            </MenuItem>
+            <MenuItem
+              href={`/${locale}${menuUrls.insurances.add}`}
+              icon={<i className='ri-add-box-line text-[20px]' />}
+              title={keywordsTranslate.add}
+            >
+              {keywordsTranslate.add}
+            </MenuItem>
+          </MenuSection>
+        )}
         {(isAdmin || isDoctor) && (
           <MenuSection label={navigationTranslate.blogs}>
             <MenuItem
