@@ -66,6 +66,14 @@ const HospitalForm = forwardRef<DrawerHandle, HospitalFormProps>(({ dictionary, 
       z.string({ required_error: `${keywordsTranslate.image} ${keywordsTranslate.isRequired}` }),
       z.instanceof(File, { message: `${keywordsTranslate.type} ${keywordsTranslate.isRequired}` })
     ]),
+    insurances_file: z.union([
+      z.string({ required_error: `${keywordsTranslate.insurances_file} ${keywordsTranslate.isRequired}` }),
+      z.instanceof(File, { message: `${keywordsTranslate.insurances_file} ${keywordsTranslate.isRequired}` })
+    ]),
+    cover_image: z.union([
+      z.string({ required_error: `${keywordsTranslate.cover_image} ${keywordsTranslate.isRequired}` }),
+      z.instanceof(File, { message: `${keywordsTranslate.cover_image} ${keywordsTranslate.isRequired}` })
+    ]),
   })
 
   // Hooks
@@ -103,6 +111,8 @@ const HospitalForm = forwardRef<DrawerHandle, HospitalFormProps>(({ dictionary, 
       setValue('address_link', singleHospital?.address_link ?? '')
       setValue('image', singleHospital?.image?.original_url ?? '')
       setValue('thumbnail', singleHospital?.thumbnail?.original_url ?? '')
+      setValue('insurances_file', singleHospital?.insurances_file?.original_url ?? '')
+      setValue('cover_image', singleHospital?.cover_image?.original_url ?? '')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleHospital])
@@ -140,6 +150,13 @@ const HospitalForm = forwardRef<DrawerHandle, HospitalFormProps>(({ dictionary, 
       formData.append('thumbnail', data.thumbnail)
     }
 
+    if (data.insurances_file && data.insurances_file instanceof File) {
+      formData.append('insurances_file', data.insurances_file)
+    }
+
+    if (data.cover_image && data.cover_image instanceof File) {
+      formData.append('cover_image', data.cover_image)
+    }
 
     if (!id) {
       await addHospital({
@@ -351,6 +368,53 @@ const HospitalForm = forwardRef<DrawerHandle, HospitalFormProps>(({ dictionary, 
                       />
 
                       {errors.thumbnail && <FormHelperText error>{errors.thumbnail?.message}</FormHelperText>}
+                    </Grid>
+                    <Grid item xs={12} display={'flex'} flexDirection={'column'} rowGap={2}>
+                      <FormLabel>{keywordsTranslate.cover_image}</FormLabel>
+                      <Controller
+                        name='cover_image'
+                        control={control}
+                        render={({ field }) => (
+                          <DropZone
+                            files={
+                              field.value
+                                ? typeof field.value === 'string'
+                                  ? [field.value]
+                                  : [field.value as File]
+                                : []
+                            }
+                            mimeType={id ? (singleHospital?.cover_image?.extension as ImageMimeType) : undefined}
+                            setFiles={(images: any) => field.onChange(images[0])}
+                            type='image'
+                            error={!!errors.cover_image}
+                          />
+                        )}
+                      />
+
+                      {errors.cover_image && <FormHelperText error>{errors.cover_image?.message}</FormHelperText>}
+                    </Grid>
+                    <Grid item xs={12} display={'flex'} flexDirection={'column'} rowGap={2}>
+                      <FormLabel>{keywordsTranslate.insurances_file}</FormLabel>
+                      <Controller
+                        name='insurances_file'
+                        control={control}
+                        render={({ field }) => (
+                          <DropZone
+                            files={
+                              field.value
+                                ? typeof field.value === 'string'
+                                  ? [field.value]
+                                  : [field.value as File]
+                                : []
+                            }
+                            setFiles={(files: any) => field.onChange(files[0])}
+                            type='file'
+                            error={!!errors.insurances_file}
+                          />
+                        )}
+                      />
+
+                      {errors.insurances_file && <FormHelperText error>{errors.insurances_file?.message}</FormHelperText>}
                     </Grid>
                 
                   </Grid>

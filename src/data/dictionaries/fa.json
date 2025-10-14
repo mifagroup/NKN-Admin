@@ -251,7 +251,9 @@
     "male": "مرد",
     "female": "زن",
     "is_outpatient": "سرپایی",
-    "is_inpatient": "بستری"
+    "is_inpatient": "بستری",
+    "insurances_file": "فایل بیمه‌ها",
+    "cover_image": "تصویر کاور"
   },
   "dropzone": {
     "title": "$ خود را در اینجا بکشید و رها کنید یا اینجا کلیک کنید",

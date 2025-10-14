@@ -250,7 +250,9 @@
     "male": "Male",
     "female": "Female",
     "is_outpatient": "Is Outpatient",
-    "is_inpatient": "Is Inpatient"
+    "is_inpatient": "Is Inpatient",
+    "insurances_file": "Insurances File",
+    "cover_image": "Cover Image"
   },
   "dropzone": {
     "title": "Drag and Drop Your $ Here Or Click Here",

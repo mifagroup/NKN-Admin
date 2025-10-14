@@ -673,6 +673,16 @@ export interface components {
              * @description thumbnail file for the hospital
              */
             thumbnail: string;
+            /**
+             * Format: binary
+             * @description main insurances file file for the hospital
+             */
+            insurances_file: string;
+            /**
+             * Format: binary
+             * @description main cover image file for the hospital
+             */
+            cover_image: string;
         };
         StoreInsuranceResourceRequest: {
             /** @description The title of the insurance */
@@ -855,6 +865,16 @@ export interface components {
              * @description main thumbnail file for the hospital
              */
             main_thumbnail?: string;
+            /**
+             * Format: binary
+             * @description main insurances file file for the hospital
+             */
+            insurances_file?: string;
+            /**
+             * Format: binary
+             * @description main cover image file for the hospital
+             */
+            cover_image?: string;
         };
         UpdateInsuranceResourceRequest: {
             /** @description The title of the insurance */
@@ -1075,6 +1095,8 @@ export interface components {
             email: string;
             image: components["schemas"]["FileResource"];
             thumbnail: components["schemas"]["FileResource"];
+            insurances_file?: components["schemas"]["FileResource"];
+            cover_image?: components["schemas"]["FileResource"];
         };
         InsuranceResource: {
             id: number;
