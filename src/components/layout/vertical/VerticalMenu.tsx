@@ -245,6 +245,17 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
             </MenuItem>
           </MenuSection>
         )}
+        {isAdmin && (
+          <MenuSection label={navigationTranslate.gallery || 'Gallery'}>
+            <MenuItem
+              href={`/${locale}${menuUrls.gallery.list}`}
+              icon={<i className='ri-gallery-line text-[20px]' />}
+              title={keywordsTranslate.list}
+            >
+              {keywordsTranslate.list}
+            </MenuItem>
+          </MenuSection>
+        )}
       </Menu>
     </ScrollWrapper>
   )

@@ -264,6 +264,16 @@ const HorizontalMenu = ({ dictionary }: { dictionary: Awaited<ReturnType<typeof 
           </SubMenu>
         )}
 
+        {isAdmin && (
+          <MenuItem
+            href={`/${locale}${menuUrls.gallery.list}`}
+            icon={<i className='ri-gallery-line text-[20px]' />}
+            title={navigationTranslate.gallery || 'Gallery'}
+          >
+            {navigationTranslate.gallery || 'Gallery'}
+          </MenuItem>
+        )}
+
         <SubMenu label={keywordsTranslate.sliders} icon={<i className='ri-slideshow-line text-[20px]' />}>
           <MenuItem
             href={`/${locale}${menuUrls.sliders.list}`}

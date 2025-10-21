@@ -277,6 +277,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/media": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get all media files
+         * @description Retrieve a paginated list of all media files from the media library
+         */
+        get: operations["getMedia"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/media/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update a media file
+         * @description Update file name and custom properties (alt text) of a media file
+         */
+        patch: operations["updateMedia"];
+        trace?: never;
+    };
     "/roles": {
         parameters: {
             query?: never;
@@ -774,11 +814,13 @@ export interface components {
         StoreSeoRequest: {
             /** @description SEO title of the resource */
             title: string;
+            /** @description H1 heading of the resource */
+            h1?: string;
             /** @description SEO description/meta description of the resource */
             description: string;
             /** @description ID of the resource (Term or Blog) */
             seoable_id: number;
-            /** @description Type of the resource. Values: 'App\\Models\\Term', 'App\\Models\\Blog' */
+            /** @description Type of the resource. Values: 'term', 'blog' */
             seoable_type: string;
         };
         StoreSlideResourceRequest: {
@@ -980,6 +1022,8 @@ export interface components {
         UpdateSeoRequest: {
             /** @description SEO title of the resource */
             title?: string;
+            /** @description H1 heading of the resource */
+            h1?: string;
             /** @description SEO description/meta description of the resource */
             description?: string;
         };
@@ -1155,6 +1199,8 @@ export interface components {
             extension?: string;
             /** @description size of extension */
             size?: number;
+            /** @description Alt text for the file */
+            alt?: string | null;
         };
         /**
          * HomeResource
@@ -1234,6 +1280,8 @@ export interface components {
             id?: number;
             /** @description The SEO title */
             title?: string;
+            /** @description The H1 heading */
+            h1?: string;
             /** @description The SEO description/meta description */
             description?: string;
         };
@@ -2374,6 +2422,102 @@ export interface operations {
             };
             /** @description Resource Not Found */
             404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getMedia: {
+        parameters: {
+            query?: {
+                /** @description Page number for pagination */
+                page?: number;
+                /** @description Number of items per page */
+                per_page?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data?: components["schemas"]["FileResource"][];
+                        meta?: Record<string, never>;
+                        links?: Record<string, never>;
+                    };
+                };
+            };
+            /** @description Unauthenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    updateMedia: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Media ID */
+                id: number;
+            };
+            cookie?: never;
+        };
+        /** @description Media update data */
+        requestBody: {
+            content: {
+                "application/json": {
+                    /**
+                     * @description New name for the file
+                     * @example new-file-name.jpg
+                     */
+                    file_name: string;
+                    /**
+                     * @description Alt text for the image
+                     * @example Image alt text
+                     */
+                    alt?: string;
+                };
+            };
+        };
+        responses: {
+            /** @description Media updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["FileResource"];
+                };
+            };
+            /** @description Unauthenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Media not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation error */
+            422: {
                 headers: {
                     [name: string]: unknown;
                 };

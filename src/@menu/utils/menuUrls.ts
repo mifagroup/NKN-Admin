@@ -117,5 +117,8 @@ export const menuUrls = {
     comments: {
       list: '/messages-management/comments/list'
     }
+  },
+  gallery: {
+    list: '/gallery/list'
   }
 }

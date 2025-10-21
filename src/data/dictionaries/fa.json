@@ -253,7 +253,10 @@
     "is_outpatient": "سرپایی",
     "is_inpatient": "بستری",
     "insurances_file": "فایل بیمه‌ها",
-    "cover_image": "تصویر کاور"
+    "cover_image": "تصویر کاور",
+    "file_name": "نام فایل",
+    "alt": "متن جایگزین",
+    "media": "رسانه"
   },
   "dropzone": {
     "title": "$ خود را در اینجا بکشید و رها کنید یا اینجا کلیک کنید",
@@ -468,5 +471,8 @@
     "updated_successfully": "سئو با موفقیت به‌روز رسانی شد",
     "created_successfully": "سئو با موفقیت ایجاد شد",
     "save_item_first": "ابتدا مورد را ذخیره کنید و سپس اطلاعات سئو را اضافه کنید"
+  },
+  "titles": {
+    "editMedia": "ویرایش رسانه"
   }
 }

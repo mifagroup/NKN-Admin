@@ -252,7 +252,10 @@
     "is_outpatient": "Is Outpatient",
     "is_inpatient": "Is Inpatient",
     "insurances_file": "Insurances File",
-    "cover_image": "Cover Image"
+    "cover_image": "Cover Image",
+    "file_name": "File Name",
+    "alt": "Alt Text",
+    "media": "Media"
   },
   "dropzone": {
     "title": "Drag and Drop Your $ Here Or Click Here",
@@ -467,5 +470,8 @@
     "updated_successfully": "SEO updated successfully",
     "created_successfully": "SEO created successfully",
     "save_item_first": "Save the item first before adding SEO data"
+  },
+  "titles": {
+    "editMedia": "Edit Media"
   }
 }
