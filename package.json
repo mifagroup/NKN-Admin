@@ -12,7 +12,7 @@
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "build:icons": "tsx src/assets/iconify-icons/bundle-icons-css.ts",
     "removeI18n": "tsx src/remove-translation-scripts/index.ts",
-    "generate-openapi": "npx openapi-typescript http://api.mifadev.ir/docs/api-docs.json -o ./src/@core/api/v1.d.ts"
+    "generate-openapi": "npx openapi-typescript http://127.0.0.1:8000/docs/api-docs.json -o ./src/@core/api/v1.d.ts"
   },
   "dependencies": {
     "@emoji-mart/data": "1.2.1",

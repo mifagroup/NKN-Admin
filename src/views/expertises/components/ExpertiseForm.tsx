@@ -12,12 +12,8 @@ import {
   CardContent,
   FormControl,
   FormHelperText,
-  FormLabel,
   Grid,
-  InputLabel,
   LinearProgress,
-  MenuItem,
-  Select,
   Typography
 } from '@mui/material'
 import { type SubmitHandler, Controller, useForm } from 'react-hook-form'
@@ -38,6 +34,7 @@ import { setFormErrors } from '@/utils/setFormErrors'
 import { menuUrls } from '@/@menu/utils/menuUrls'
 import TextField from '@/@core/components/textField'
 import TaxonomyAutocomplete from '@/@core/components/taxonomyAutocomplete'
+import SEOComponent from '@/@core/components/seoComponent'
 
 const ExpertiseForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof getDictionary>>; id?: number }) => {
   // Vars
@@ -234,6 +231,17 @@ const ExpertiseForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<type
             </Grid>
           </Grid>
         </form>
+
+        {/* SEO Component - Show only when editing expertise terms (OUTSIDE main form) */}
+        {id && singleExpertise?.taxonomy?.key === 'expertise' && (
+          <Grid item xs={12} lg={12} sx={{ mt: 6 }}>
+            <SEOComponent
+              seoableType='term'
+              seoableId={id}
+              dictionary={dictionary}
+            />
+          </Grid>
+        )}
       </Grid>
     </Grid>
   )

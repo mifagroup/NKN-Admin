@@ -455,5 +455,17 @@
   "insurance": {
     "editInsuranceTitle": "Edit Insurance",
     "addNewInsuranceTitle": "Add Insurance"
+  },
+  "seo": {
+    "seo_title": "SEO Settings",
+    "seo_description": "Manage search engine optimization data",
+    "title_help_text": "Used in search results and browser tabs",
+    "description_help_text": "Displayed under page title in search results (recommended: 120-160 characters)",
+    "h1_help_text": "Main heading on the page",
+    "character_count": "Description length",
+    "saved_successfully": "SEO saved successfully",
+    "updated_successfully": "SEO updated successfully",
+    "created_successfully": "SEO created successfully",
+    "save_item_first": "Save the item first before adding SEO data"
   }
 }

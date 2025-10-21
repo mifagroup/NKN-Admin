@@ -314,6 +314,74 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/seos": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a paginated list of SEO records
+         * @description Retrieve a paginated list of SEO resources.
+         */
+        get: operations["getSeos"];
+        put?: never;
+        /**
+         * Create a new SEO record
+         * @description Store a new SEO record in the database
+         */
+        post: operations["b20f3d6c50d4bb3ad74a8328de08d870"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/seos/{id}/{type}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a specific SEO record by model ID and type
+         * @description Retrieve a specific SEO resource by its seoable ID and type (blog/term).
+         */
+        get: operations["getSeoByIdAndType"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/seos/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Update an existing SEO record
+         * @description Update the details of an existing SEO resource.
+         */
+        put: operations["updateSeo"];
+        post?: never;
+        /**
+         * Delete a specific SEO record
+         * @description Remove a specific SEO resource by its ID.
+         */
+        delete: operations["deleteSeo"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/slides": {
         parameters: {
             query?: never;
@@ -699,6 +767,20 @@ export interface components {
             /** @description Array of hospital IDs to associate with this insurance */
             hospital_ids?: number[];
         };
+        /**
+         * Store Seo Request
+         * @description Schema for storing SEO metadata
+         */
+        StoreSeoRequest: {
+            /** @description SEO title of the resource */
+            title: string;
+            /** @description SEO description/meta description of the resource */
+            description: string;
+            /** @description ID of the resource (Term or Blog) */
+            seoable_id: number;
+            /** @description Type of the resource. Values: 'App\\Models\\Term', 'App\\Models\\Blog' */
+            seoable_type: string;
+        };
         StoreSlideResourceRequest: {
             /** @description The title of the slide */
             title?: string;
@@ -890,6 +972,16 @@ export interface components {
             is_inpatient?: boolean;
             /** @description Array of hospital IDs to associate with this insurance */
             hospital_ids?: number[];
+        };
+        /**
+         * Update Seo Request
+         * @description Schema for updating SEO metadata
+         */
+        UpdateSeoRequest: {
+            /** @description SEO title of the resource */
+            title?: string;
+            /** @description SEO description/meta description of the resource */
+            description?: string;
         };
         UpdateSlideResourceRequest: {
             /** @description The title of the slide */
@@ -1094,6 +1186,7 @@ export interface components {
             /** Format: uri */
             email: string;
             image: components["schemas"]["FileResource"];
+            insurances?: components["schemas"]["InsuranceResource"];
             thumbnail: components["schemas"]["FileResource"];
             insurances_file?: components["schemas"]["FileResource"];
             cover_image?: components["schemas"]["FileResource"];
@@ -1131,6 +1224,18 @@ export interface components {
              * @description Last update timestamp
              */
             updated_at?: string;
+        };
+        /**
+         * SEO Resource
+         * @description SEO resource representation
+         */
+        SeoResource: {
+            /** @description The id of the SEO record */
+            id?: number;
+            /** @description The SEO title */
+            title?: string;
+            /** @description The SEO description/meta description */
+            description?: string;
         };
         SlideResource: {
             /** @description The title of the slide */
@@ -2332,6 +2437,228 @@ export interface operations {
             };
             /** @description کلمه‌ای برای جستجو وارد نشده است. */
             400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    getSeos: {
+        parameters: {
+            query?: {
+                /** @description Page number for pagination */
+                page?: number;
+                /** @description Search term to filter SEO by title or description */
+                "filter[search]"?: string;
+                "filter[seoable_type]"?: string;
+                /** @description Sort SEO records by field */
+                sort?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        data?: components["schemas"]["SeoResource"][];
+                        links?: components["schemas"]["LinksPaginationResource"];
+                        meta?: components["schemas"]["MetaPaginationResource"];
+                    };
+                };
+            };
+        };
+    };
+    b20f3d6c50d4bb3ad74a8328de08d870: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["StoreSeoRequest"];
+            };
+        };
+        responses: {
+            /** @description SEO record created successfully */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SeoResource"];
+                };
+            };
+            /** @description Unauthenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorResponse"];
+                };
+            };
+        };
+    };
+    getSeoByIdAndType: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID of the seoable model (Blog or Term) */
+                id: number;
+                /** @description Type of the seoable model (blog or term) */
+                type: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SeoResource"];
+                };
+            };
+            /** @description SEO record not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    updateSeo: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID of the SEO record to update */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UpdateSeoRequest"];
+            };
+        };
+        responses: {
+            /** @description SEO record updated successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SeoResource"];
+                };
+            };
+            /** @description Bad request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description SEO record not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ValidationErrorResponse"];
+                };
+            };
+        };
+    };
+    deleteSeo: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID of the SEO record to delete */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description SEO record deleted successfully */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example true */
+                        success?: boolean;
+                    };
+                };
+            };
+            /** @description Unauthenticated */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description SEO record not found */
+            404: {
                 headers: {
                     [name: string]: unknown;
                 };

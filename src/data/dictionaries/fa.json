@@ -456,5 +456,17 @@
   "insurance": {
     "editInsuranceTitle": "ویرایش بیمه",
     "addNewInsuranceTitle": "افزودن بیمه"
+  },
+  "seo": {
+    "seo_title": "تنظیمات سئو",
+    "seo_description": "مدیریت داده‌های بهینه‌ساز موتور جستجو",
+    "title_help_text": "متا title",
+    "description_help_text": "متا description (توصیه‌شده: 120-160 کاراکتر)",
+    "h1_help_text": "عنوان اصلی صفحه",
+    "character_count": "طول توضیحات",
+    "saved_successfully": "سئو با موفقیت ذخیره شد",
+    "updated_successfully": "سئو با موفقیت به‌روز رسانی شد",
+    "created_successfully": "سئو با موفقیت ایجاد شد",
+    "save_item_first": "ابتدا مورد را ذخیره کنید و سپس اطلاعات سئو را اضافه کنید"
   }
 }
