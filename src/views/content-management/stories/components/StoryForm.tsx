@@ -887,8 +887,6 @@ const StoryForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof g
                           name='tags'
                           control={control}
                           render={({ field }) => {
-                            console.log(field)
-
                             return (
                               <AutoComplete
                                 {...field}

@@ -345,8 +345,6 @@ const DoctorForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof 
                           control={control}
                           rules={{ required: true }}
                           render={({ field }) => {
-                            console.log('field', field)
-
                             return (
                               <Select
                                 label={keywordsTranslate?.gender}
