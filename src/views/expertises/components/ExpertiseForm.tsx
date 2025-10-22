@@ -58,6 +58,7 @@ const ExpertiseForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<type
   const schema = z.object({
     title: z.string({ required_error: `${keywordsTranslate.title} ${keywordsTranslate.isRequired}` }),
     description: z.string().optional(),
+    slug: z.string().optional(),
     taxonomy_id: z.union(
       [
         z.object(
@@ -100,6 +101,7 @@ const ExpertiseForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<type
     if (singleExpertise) {
       setValue('title', singleExpertise.title ?? '')
       setValue('description', singleExpertise.description ?? '')
+      setValue('slug', singleExpertise.slug ?? '')
       if (singleExpertise.taxonomy)
         setValue('taxonomy_id', { label: singleExpertise.taxonomy?.title, value: singleExpertise.taxonomy?.id })
     }
@@ -143,6 +145,7 @@ const ExpertiseForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<type
         body: {
           title: data.title,
           description: data.description ?? '',
+          slug: data.slug ?? '',
           taxonomy_id: data.taxonomy_id?.value ?? 0,
           is_main: true,
           is_filter: true,
@@ -250,6 +253,29 @@ const ExpertiseForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<type
                           )}
                         />
                         {errors.description && <FormHelperText error>{errors.description?.message}</FormHelperText>}
+                      </Grid>
+                    )}
+
+                    {/* Slug Field - Show only when editing expertise terms */}
+                    {id && singleExpertise?.taxonomy?.key === 'expertise' && (
+                      <Grid item xs={12} md={6}>
+                        <Controller
+                          name='slug'
+                          control={control}
+                          render={({ field }) => (
+                            <TextField
+                              {...field}
+                              fullWidth
+                              type='text'
+                              placeholder={translateReplacer(inputTranslate.placeholder, keywordsTranslate.slug)}
+                              label={keywordsTranslate.slug}
+                              onChange={event => {
+                                field.onChange(event.target.value)
+                              }}
+                              {...(errors.slug && { error: true, helperText: errors.slug.message })}
+                            />
+                          )}
+                        />
                       </Grid>
                     )}
                   </Grid>

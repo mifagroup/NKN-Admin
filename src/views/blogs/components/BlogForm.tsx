@@ -419,7 +419,6 @@ const BlogForm = ({
                               <TextField
                                 {...field}
                                 fullWidth
-                                disabled
                                 type='text'
                                 placeholder={translateReplacer(inputTranslate.placeholder, keywordsTranslate.slug)}
                                 label={keywordsTranslate.slug}
