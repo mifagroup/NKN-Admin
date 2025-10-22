@@ -305,16 +305,16 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
         /**
          * Update a media file
          * @description Update file name and custom properties (alt text) of a media file
          */
-        patch: operations["updateMedia"];
+        put: operations["updateMedia"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
         trace?: never;
     };
     "/roles": {
@@ -860,6 +860,8 @@ export interface components {
             taxonomy_id: number;
             /** @description slug of category item */
             slug?: string;
+            /** @description description of category item */
+            description?: string;
         };
         /**
          * Store User Request
@@ -1070,6 +1072,8 @@ export interface components {
             is_filter?: boolean;
             /** @description category item show on client footer */
             is_footer?: boolean;
+            /** @description description of category item */
+            description?: string;
         };
         /**
          * Update User Request
@@ -1185,6 +1189,8 @@ export interface components {
             id: number;
             /** @description name of the file */
             file_name?: string;
+            /** @description name of the file without extension */
+            title?: string;
             /**
              * Format: uri
              * @description preview url of the File
@@ -1352,6 +1358,8 @@ export interface components {
             title?: string;
             /** @description slug of the category item */
             slug?: string;
+            /** @description description of the category item */
+            description?: string;
             taxonomy?: components["schemas"]["TaxonomyResource"];
         };
         /**

@@ -13,6 +13,7 @@ import {
   FormControl,
   FormHelperText,
   Grid,
+  InputLabel,
   LinearProgress,
   Typography
 } from '@mui/material'
@@ -33,6 +34,7 @@ import type { getDictionary } from '@/utils/getDictionary'
 import { setFormErrors } from '@/utils/setFormErrors'
 import { menuUrls } from '@/@menu/utils/menuUrls'
 import TextField from '@/@core/components/textField'
+import TextEditor from '@/@core/components/textEditor/TextEditor'
 import TaxonomyAutocomplete from '@/@core/components/taxonomyAutocomplete'
 import SEOComponent from '@/@core/components/seoComponent'
 
@@ -47,12 +49,15 @@ const ExpertiseForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<type
 
   const inputTranslate = dictionary.input
 
+  const editorTranslate = dictionary.editor
+
   type FormData = z.infer<typeof schema>
 
   // Schema
 
   const schema = z.object({
     title: z.string({ required_error: `${keywordsTranslate.title} ${keywordsTranslate.isRequired}` }),
+    description: z.string().optional(),
     taxonomy_id: z.union(
       [
         z.object(
@@ -94,6 +99,7 @@ const ExpertiseForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<type
   useEffect(() => {
     if (singleExpertise) {
       setValue('title', singleExpertise.title ?? '')
+      setValue('description', singleExpertise.description ?? '')
       if (singleExpertise.taxonomy)
         setValue('taxonomy_id', { label: singleExpertise.taxonomy?.title, value: singleExpertise.taxonomy?.id })
     }
@@ -121,7 +127,8 @@ const ExpertiseForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<type
       await addExpertise({
         body: {
           taxonomy_id: data.taxonomy_id?.value ?? 0,
-          title: data.title
+          title: data.title,
+          description: data.description ?? ''
         }
       })
         .then(res => {
@@ -135,6 +142,7 @@ const ExpertiseForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<type
       await editExpertise({
         body: {
           title: data.title,
+          description: data.description ?? '',
           taxonomy_id: data.taxonomy_id?.value ?? 0,
           is_main: true,
           is_filter: true,
@@ -225,6 +233,25 @@ const ExpertiseForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<type
                         {errors.taxonomy_id && <FormHelperText error>{errors.taxonomy_id?.message}</FormHelperText>}
                       </FormControl>
                     </Grid>
+
+                    {/* Description Field - Show only when editing expertise terms */}
+                    {id && singleExpertise?.taxonomy?.key === 'expertise' && (
+                      <Grid item xs={12} display={'flex'} flexDirection={'column'} rowGap={2}>
+                        <InputLabel>{keywordsTranslate.description}</InputLabel>
+                        <Controller
+                          name='description'
+                          control={control}
+                          render={({ field }) => (
+                            <TextEditor
+                              placeholder={editorTranslate.fullDescriptionPlaceholder}
+                              onChange={editor => field.onChange(editor)}
+                              value={field.value ?? ''}
+                            />
+                          )}
+                        />
+                        {errors.description && <FormHelperText error>{errors.description?.message}</FormHelperText>}
+                      </Grid>
+                    )}
                   </Grid>
                 </CardContent>
               </Card>

@@ -61,7 +61,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ placeholder, onChange, value, c
               template_mdate_format: '[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]',
               height: height,
               image_caption: true,
-              quickbars_selection_toolbar: 'bold italic | quicklink h2 h3 blockquote quickimage quicktable',
+              quickbars_selection_toolbar: 'bold italic | h1 h2 h3 h4 h5 h6 | link blockquote quickimage quicktable',
               noneditable_noneditable_class: 'mceNonEditable',
               toolbar_mode: 'sliding',
               contextmenu: 'link image imagetools table',
