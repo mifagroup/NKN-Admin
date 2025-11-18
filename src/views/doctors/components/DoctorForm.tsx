@@ -69,12 +69,17 @@ const DoctorForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof 
 
   const schema = z.object({
     first_name: z.string({ required_error: `${keywordsTranslate.first_name} ${keywordsTranslate.isRequired}` }),
+
     last_name: z.string({ required_error: `${keywordsTranslate.last_name} ${keywordsTranslate.isRequired}` }),
+
     code: z.string({ required_error: `${keywordsTranslate.code} ${keywordsTranslate.isRequired}` }),
+
+    gender: z.string({ required_error: `${keywordsTranslate.gender} ${keywordsTranslate.isRequired}` }),
+
     sub_title: z.string({ required_error: `${keywordsTranslate.sub_title} ${keywordsTranslate.isRequired}` }),
-    short_description: z.string({
-      required_error: `${keywordsTranslate.short_description} ${keywordsTranslate.isRequired}`
-    }),
+
+    // OPTIONAL FIELDS
+    short_description: z.string().optional().or(z.literal('')),
     redirect: z
       .string()
       .optional()
@@ -82,39 +87,35 @@ const DoctorForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof 
       .refine(val => !val || z.string().url().safeParse(val).success, {
         message: validationErrors.valid_link
       }),
-    description: z.string({
-      required_error: `${keywordsTranslate.description} ${keywordsTranslate.isRequired}`
-    }),
-    gender: z.string({
-      required_error: `${keywordsTranslate.gender} ${keywordsTranslate.isRequired}`
-    }),
-    hospital_id: z.union(
-      [
-        z
-          .object({
-            label: z.string().optional(),
-            value: z.number().optional()
-          })
-          .optional(),
-        z.null()
-      ],
-      {
-        required_error: `${keywordsTranslate.hospital} ${keywordsTranslate.isRequired}`
-      }
-    ),
-    main_image: z.union([
-      z.string({ required_error: `${keywordsTranslate.image} ${keywordsTranslate.isRequired}` }),
-      z.instanceof(File, { message: `${keywordsTranslate.type} ${keywordsTranslate.isRequired}` })
-    ]),
-    terms: z.array(
-      z.object({
-        label: z.string().optional(),
-        value: z.number().optional()
-      }),
-      { required_error: `${keywordsTranslate.expertises} ${keywordsTranslate.isRequired}` }
-    )
-  })
 
+    description: z.string().optional().or(z.literal('')),
+
+    hospital_id: z
+      .union([
+        z.object({
+          label: z.string().optional(),
+          value: z.number().optional()
+        }).optional(),
+        z.null()
+      ])
+      .optional(),
+
+    main_image: z
+      .union([
+        z.string(),
+        z.instanceof(File)
+      ])
+      .optional(),
+
+    terms: z
+      .array(
+        z.object({
+          label: z.string().optional(),
+          value: z.number().optional()
+        })
+      )
+      .optional()
+  })
   // Hooks
 
   const genders = useGenders()
@@ -167,7 +168,10 @@ const DoctorForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof 
     setValue
   } = useForm<FormData>({
     resolver: zodResolver(schema),
-    defaultValues: {}
+    defaultValues: {
+      short_description: '',
+      description: ''
+    }
   })
 
   // Functions
@@ -178,7 +182,7 @@ const DoctorForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof 
     formData.append('last_name', data.last_name)
     formData.append('code', data.code)
     formData.append('sub_title', data.sub_title)
-    formData.append('short_description', data.short_description)
+    formData.append('short_description', data.short_description ?? '')
 
     if (data.redirect) {
       formData.append('redirect', data.redirect)
@@ -186,7 +190,7 @@ const DoctorForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof 
       formData.append('redirect', '')
     }
 
-    formData.append('description', data.description)
+    formData.append('description', data.description ?? '')
     formData.append('gender', data.gender)
     formData.append('hospital_id', data.hospital_id?.value?.toString() ?? '')
 
