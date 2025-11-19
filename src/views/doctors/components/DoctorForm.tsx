@@ -200,9 +200,21 @@ const DoctorForm = ({ dictionary, id }: { dictionary: Awaited<ReturnType<typeof 
       }
     }
 
-    if (data.main_image && data.main_image instanceof File) {
-      formData.append('main_image', data.main_image)
-    }
+        if (id) {
+          // UPDATE MODE
+          if (data.main_image instanceof File) {
+            // user uploaded new file
+            formData.append('main_image', data.main_image)
+          } else if (!data.main_image) {
+            // user removed image → send empty string to delete image
+            formData.append('main_image', '')
+          }
+        } else {
+          // CREATE MODE
+          if (data.main_image instanceof File) {
+            formData.append('main_image', data.main_image)
+          }
+        }
 
     if (!id) {
       await addDoctor({
