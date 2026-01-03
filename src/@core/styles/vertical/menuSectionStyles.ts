@@ -16,12 +16,12 @@ const menuSectionStyles = (verticalNavOptions: VerticalNavState, theme: Theme): 
 
   return {
     root: {
-      marginBlockStart: theme.spacing(6.75),
+      marginBlockStart: theme.spacing(4.75),
       [`& .${menuClasses.menuSectionContent}`]: {
         color: 'var(--mui-palette-text-disabled)',
         paddingInline: '0 !important',
-        paddingBlock: `${theme.spacing(collapsedNotHovered ? 3.825 : 1.75)} !important`,
-        marginBlockEnd: theme.spacing(2),
+        paddingBlock: `${theme.spacing(collapsedNotHovered ? 1.825 : 0.75)} !important`,
+        marginBlockEnd: theme.spacing(1),
         gap: theme.spacing(2.5),
         ...(collapsedNotHovered && {
           paddingInlineStart: `${theme.spacing(collapsedNotHovered ? ((collapsedWidth as number) - 47) / 8 : 3)} !important`,
