@@ -237,9 +237,13 @@ const Table = <T,>({
       <div className='overflow-x-auto'>
         <table className={tableStyles.table}>
           {!dataSource || isLoading ? (
-            <div className='flex justify-center py-5'>
-              <CircularProgress />
-            </div>
+            <tbody>
+              <tr>
+                <td colSpan={columns.length} className='text-center py-5'>
+                  <CircularProgress />
+                </td>
+              </tr>
+            </tbody>
           ) : (
             <>
               <thead>

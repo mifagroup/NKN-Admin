@@ -70,9 +70,11 @@ const ModeDropdown = () => {
         open={open ? false : tooltipOpen ? true : false}
         PopperProps={{ className: 'capitalize' }}
       >
-        <IconButton ref={anchorRef} onClick={handleToggle} className='text-textPrimary'>
-          <i className={getModeIcon()} />
-        </IconButton>
+        <span>
+          <IconButton ref={anchorRef} onClick={handleToggle} className='text-textPrimary'>
+            <i className={getModeIcon()} />
+          </IconButton>
+        </span>
       </Tooltip>
       <Popper
         open={open}

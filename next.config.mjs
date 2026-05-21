@@ -15,7 +15,11 @@ const nextConfig = {
       },
       {
         protocol: 'http',
-        hostname: 'api.mifadev.ir'
+        hostname: 'api.nikan.hospital'
+      },
+      {
+        protocol: 'https',
+        hostname: 'api.nikan.hospital'
       }
     ]
   },

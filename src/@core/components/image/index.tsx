@@ -24,22 +24,27 @@ const Image: React.FC<ImageProps> = ({ src, alt, width, height, className }) => 
     setOpen(false)
   }
 
+  // If src is empty or invalid, use default image
+  const imageSrc = !src || src.trim() === '' ? '/images/defaults/default-entity-image.svg' : src
+  const shouldUseDefault = defaultImage || !src || src.trim() === ''
+
   return (
     <>
       <NextImage
-        src={defaultImage ? '/images/defaults/default-entity-image.svg' : src}
+        src={shouldUseDefault ? '/images/defaults/default-entity-image.svg' : imageSrc}
         width={width ?? 40}
         height={height ?? 40}
         alt={alt}
         onClick={() => {
-          if (!defaultImage) {
+          if (!shouldUseDefault) {
             setOpen(true)
           }
         }}
-        className={`w-[50px] h-[50px] ${className} ${!defaultImage && 'cursor-pointer'}`}
+        className={`w-[50px] h-[50px] ${className} ${!shouldUseDefault && 'cursor-pointer'}`}
         onError={e => setDefaultImage(e.type === 'error' ? true : false)}
+        unoptimized={imageSrc.startsWith('http')}
       />
-      {src && (
+      {src && src.trim() !== '' && (
         <Modal
           open={open}
           onClose={handleClose}
@@ -64,10 +69,11 @@ const Image: React.FC<ImageProps> = ({ src, alt, width, height, className }) => 
           >
             <div className='w-full h-full flex items-center justify-center focus-visible:outline-none border-none'>
               <NextImage
-                src={src}
+                src={imageSrc}
                 alt='image'
                 fill
                 className='outline-none object-contain max-w-[70%] max-h-[70%] border-primaryLight border-2 rounded-lg bg-backdrop !relative'
+                unoptimized={imageSrc.startsWith('http')}
               />
             </div>
           </Slide>
