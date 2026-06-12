@@ -20,6 +20,7 @@ import {
   Select,
   Typography
 } from '@mui/material'
+import { useQueryClient } from '@tanstack/react-query'
 import { type SubmitHandler, Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -42,6 +43,7 @@ import { setFormErrors } from '@/utils/setFormErrors'
 import { menuUrls } from '@/@menu/utils/menuUrls'
 import { slugSchema } from '@/schemas/slugSchema'
 import TextField from '@/@core/components/textField'
+import TermsByTaxonomyAutocomplete from '@/@core/components/termsByTaxonomyAutocomplete'
 import type { ImageMimeType, VideoMimeType } from '@/@core/types'
 
 const BlogForm = ({
@@ -82,7 +84,14 @@ const BlogForm = ({
     ]),
     gallery: z.array(z.union([z.string(), z.instanceof(File)])).optional(),
     published: z.string(),
-    slug: z.string().optional()
+    slug: z.string().optional(),
+    hospital: z
+      .object({
+        label: z.string().optional(),
+        value: z.union([z.string(), z.number()]).optional()
+      })
+      .nullable()
+      .optional()
   })
 
   // Functions
@@ -101,6 +110,8 @@ const BlogForm = ({
   // Hooks
 
   const statuses = useStatuses()
+
+  const queryClient = useQueryClient()
 
   const { data: singleBlogData, isLoading: isLoadingSingleBlog } = useFetch().useQuery(
     'get',
@@ -139,6 +150,17 @@ const BlogForm = ({
         }) : []
       setValue('gallery', galleryImages)
       setValue('slug', singleBlog.slug ?? '')
+
+      // Populate hospital from blogs/{slug} response `terms` (object or array)
+      const hospitalTerm = Array.isArray(singleBlog.terms)
+        ? (singleBlog.terms.find((term: any) => term?.taxonomy?.key === 'hospital') ?? singleBlog.terms[0])
+        : singleBlog.terms
+
+      if (hospitalTerm) {
+        setValue('hospital', { label: hospitalTerm.title ?? '', value: hospitalTerm.id })
+      } else {
+        setValue('hospital', null)
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [singleBlog])
@@ -174,6 +196,11 @@ const BlogForm = ({
     formData.append('duration', data.duration ?? '')
     formData.append('type', type)
 
+    // Send selected hospital term as term_ids array
+    if (data.hospital?.value) {
+      formData.append('term_ids[0]', String(data.hospital.value))
+    }
+
     if (data.main_image && data.main_image instanceof File) {
       formData.append('main_image', data.main_image)
     }
@@ -195,6 +222,9 @@ const BlogForm = ({
       })
         .then(res => {
           toast.success((dictionary as any).messages.blog_created_successfully)
+          queryClient.invalidateQueries({
+            queryKey: ['get', '/blogs']
+          })
           router.push(redirectUrl)
         })
         .catch(e => {
@@ -211,6 +241,14 @@ const BlogForm = ({
       })
         .then(res => {
           toast.success((dictionary as any).messages.blog_updated_successfully)
+
+          // Invalidate cached single blog & lists so edit page never shows stale data
+          queryClient.invalidateQueries({
+            queryKey: ['get', '/blogs/{slug}']
+          })
+          queryClient.invalidateQueries({
+            queryKey: ['get', '/blogs']
+          })
           router.push(redirectUrl)
         })
         .catch(e => {
@@ -325,6 +363,27 @@ const BlogForm = ({
                           )}
                         />
                         {errors.published && <FormHelperText error>{errors.published?.message}</FormHelperText>}
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <FormControl fullWidth>
+                        <Controller
+                          name='hospital'
+                          control={control}
+                          render={({ field }) => {
+                            return (
+                              <TermsByTaxonomyAutocomplete
+                                {...field}
+                                taxonomyKey='hospital'
+                                {...(errors.hospital && { error: true })}
+                                label={keywordsTranslate.hospital}
+                                value={field.value ?? null}
+                                onChange={value => field.onChange(value)}
+                              />
+                            )
+                          }}
+                        />
+                        {errors.hospital && <FormHelperText error>{errors.hospital?.message}</FormHelperText>}
                       </FormControl>
                     </Grid>
                     <Grid item xs={12} display={'flex'} flexDirection={'column'} rowGap={2}>

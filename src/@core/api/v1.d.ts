@@ -731,6 +731,8 @@ export interface components {
              * @description Main image of the blog
              */
             main_image: string;
+            /** @description term ids of the blog (e.g. terms of taxonomy with key `hospital`) */
+            term_ids?: number[] | null;
         };
         StoreDoctorRequest: {
             /** @example John */
@@ -936,6 +938,8 @@ export interface components {
              * @description Main image of the blog
              */
             main_image?: string | null;
+            /** @description term ids of the blog (e.g. terms of taxonomy with key `hospital`) */
+            term_ids?: number[] | null;
         };
         UpdateDoctorRequest: {
             /** @example John */
@@ -1146,6 +1150,8 @@ export interface components {
             user?: components["schemas"]["UserResource"];
             /** @description The gallery of the blog */
             gallery?: components["schemas"]["FileResource"][];
+            /** @description The terms of the blog (e.g. hospital terms) */
+            terms?: components["schemas"]["TermResource"][];
         };
         /**
          * DoctorResource
